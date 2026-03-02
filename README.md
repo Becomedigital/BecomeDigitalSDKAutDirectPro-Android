@@ -42,64 +42,64 @@ Esta documentación describe cómo integrar el **SDK de Become** en un proyecto 
 
 Ejemplo base compatible con el SDK:
 
-dependencies {
-    // Soporte Java 8+ (desugaring)
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.5"
+    dependencies {
+        // Soporte Java 8+ (desugaring)
+        coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.5"
 
-    // === SDK (elige UNA opción) ===
-    // A) Módulo:
-    // implementation project(":becomedigitalsdk")
-    // B) AAR local:
-    // implementation fileTree(dir: "libs", include: ["*.aar"])
-    // C) Remoto:
-    // implementation("com.becomedigital:sdk:VERSION")
+        // === SDK (elige UNA opción) ===
+        // A) Módulo:
+        // implementation project(":becomedigitalsdk")
+        // B) AAR local:
+        // implementation fileTree(dir: "libs", include: ["*.aar"])
+        // C) Remoto:
+        // implementation("com.becomedigital:sdk:VERSION")
 
-    // UI / AndroidX base
-    implementation "androidx.appcompat:appcompat:1.6.1"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    implementation "androidx.core:core-ktx:1.15.0"
-    implementation "androidx.fragment:fragment-ktx:1.6.2"
-    implementation "androidx.activity:activity-ktx:1.8.2"
+        // UI / AndroidX base
+        implementation "androidx.appcompat:appcompat:1.6.1"
+        implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+        implementation "androidx.core:core-ktx:1.15.0"
+        implementation "androidx.fragment:fragment-ktx:1.6.2"
+        implementation "androidx.activity:activity-ktx:1.8.2"
 
-    // CameraX
-    implementation "androidx.camera:camera-core:1.5.3"
-    implementation "androidx.camera:camera-camera2:1.5.3"
-    implementation "androidx.camera:camera-view:1.5.3"
-    implementation "androidx.camera:camera-lifecycle:1.5.3"
+        // CameraX
+        implementation "androidx.camera:camera-core:1.5.3"
+        implementation "androidx.camera:camera-camera2:1.5.3"
+        implementation "androidx.camera:camera-view:1.5.3"
+        implementation "androidx.camera:camera-lifecycle:1.5.3"
 
-    // Navegación
-    implementation "androidx.navigation:navigation-fragment:2.5.3"
-    implementation "androidx.navigation:navigation-ui:2.5.3"
+        // Navegación
+        implementation "androidx.navigation:navigation-fragment:2.5.3"
+        implementation "androidx.navigation:navigation-ui:2.5.3"
 
-    // JSON / HTTP / Imágenes
-    implementation "com.google.code.gson:gson:2.10.1"
-    implementation "com.squareup.okhttp3:okhttp:4.9.3"
-    implementation "com.github.bumptech.glide:glide:4.10.0"
+        // JSON / HTTP / Imágenes
+        implementation "com.google.code.gson:gson:2.10.1"
+        implementation "com.squareup.okhttp3:okhttp:4.9.3"
+        implementation "com.github.bumptech.glide:glide:4.10.0"
 
-    // Liveness (Amplify UI) + Compose
-    implementation "com.amplifyframework.ui:liveness:1.10.0"
-    implementation "com.amplifyframework:aws-auth-cognito:2.33.0"
-    implementation "androidx.compose.material3:material3:1.4.0"
-    implementation "androidx.activity:activity-compose:1.12.4"
+        // Liveness (Amplify UI) + Compose
+        implementation "com.amplifyframework.ui:liveness:1.10.0"
+        implementation "com.amplifyframework:aws-auth-cognito:2.33.0"
+        implementation "androidx.compose.material3:material3:1.4.0"
+        implementation "androidx.activity:activity-compose:1.12.4"
 
-    // OCR / Captura (Microblink)
-    implementation "com.microblink:capture-core:1.4.2"
-    implementation "com.microblink:capture-ux:1.4.2"
+        // OCR / Captura (Microblink)
+        implementation "com.microblink:capture-core:1.4.2"
+        implementation "com.microblink:capture-ux:1.4.2"
 
-    // SDK additional libraries required
-    implementation "com.android.volley:volley:1.2.1"
+        // SDK additional libraries required
+        implementation "com.android.volley:volley:1.2.1"
 
-    def room_version = "1.1.0"
-    implementation "android.arch.persistence.room:runtime:$room_version"
-    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
-    implementation "android.arch.lifecycle:livedata:1.1.1"
-    implementation "android.arch.lifecycle:viewmodel:1.1.1"
+        def room_version = "1.1.0"
+        implementation "android.arch.persistence.room:runtime:$room_version"
+        annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+        implementation "android.arch.lifecycle:livedata:1.1.1"
+        implementation "android.arch.lifecycle:viewmodel:1.1.1"
 
-    // Tests (opcional)
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
-    androidTestImplementation "androidx.test.uiautomator:uiautomator:2.3.0"
-}
+        // Tests (opcional)
+        testImplementation "junit:junit:4.13.2"
+        androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+        androidTestImplementation "androidx.test.uiautomator:uiautomator:2.3.0"
+    }
 
 ✅ Importante:
     •    No dupliques androidx.core:core-ktx con versiones diferentes.
@@ -111,10 +111,10 @@ dependencies {
 
 La inicialización utiliza BecomeCallBackManager y BDIVConfig.
 
-private val mCallbackManager: BecomeCallBackManager = BecomeCallBackManager.createNew()
+    private val mCallbackManager: BecomeCallBackManager = BecomeCallBackManager.createNew()
 
-fun startAuthentication() {
-    val config = BDIVConfig(
+    fun startAuthentication() {
+        val config = BDIVConfig(
         clientId = "yourClientId",
         clientSecret = "yourClientSecret",
         contractId = "yourContractId",

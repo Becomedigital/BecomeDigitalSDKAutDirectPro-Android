@@ -38,58 +38,21 @@ Esta documentación describe cómo integrar el **SDK de Become** en un proyecto 
 
 ### 2.1 Root `build.gradle` (Proyecto)
 
-> Recomendación: usar el bloque `plugins { ... apply false }` para evitar conflictos y duplicados.
-
-```gradle
-// build.gradle (Project)
-plugins {
-    id 'com.android.application' version '9.0.1' apply false
-    id 'com.android.library' version '9.0.1' apply false
-    id 'org.jetbrains.kotlin.android' version '2.2.10' apply false
-    id 'org.jetbrains.kotlin.plugin.compose' version '2.2.10' apply false
-}
-
-2.2 settings.gradle
-
-// settings.gradle
-pluginManagement {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-⸻
-
-3. Integración del SDK
-
-Copia el .aar a app/libs/ y agrega:
-
-implementation fileTree(dir: "libs", include: ["*.aar"])
-
-
-
-⸻
-
-4. Configuración del app/build.gradle (Cliente demo / App)
+1. Configuración del app/build.gradle (Cliente demo / App)
 
 Ejemplo base compatible con el SDK:
-
 
 dependencies {
     // Soporte Java 8+ (desugaring)
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.5"
 
+    // === SDK (elige UNA opción) ===
+    // A) Módulo:
+    // implementation project(":becomedigitalsdk")
+    // B) AAR local:
     // implementation fileTree(dir: "libs", include: ["*.aar"])
+    // C) Remoto:
+    // implementation("com.becomedigital:sdk:VERSION")
 
     // UI / AndroidX base
     implementation "androidx.appcompat:appcompat:1.6.1"
@@ -144,7 +107,7 @@ dependencies {
 
 ⸻
 
-5. Inicialización del SDK
+2. Inicialización del SDK
 
 La inicialización utiliza BecomeCallBackManager y BDIVConfig.
 
@@ -182,7 +145,7 @@ fun startAuthentication() {
 
 ⸻
 
-6. Licencia
+3. Licencia
 
 Incluye los archivos de licencia provistos por Become dentro de assets/:
     •    com.become.mb.key
@@ -191,7 +154,7 @@ Incluye los archivos de licencia provistos por Become dentro de assets/:
 
 ⸻
 
-7. Manejo de errores
+4. Manejo de errores
 
 Validación / Respuesta
 
@@ -212,7 +175,7 @@ override fun onCancel() {
 
 ⸻
 
-8. Nota sobre compatibilidad Android 15+ (16 KB page size)
+5. Nota sobre compatibilidad Android 15+ (16 KB page size)
 
 Si el APK/AAB marca advertencias de 16 KB page size por librerías nativas (.so), revisa especialmente dependencias que incluyen binarios nativos (OCR/Liveness y cualquier .aar con jni/).
 Para publicar en Google Play apuntando a Android 15+, usa versiones de librerías que ya empacen binarios compatibles con 16 KB.

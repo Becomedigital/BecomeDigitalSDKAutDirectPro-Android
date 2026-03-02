@@ -158,20 +158,19 @@ Incluye los archivos de licencia provistos por Become dentro de assets/:
 
 Validación / Respuesta
 
-override fun onFinish(responseIV: BDIdentityVerificationResponse) {
-    if (responseIV.responseStatus == ResponseIV.ResponseType.ERROR) {
-        // Manejo de error
-    } else {
-        // Validación exitosa
+    override fun onFinish(responseIV: BDIdentityVerificationResponse) {
+        if (responseIV.responseStatus == ResponseIV.ResponseType.ERROR) {
+            // Manejo de error
+        } else {
+            // Validación exitosa
+        }
     }
-}
 
 Cancelación por usuario
 
-override fun onCancel() {
-    textError.setText(R.string.text_cancelk_by_user)
-}
-
+    override fun onCancel() {
+        textError.setText(R.string.text_cancelk_by_user)
+    }
 
 ⸻
 

@@ -1,81 +1,120 @@
 # Documentación del SDK de Become Android
 
-Esta documentación proporciona información actualizada sobre el SDK de Become para Android, incluyendo la integración de nuevas dependencias y autenticación mediante JFrog Artifactory.
+Esta documentación describe cómo integrar el **SDK de Become** en un proyecto Android, incluyendo **requisitos mínimos**, configuración moderna con **AGP 9 + Kotlin 2.x**, dependencias necesarias (OCR, Liveness, CameraX) y recomendaciones de build.
 
 <p align="center">
   <img src="https://github.com/Becomedigital/become_ANDROID_SDK/blob/master/Pantalla_Android.png" width="284" height="572">
 </p>
 
-## 1. Configuración de Gradle
+---
 
-### Configuración del Repositorio JFrog
+## 1. Requisitos mínimos del proyecto
 
-Para utilizar la nueva librería `finger`, agregue el siguiente repositorio privado de JFrog en el archivo `build.gradle` a nivel de proyecto o módulo:
+### Android / SDK
+- **minSdk:** 24  
+- **compileSdk:** 36  
+- **targetSdk:** 36  
 
-```gradle
-maven {
-    url "https://identy.jfrog.io/identy/identy-finger-release"
-    credentials {
-        username = "your_username"
-        password = "your_password"
+> `compileSdk 36` es requerido por varias dependencias recientes (Compose/Activity/Browser, etc.).
+
+### Gradle / Kotlin (recomendado)
+- **Android Gradle Plugin (AGP):** `9.0.1`
+- **Kotlin:** `2.2.10`
+- **Compose Compiler Plugin:** requerido en Kotlin 2.x cuando `compose = true` (se habilita con el plugin `org.jetbrains.kotlin.plugin.compose`)
+
+### Java
+- **Java 11**
+- `kotlinOptions.jvmTarget = "11"`
+
+### Features requeridas
+- `compose true` (obligatorio por Amplify Liveness)
+- `viewBinding true` (si el proyecto lo usa)
+- `buildConfig true` (si el proyecto usa BuildConfig)
+- `coreLibraryDesugaringEnabled true`
+
+---
+
+## 2. Configuración Gradle recomendada
+
+### 2.1 Root `build.gradle` (Proyecto)
+
+1. Configuración del app/build.gradle (Cliente demo / App)
+
+Ejemplo base compatible con el SDK:
+
+    dependencies {
+        // Soporte Java 8+ (desugaring)
+        coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.5"
+
+        // === SDK (elige UNA opción) ===
+        // A) Módulo:
+        // implementation project(":becomedigitalsdk")
+        // B) AAR local:
+        // implementation fileTree(dir: "libs", include: ["*.aar"])
+        // C) Remoto:
+        // implementation("com.becomedigital:sdk:VERSION")
+
+        // UI / AndroidX base
+        implementation "androidx.appcompat:appcompat:1.6.1"
+        implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+        implementation "androidx.core:core-ktx:1.15.0"
+        implementation "androidx.fragment:fragment-ktx:1.6.2"
+        implementation "androidx.activity:activity-ktx:1.8.2"
+
+        // CameraX
+        implementation "androidx.camera:camera-core:1.5.3"
+        implementation "androidx.camera:camera-camera2:1.5.3"
+        implementation "androidx.camera:camera-view:1.5.3"
+        implementation "androidx.camera:camera-lifecycle:1.5.3"
+
+        // Navegación
+        implementation "androidx.navigation:navigation-fragment:2.5.3"
+        implementation "androidx.navigation:navigation-ui:2.5.3"
+
+        // JSON / HTTP / Imágenes
+        implementation "com.google.code.gson:gson:2.10.1"
+        implementation "com.squareup.okhttp3:okhttp:4.9.3"
+        implementation "com.github.bumptech.glide:glide:4.10.0"
+
+        // Liveness (Amplify UI) + Compose
+        implementation "com.amplifyframework.ui:liveness:1.10.0"
+        implementation "com.amplifyframework:aws-auth-cognito:2.33.0"
+        implementation "androidx.compose.material3:material3:1.4.0"
+        implementation "androidx.activity:activity-compose:1.12.4"
+
+        // OCR / Captura (Microblink)
+        implementation "com.microblink:capture-core:1.4.2"
+        implementation "com.microblink:capture-ux:1.4.2"
+
+        // SDK additional libraries required
+        implementation "com.android.volley:volley:1.2.1"
+
+        def room_version = "1.1.0"
+        implementation "android.arch.persistence.room:runtime:$room_version"
+        annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+        implementation "android.arch.lifecycle:livedata:1.1.1"
+        implementation "android.arch.lifecycle:viewmodel:1.1.1"
+
+        // Tests (opcional)
+        testImplementation "junit:junit:4.13.2"
+        androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+        androidTestImplementation "androidx.test.uiautomator:uiautomator:2.3.0"
     }
-}
-```
 
-> 🔐 **Nota:** asegúrese de reemplazar `your_username` y `your_password` con las credenciales proporcionadas.
+✅ Importante:
+    •    No dupliques androidx.core:core-ktx con versiones diferentes.
+    •    Evita fijar buildToolsVersion; AGP 9 lo maneja mejor sin forzarlo.
 
-### Implementación de Dependencias Requeridas
+⸻
 
-Agregue las siguientes dependencias en el bloque `dependencies` de su `build.gradle`:
+2. Inicialización del SDK
 
-```gradle
-// Librería principal del SDK
-implementation(group: 'com.identy.app', name: 'finger', version: '6.1.1-develop', ext: 'aar')
+La inicialización utiliza BecomeCallBackManager y BDIVConfig.
 
-// Dependencias adicionales necesarias
-implementation 'com.android.volley:volley:1.2.1'
+    private val mCallbackManager: BecomeCallBackManager = BecomeCallBackManager.createNew()
 
-def room_version = "1.1.0"
-implementation "android.arch.persistence.room:runtime:$room_version"
-annotationProcessor "android.arch.persistence.room:compiler:$room_version"
-
-implementation 'android.arch.lifecycle:livedata:1.1.1'
-implementation 'android.arch.lifecycle:viewmodel:1.1.1'
-```
-
-Además, conserve las dependencias previamente configuradas:
-
-```gradle
-implementation 'com.mikhaellopez:circularimageview:4.3.1'
-implementation 'com.google.android.material:material:1.3.0'
-implementation 'com.amplifyframework.ui:liveness:1.3.0'
-implementation 'com.amplifyframework:aws-auth-cognito:2.26.0'
-implementation 'androidx.compose.material3:material3:1.1.2'
-implementation 'androidx.activity:activity-compose:1.7.2'
-
-implementation("androidx.camera:camera-core:1.3.0")
-implementation("androidx.camera:camera-camera2:1.3.0")
-implementation("androidx.camera:camera-view:1.3.0")
-implementation("androidx.camera:camera-lifecycle:1.3.0")
-
-implementation 'androidx.navigation:navigation-fragment:2.5.3'
-implementation 'androidx.navigation:navigation-ui:2.5.3'
-
-implementation 'com.google.code.gson:gson:2.10.1'
-implementation 'com.github.bumptech.glide:glide:4.10.0'
-```
-
-## 2. Inicialización del SDK
-
-La inicialización de la SDK ahora utiliza un `BecomeCallBackManager` y una nueva instancia de `BDIVConfig`.
-
-Ejemplo actualizado en Kotlin:
-
-```kotlin
-private val mCallbackManager: BecomeCallBackManager = BecomeCallBackManager.createNew()
-
-fun startAuthentication() {
-    val config = BDIVConfig(
+    fun startAuthentication() {
+        val config = BDIVConfig(
         clientId = "yourClientId",
         clientSecret = "yourClientSecret",
         contractId = "yourContractId",
@@ -87,95 +126,57 @@ fun startAuthentication() {
 
     BecomeResponseManager.getInstance().startAuthentication(this, config)
 
-    BecomeResponseManager.getInstance().registerCallback(mCallbackManager, object : BecomeInterfaseCallback {
-        override fun onFinish(responseIV: BDIdentityVerificationResponse) {
-            // TODO: manejo de respuesta exitosa
-        }
+    BecomeResponseManager.getInstance().registerCallback(
+        mCallbackManager,
+        object : BecomeInterfaseCallback {
+            override fun onFinish(responseIV: BDIdentityVerificationResponse) {
+                // TODO: manejo de respuesta
+            }
 
-        override fun onCancel() {
-            Log.d("cancel", "cancel by user")
-            textError.setText(R.string.text_cancelk_by_user)
+            override fun onCancel() {
+                Log.d("cancel", "cancel by user")
+                textError.setText(R.string.text_cancelk_by_user)
+            }
         }
-    })
+    )
 }
-```
 
-> ℹ️ **Nota:** Reemplace `yourClientId`, `yourClientSecret`, `yourContractId` y otros valores por las credenciales reales.
+ℹ️ Reemplaza credenciales por las reales.
 
-## 3. Recomendaciones y Requisitos
+⸻
 
-### Requisitos del Proyecto Android
+3. Licencia
 
-De acuerdo con la configuración actual de `build.gradle`, los requisitos mínimos son:
+Incluye los archivos de licencia provistos por Become dentro de assets/:
+    •    com.become.mb.key
 
-* **Plugins:**
+⚠️ Importante: el applicationId debe coincidir con el autorizado en la licencia para que la validación funcione.
 
-  * `com.android.application`
-  * `kotlin-android`
+⸻
 
-* **SDK:**
+4. Manejo de errores
 
-  * `compileSdk` 35
-  * `targetSdkVersion` 34
-  * `minSdkVersion` 24
-  * `buildToolsVersion` 30.0.3
+Validación / Respuesta
 
-* **Compatibilidad Java y Kotlin:**
-
-  * `JavaVersion.VERSION_11`
-  * `kotlinOptions.jvmTarget = "11"`
-
-* **Funciones habilitadas:**
-
-  * `viewBinding true`
-  * `compose true`
-  * `coreLibraryDesugaringEnabled true`
-
-* **Namespace:** `com.example.demosdk`
-
-* **Versiones:**
-
-  * `versionCode 1`
-  * `versionName "2.0.0"`
-
-* **Testing configurado:**
-
-  * `testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"`
-  * Dependencias para `junit` y `espresso`
-
-* **Otros:**
-
-  * `multiDexEnabled true`
-  * `minifyEnabled false` en build type release
-  * Uso de `proguard-android-optimize.txt` y `proguard-rules.pro` para release
-
-## 4. Licencia
-
-Asegúrese de incluir los archivos de licencia provistos por **Become** dentro de la carpeta `assets` de su proyecto. Deben existir exactamente los siguientes archivos con estos nombres específicos:
-
-* `com.become.finger.lic`
-* `com.become.mb.key`
-
-⚠️ **Importante:** el `applicationId` debe coincidir con el valor autorizado en la licencia para su correcto funcionamiento.
-
-## 5. Manejo de Errores
-
-### Validación Exitosa
-
-```kotlin
-override fun onFinish(responseIV: BDIdentityVerificationResponse) {
-    if (responseIV.responseStatus == ResponseIV.ResponseType.ERROR) {
-        // Manejo de error
-    } else {
-        // Validación exitosa
+    override fun onFinish(responseIV: BDIdentityVerificationResponse) {
+        if (responseIV.responseStatus == ResponseIV.ResponseType.ERROR) {
+            // Manejo de error
+        } else {
+            // Validación exitosa
+        }
     }
-}
-```
 
-### Cancelación por Usuario
+Cancelación por usuario
 
-```kotlin
-override fun onCancel() {
-    textError.setText(R.string.text_cancelk_by_user)
-}
-```
+    override fun onCancel() {
+        textError.setText(R.string.text_cancelk_by_user)
+    }
+
+⸻
+
+5. Nota sobre compatibilidad Android 15+ (16 KB page size)
+
+Si el APK/AAB marca advertencias de 16 KB page size por librerías nativas (.so), revisa especialmente dependencias que incluyen binarios nativos (OCR/Liveness y cualquier .aar con jni/).
+Para publicar en Google Play apuntando a Android 15+, usa versiones de librerías que ya empacen binarios compatibles con 16 KB.
+
+⸻

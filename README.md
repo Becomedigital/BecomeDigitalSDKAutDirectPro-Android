@@ -14,7 +14,8 @@ El SDK permite ejecutar procesos de onboarding y autenticación de identidad des
 - Aislamiento y limpieza de los archivos de cada captura para evitar que un reintento reutilice imágenes de un intento anterior.
 - `responseDictionary` ahora es nullable en `BDIdentityVerificationResponse`.
 - Cuando `newIdentity` informa que no se superó la prueba de vida, el botón de reintento cierra el SDK y retorna un resultado con estado `ERROR`. La aplicación debe iniciar un proceso nuevo.
-- Los logs internos están deshabilitados en el AAR de tipo `release`.
+- Logs opcionales mediante `debugLogsEnabled`, desactivados por defecto.
+- Personalización de textos desde los recursos XML de la app, con ejemplos por idioma.
 
 ## Requisitos
 
@@ -133,6 +134,12 @@ El AAR declara los permisos de Internet y cámara. La aplicación debe solicitar
 <uses-permission android:name="android.permission.CAMERA" />
 ```
 
+## Personalización de textos
+
+Copie las claves que necesite del ejemplo [español](examples/custom-texts/res/values/strings.xml) o [inglés](examples/custom-texts/res/values-b+en/strings.xml) al `strings.xml` de su app y cambie sus valores. Conserve los nombres y personalice cada idioma. No necesita cambiar `BDIVConfig` ni regenerar el AAR.
+
+[Guía de implementación y las 91 claves por pantalla](docs/PERSONALIZACION_TEXTOS.md).
+
 ## Inicialización
 
 El API conserva los nombres públicos `clienId` y `DocumetType` por compatibilidad. Los tipos de documento disponibles son `DNI`, `PASSPORT` y `LICENSE`.
@@ -147,21 +154,21 @@ private fun configureBecomeSdk() {
             override fun onFinish(response: BDIdentityVerificationResponse) {
                 when (response.responseStatus) {
                     BDIdentityVerificationResponse.StatusType.SUCCES -> {
-                        Log.d("BecomeSDK", response.toJson().orEmpty())
+                        // Procese response sin imprimir datos personales.
                     }
 
                     BDIdentityVerificationResponse.StatusType.ERROR -> {
-                        Log.e("BecomeSDK", response.message)
+                        // Muestre o maneje el error; no lo registre completo.
                     }
 
                     else -> {
-                        Log.d("BecomeSDK", response.toJson().orEmpty())
+                        // Procese response sin imprimir datos personales.
                     }
                 }
             }
 
             override fun onCancel() {
-                Log.d("BecomeSDK", "Proceso cancelado por el usuario")
+                // Maneje la cancelación en su aplicación.
             }
         }
     )
@@ -203,6 +210,7 @@ Registre el callback antes de llamar a `startAuthentication` y mantenga una refe
 | 9 | `flow` | `BDIVConfig.Flow` | `Onboarding` | Selecciona el flujo completo o solo autenticación facial. Un valor `null` se normaliza a `Onboarding`. |
 | 10 | `pollingMaxAttempts` | `Int` | `0` | Máximo de consultas del resultado. `0` significa ilimitado; los valores negativos se normalizan a `0`. |
 | 11 | `pollingTimeoutSeconds` | `Int` | `2` | Timeout en segundos para cada GET de resultados. Un valor menor o igual a cero se normaliza a `2`. |
+| 12 | `debugLogsEnabled` | `Boolean` | `false` | Logs de diagnóstico. También puede usar `setDebugLogsEnabled(true)`. [Uso](docs/LOGGING.md). |
 
 Los constructores anteriores de 7 parámetros siguen disponibles y conservan el comportamiento predeterminado: onboarding, consulta del resultado, intentos ilimitados y timeout de 2 segundos por GET.
 
@@ -285,7 +293,7 @@ override fun onFinish(response: BDIdentityVerificationResponse) {
 
     response.responseDictionary?.let { values ->
         // Consumir únicamente las claves requeridas por la aplicación.
-        Log.d("BecomeSDK", values.keys.joinToString())
+        // Use values sin imprimir el contenido de la respuesta.
     }
 }
 ```
@@ -303,6 +311,12 @@ Microblink produce dos representaciones de cada lado del documento:
 
 Cada intento crea un identificador de captura independiente. Al cancelar, reintentar o finalizar el flujo, el SDK limpia las rutas anteriores para evitar mostrar o enviar una captura previa.
 
+## Logs de diagnóstico
+
+Antes de iniciar, use `config.setDebugLogsEnabled(true)` en Java o `config.isDebugLogsEnabled = true` en Kotlin. Para desactivar, use `false` o no establezca el parámetro.
+
+Filtre Logcat con `tag:BecomeSDK level:DEBUG`. [Ejemplos de implementación](docs/LOGGING.md). No se imprimen datos personales ni respuestas completas.
+
 ## Generación y reemplazo del AAR
 
 Desde el directorio `SDK` del repositorio fuente:
@@ -319,7 +333,7 @@ El artefacto se genera en:
 becomedigitalsdk/build/outputs/aar/becomedigitalsdk-release.aar
 ```
 
-Copie ese archivo como `becomedigitalsdk.aar` en este repositorio y en `ClientDemo/app/libs`. Antes de distribuirlo, valide que corresponda al build `release`; en esta variante `BuildConfig.LOG_ENABLED` debe ser `false`.
+Copie ese archivo como `becomedigitalsdk.aar` en este repositorio y en `ClientDemo/app/libs`. Distribuya el build `release` y mantenga `debugLogsEnabled` en `false` fuera de las pruebas.
 
 ## Compatibilidad con Android 15 y páginas de 16 KB
 

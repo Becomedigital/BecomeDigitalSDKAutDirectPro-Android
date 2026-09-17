@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Ejemplo de personalización de Become para la aplicación integradora.
+        Copiar únicamente las claves necesarias; no reemplazar todo el strings.xml de la app.
+        Mantener cada name exactamente igual, incluidas las erratas históricas.
+        Guía: docs/PERSONALIZACION_TEXTOS.md en la raíz del repositorio.
+        Idioma: inglés; values-b+en equivale al calificador values-en.
+        Se excluyen app_name, there_already_a_record, sdk_version y claves internas/legacy de huellas.
+        Los valores son editables; las instrucciones de cámara y advertencias deben conservar su sentido.
+    -->
+
+    <!-- Introducción y prueba de vida -->
+    <string name="text_tittle_general_intro">Let`s verify your identity</string>
+    <string name="text_sub_tittle_general_intro">To be verified, you will have to:</string>
+    <string name="text_start_btn">Continue</string>
+    <string name="and_intro_general">and</string>
+    <string name="text_video_intro">Perform a proof of life test using a video selfie to verify your identity.</string>
+    <string name="text_video_intro_general">Perform a proof of life test using a video selfie to verify your identity and</string>
+    <string name="text_document_intr_general">Capture your documents, so you will verify your identity</string>
+    <string name="btn_text_recording_video">Record a video</string>
+    <string name="text_tittle_selfie">Perform a proof of life test using a video selfie to verify your identity.</string>
+    <string name="text_loader_selfie">Our artificial intelligence is performing a biometric analysis of your face</string>
+    <string name="text_progress_inteligence">Our artificial intelligence is performing the biometric analysis of your face</string>
+
+    <!-- Selección de país y documento -->
+    <string name="text_tittle_selec_document">We need you to provide some of the following documents:</string>
+    <string name="text_dni_selec_document">National Identification</string>
+    <string name="text_license">Driving License</string>
+    <string name="text_passport">Passport</string>
+    <string name="select_text">Select your country</string>
+    <string name="text_body_country">Select the type of document</string>
+    <string name="text_msn_selec_document">Please confirm that you have actual documents or their images available on your device</string>
+
+    <!-- Captura y vista previa -->
+    <string name="text_tittle_intro_doc_front">FRONT SIDE</string>
+    <string name="text_tittle_intro_doc">REAR SIDE</string>
+    <string name="text_btn_introduction_doc">Capture document</string>
+    <string name="text_btn_intro_doc_galery">Gallery</string>
+    <string name="text_info_preview">Is the photo clear? It has no reflection and it is not blurred</string>
+    <string name="text_confirm_preview">Yes, the image is clear</string>
+    <string name="text_retry_previe">No, retry</string>
+
+    <!-- Carga, resultados y finalización -->
+    <string name="text_loader_init">Starting...</string>
+    <string name="text_loader">Loading…</string>
+    <string name="text_varification_title">Finished initial capture</string>
+    <string name="text_varification_body">We will analyze the information provided to continue with the process</string>
+    <string name="text_finish_upload">Send information</string>
+    <string name="text_info_upload">We are uploading your information ...</string>
+    <string name="text_document_validation">Validating documents…</string>
+    <string name="text_progress_result">Checking the result...</string>
+    <string name="text_progress_delay_result">We are about to finish</string>
+    <string name="text_progress_delay_finish_result">This is taking a little longer than usual</string>
+    <string name="text_finish">Process complete</string>
+    <string name="text_sub_tittle_finish">Congratulations, the capture of your data is complete</string>
+
+    <!-- Salir del proceso -->
+    <string name="text_undo">Back</string>
+    <string name="text_sub_tittle_undo">Do you want to finish the process?</string>
+    <string name="text_tittle_undo">You`re sure?</string>
+    <string name="terminate_text">Finish</string>
+    <string name="text_cancel">Finish</string>
+
+    <!-- Errores y reintento (un mensaje del backend puede tener prioridad) -->
+    <string name="text_title_button_retry">Try again</string>
+    <string name="text_title_document_error">Review your document photos</string>
+    <string name="text_sub_title_document_error">Make sure the entire document is visible, sharp and free of glare.</string>
+    <string name="text_error_capture_document">We could not complete the document capture. Please try again.</string>
+    <string name="text_varification_title_error">An error occurred.</string>
+    <string name="text_varification_body_error">Try again</string>
+    <string name="text_varification_title_compliance_error">Validation failed</string>
+    <string name="text_varification_body_compliance_error">We cannot continue with the process.</string>
+    <string name="text_error_compliance_not_allowed">Validation error, we cannot continue with the process.</string>
+    <string name="timeout_error">The connection took too long. Please try again.</string>
+    <string name="no_internet_error">You have no Internet connection. Please check your network.</string>
+    <string name="connection_lost_error">The Internet connection was lost. Please try again.</string>
+    <string name="unknown_error">An unknown error occurred. Please try again.</string>
+    <string name="general_error">Error, contact the administrator</string>
+    <string name="text_empty_balance">Insufficient balance</string>
+    <string name="text_error_path_image_pick">You can`t get the file route</string>
+
+    <!-- Microblink Capture (opcional; depende de la pantalla y versión del componente) -->
+    <string name="mbic_check_internet_connection">Check internet connection</string>
+    <string name="mbic_flip_document">Flip the document</string>
+    <string name="mbic_lightning_too_bright">Move to a place with less lighting</string>
+    <string name="mbic_lightning_too_dark">Move to a brighter place</string>
+    <string name="mbic_move_closer">Move closer</string>
+    <string name="mbic_move_farther">Move farther</string>
+    <string name="mbic_need_help_tooltip">Need help?</string>
+    <string name="mbic_network_error">Network error</string>
+    <string name="mbic_occluded">Keep the document completely visible</string>
+    <string name="mbic_onboarding_field_visible_title">Keep all details visible</string>
+    <string name="mbic_scan_the_back_side">Scan the back side of the document</string>
+    <string name="mbic_scan_the_front_side">Scan the front side of the document</string>
+    <string name="mbic_scanning_not_available">Scanning not available</string>
+    <string name="mbic_torch_glare_tooltip_message">Beware of the flashlight reflection. Gently move your ID to avoid it.</string>
+    <string name="mbic_tutorial_fields_visible_title">Keep all fields visible</string>
+    <string name="mbic_tutorial_harsh_light_title">Beware of intense light</string>
+
+    <!-- AWS Face Liveness (opcional; conservar el significado de instrucciones y avisos de seguridad) -->
+    <string name="amplify_ui_liveness_challenge_a11y_cancel_content_description">Cancel Challenge</string>
+    <string name="amplify_ui_liveness_challenge_connecting">Connecting</string>
+    <string name="amplify_ui_liveness_challenge_instruction_hold_face_during_freshness">Hold still</string>
+    <string name="amplify_ui_liveness_challenge_instruction_move_face">Move face in front of camera</string>
+    <string name="amplify_ui_liveness_challenge_instruction_move_face_closer">Move closer</string>
+    <string name="amplify_ui_liveness_challenge_instruction_move_face_further">Move back</string>
+    <string name="amplify_ui_liveness_challenge_instruction_multiple_faces_detected">Only one face per check</string>
+    <string name="amplify_ui_liveness_challenge_recording_indicator_label">REC</string>
+    <string name="amplify_ui_liveness_challenge_verifying">Verifying</string>
+    <string name="amplify_ui_liveness_get_ready_a11y_photosensitivity_icon_content_description">Photosensitivity Information</string>
+    <string name="amplify_ui_liveness_get_ready_begin_check">Start video check</string>
+    <string name="amplify_ui_liveness_get_ready_center_face_label">Center your face</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_description">This check flashes different colors. Use caution if you are photosensitive.</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_dialog_description">Some people may experience epileptic seizures when exposed to colored lights. Use caution if you, or anyone in your family, have an epileptic condition.</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_dialog_dismiss">Got it</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_dialog_title">Photosensitivity warning</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_title">Photosensitivity warning</string>
+</resources>

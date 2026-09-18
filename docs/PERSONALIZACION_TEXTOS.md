@@ -24,7 +24,7 @@ Las claves que no cambie conservan su texto original. Personalice cada idioma ut
 
 ## Claves por pantalla
 
-Los ejemplos contienen 91 claves. Una clave compartida cambia en todos los lugares donde se utiliza; algunas solo aparecen según el flujo y la versión del componente.
+Los ejemplos contienen 115 claves. Una clave compartida cambia en todos los lugares donde se utiliza; algunas solo aparecen según el flujo y la versión del componente.
 | Pantalla / uso | Claves |
 | --- | --- |
 | Inicio | `text_tittle_general_intro`, `text_sub_tittle_general_intro`, `text_start_btn`, `and_intro_general`, `text_video_intro_general`, `text_document_intr_general` |
@@ -35,6 +35,7 @@ Los ejemplos contienen 91 claves. Una clave compartida cambia en todos los lugar
 | Carga y envío | `text_loader_init`, `text_loader`, `text_varification_title`, `text_varification_body`, `text_finish_upload`, `text_info_upload`, `text_document_validation` |
 | Consulta de resultados | `text_progress_result`, `text_progress_delay_result`, `text_progress_delay_finish_result` |
 | Error documental y reintento | `text_title_document_error`, `text_sub_title_document_error`, `text_error_capture_document`, `text_title_button_retry` |
+| Creación de identidad y resultados: cierre facial, recaptura y reintento | Las 24 claves `identity_error_*` de los ejemplos. [Listado y acción por clave](ERRORES.md#catálogo-ampliado-de-creación-y-resultados). |
 | Error general o validación fallida | `text_varification_title_error`, `text_varification_body_error`, `text_varification_title_compliance_error`, `text_varification_body_compliance_error`, `text_error_compliance_not_allowed`, `unknown_error`, `general_error`, `text_empty_balance` |
 | Error de conexión | `timeout_error`, `no_internet_error`, `connection_lost_error` |
 | Resultado final | `text_finish`, `text_sub_tittle_finish` |

@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Errores de creación de identidad y resultados: docs/ERRORES.md -->
+    <string name="identity_error_liveness">We could not confirm your liveness check. Start a new verification and try again in good lighting.</string>
+    <string name="identity_error_face">We could not verify your face. Start a new verification with your own document and your face uncovered.</string>
+    <string name="identity_error_documentfront">We could not read the front of your document. Capture it again in full, in focus and without glare.</string>
+    <string name="identity_error_documentback">We could not read the back of your document. Capture the correct side again in full and without glare.</string>
+    <string name="identity_error_documentfiles">Your document images were not received correctly. Capture the requested sides again.</string>
+    <string name="identity_error_documentquality">We could not read your document details. Capture it again in good lighting, in focus and without glare.</string>
+    <string name="identity_error_documentunsupported">This document type was not recognized. Select a supported document and capture it again.</string>
+    <string name="identity_error_documentvalidation">We could not validate your document. Check that it is the original, is valid and matches the selected type. If the issue persists, contact support.</string>
+    <string name="identity_error_session">Your verification session has expired or is invalid. Close this process and start a new verification.</string>
+    <string name="identity_error_permission">This verification is not enabled for your account. Contact support to continue.</string>
+    <string name="identity_error_configuration">Some verification details are missing or the configuration is invalid. Contact support to continue.</string>
+    <string name="identity_error_contract">We could not validate the configured service. Contact support to continue.</string>
+    <string name="identity_error_quota">No verifications are available for this service right now. Contact support.</string>
+    <string name="identity_error_notfound">We could not find this verification. Check that the process was started correctly or contact support.</string>
+    <string name="identity_error_conflict">A process is already associated with this verification. Contact support if you cannot continue.</string>
+    <string name="identity_error_uploadsize">The files exceed the allowed size. Close this process and start a new capture. If it persists, contact support.</string>
+    <string name="identity_error_fileformat">The file format is not supported. Start a new capture or contact support.</string>
+    <string name="identity_error_ratelimit">Too many requests were made. Wait a moment before trying again.</string>
+    <string name="identity_error_unavailable">The service is temporarily unavailable. Please wait a moment and try again.</string>
+    <string name="identity_error_processing">We could not finish processing your verification. Try again; if the issue persists, contact support.</string>
+    <string name="identity_error_invalidresponse">We could not confirm the response from the service. Try again; if the issue persists, contact support.</string>
+    <string name="identity_error_timeout">The response is taking longer than expected. Check your connection and try again.</string>
+    <string name="identity_error_offline">There is no internet connection. Connect to a network and try again.</string>
+    <string name="identity_error_connection">The connection to the service was interrupted. Check your network and try again.</string>
     <!--
         Ejemplo de personalización de Become para la aplicación integradora.
         Copiar únicamente las claves necesarias; no reemplazar todo el strings.xml de la app.

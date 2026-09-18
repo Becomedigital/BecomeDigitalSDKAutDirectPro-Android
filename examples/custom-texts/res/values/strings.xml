@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Errores de creación de identidad y resultados: docs/ERRORES.md -->
+    <string name="identity_error_liveness">No pudimos confirmar tu prueba de vida. Inicia una nueva verificación e inténtalo con buena iluminación.</string>
+    <string name="identity_error_face">No pudimos validar tu rostro. Inicia una nueva verificación con tu documento y el rostro descubierto.</string>
+    <string name="identity_error_documentfront">No pudimos leer el frente del documento. Vuelve a capturarlo completo, enfocado y sin reflejos.</string>
+    <string name="identity_error_documentback">No pudimos leer el reverso del documento. Vuelve a capturar el lado correcto, completo y sin reflejos.</string>
+    <string name="identity_error_documentfiles">Las imágenes del documento no se recibieron correctamente. Vuelve a capturar los lados solicitados.</string>
+    <string name="identity_error_documentquality">No pudimos leer los datos del documento. Vuelve a capturarlo con buena luz, enfocado y sin reflejos.</string>
+    <string name="identity_error_documentunsupported">No se reconoce el tipo de documento. Selecciona un documento admitido y vuelve a capturarlo.</string>
+    <string name="identity_error_documentvalidation">No pudimos validar el documento. Revisa que sea el original, esté vigente y corresponda al tipo seleccionado. Si el problema continúa, contacta con soporte.</string>
+    <string name="identity_error_session">La sesión de verificación venció o no es válida. Cierra este proceso e inicia una nueva verificación.</string>
+    <string name="identity_error_permission">Esta verificación no está habilitada para tu cuenta. Contacta con soporte para continuar.</string>
+    <string name="identity_error_configuration">Faltan datos o la configuración de la verificación no es válida. Contacta con soporte para continuar.</string>
+    <string name="identity_error_contract">No se pudo validar el servicio contratado. Contacta con soporte para continuar.</string>
+    <string name="identity_error_quota">El servicio no tiene verificaciones disponibles en este momento. Contacta con soporte.</string>
+    <string name="identity_error_notfound">No encontramos esta verificación. Comprueba que iniciaste el proceso correctamente o contacta con soporte.</string>
+    <string name="identity_error_conflict">Ya existe un proceso asociado a esta verificación. Contacta con soporte si no puedes continuar.</string>
+    <string name="identity_error_uploadsize">Los archivos superan el tamaño permitido. Cierra el proceso e inicia una nueva captura. Si persiste, contacta con soporte.</string>
+    <string name="identity_error_fileformat">El formato de los archivos no es compatible. Inicia una nueva captura o contacta con soporte.</string>
+    <string name="identity_error_ratelimit">Se realizaron demasiadas solicitudes. Espera un momento antes de volver a intentarlo.</string>
+    <string name="identity_error_unavailable">El servicio no está disponible por el momento. Espera un momento y vuelve a intentarlo.</string>
+    <string name="identity_error_processing">No pudimos completar el procesamiento de tu verificación. Vuelve a intentarlo; si continúa, contacta con soporte.</string>
+    <string name="identity_error_invalidresponse">No pudimos confirmar la respuesta del servicio. Vuelve a intentarlo; si continúa, contacta con soporte.</string>
+    <string name="identity_error_timeout">La respuesta está tardando más de lo esperado. Revisa tu conexión y vuelve a intentarlo.</string>
+    <string name="identity_error_offline">No hay conexión a internet. Conéctate a una red y vuelve a intentarlo.</string>
+    <string name="identity_error_connection">Se interrumpió la conexión con el servicio. Revisa tu red y vuelve a intentarlo.</string>
     <!--
         Ejemplo de personalización de Become para la aplicación integradora.
         Copiar únicamente las claves necesarias; no reemplazar todo el strings.xml de la app.

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Errores de creación de identidad y resultados: docs/ERRORES.md -->
+    <string name="identity_error_liveness">No pudimos confirmar tu prueba de vida. Inicia una nueva verificación e inténtalo con buena iluminación.</string>
+    <string name="identity_error_face">No pudimos validar tu rostro. Inicia una nueva verificación con tu documento y el rostro descubierto.</string>
+    <string name="identity_error_documentfront">No pudimos leer el frente del documento. Vuelve a capturarlo completo, enfocado y sin reflejos.</string>
+    <string name="identity_error_documentback">No pudimos leer el reverso del documento. Vuelve a capturar el lado correcto, completo y sin reflejos.</string>
+    <string name="identity_error_documentfiles">Las imágenes del documento no se recibieron correctamente. Vuelve a capturar los lados solicitados.</string>
+    <string name="identity_error_documentquality">No pudimos leer los datos del documento. Vuelve a capturarlo con buena luz, enfocado y sin reflejos.</string>
+    <string name="identity_error_documentunsupported">No se reconoce el tipo de documento. Selecciona un documento admitido y vuelve a capturarlo.</string>
+    <string name="identity_error_documentvalidation">No pudimos validar el documento. Revisa que sea el original, esté vigente y corresponda al tipo seleccionado. Si el problema continúa, contacta con soporte.</string>
+    <string name="identity_error_session">La sesión de verificación venció o no es válida. Cierra este proceso e inicia una nueva verificación.</string>
+    <string name="identity_error_permission">Esta verificación no está habilitada para tu cuenta. Contacta con soporte para continuar.</string>
+    <string name="identity_error_configuration">Faltan datos o la configuración de la verificación no es válida. Contacta con soporte para continuar.</string>
+    <string name="identity_error_contract">No se pudo validar el servicio contratado. Contacta con soporte para continuar.</string>
+    <string name="identity_error_quota">El servicio no tiene verificaciones disponibles en este momento. Contacta con soporte.</string>
+    <string name="identity_error_notfound">No encontramos esta verificación. Comprueba que iniciaste el proceso correctamente o contacta con soporte.</string>
+    <string name="identity_error_conflict">Ya existe un proceso asociado a esta verificación. Contacta con soporte si no puedes continuar.</string>
+    <string name="identity_error_uploadsize">Los archivos superan el tamaño permitido. Cierra el proceso e inicia una nueva captura. Si persiste, contacta con soporte.</string>
+    <string name="identity_error_fileformat">El formato de los archivos no es compatible. Inicia una nueva captura o contacta con soporte.</string>
+    <string name="identity_error_ratelimit">Se realizaron demasiadas solicitudes. Espera un momento antes de volver a intentarlo.</string>
+    <string name="identity_error_unavailable">El servicio no está disponible por el momento. Espera un momento y vuelve a intentarlo.</string>
+    <string name="identity_error_processing">No pudimos completar el procesamiento de tu verificación. Vuelve a intentarlo; si continúa, contacta con soporte.</string>
+    <string name="identity_error_invalidresponse">No pudimos confirmar la respuesta del servicio. Vuelve a intentarlo; si continúa, contacta con soporte.</string>
+    <string name="identity_error_timeout">La respuesta está tardando más de lo esperado. Revisa tu conexión y vuelve a intentarlo.</string>
+    <string name="identity_error_offline">No hay conexión a internet. Conéctate a una red y vuelve a intentarlo.</string>
+    <string name="identity_error_connection">Se interrumpió la conexión con el servicio. Revisa tu red y vuelve a intentarlo.</string>
+    <!--
+        Ejemplo de personalización de Become para la aplicación integradora.
+        Copiar únicamente las claves necesarias; no reemplazar todo el strings.xml de la app.
+        Mantener cada name exactamente igual, incluidas las erratas históricas.
+        Guía: docs/PERSONALIZACION_TEXTOS.md en la raíz del repositorio.
+        Idioma: español como valor predeterminado, no fuerza el idioma del dispositivo.
+        Se excluyen app_name, there_already_a_record, sdk_version y claves internas/legacy de huellas.
+        Los valores son editables; las instrucciones de cámara y advertencias deben conservar su sentido.
+    -->
+
+    <!-- Introducción y prueba de vida -->
+    <string name="text_tittle_general_intro">Verifiquemos tu identidad</string>
+    <string name="text_sub_tittle_general_intro">Para ser verificado, tendrás que:</string>
+    <string name="text_start_btn">Continuar</string>
+    <string name="and_intro_general">y</string>
+    <string name="text_video_intro">Realiza una prueba de vida mediante un video-selfie para validar tu identidad.</string>
+    <string name="text_video_intro_general">Vamos a hacer una prueba de vida con un video-selfie y</string>
+    <string name="text_document_intr_general">Capturar tus documentos, así comprobarás tu identidad</string>
+    <string name="btn_text_recording_video">Grabar video</string>
+    <string name="text_tittle_selfie">Realiza una prueba se vida mediante un video-selfie para validar tu identidad</string>
+    <string name="text_loader_selfie">Nuestra inteligencia artificial está realizando un análisis biométrico de tu rostro</string>
+    <string name="text_progress_inteligence">Nuestra inteligencia artificial esta realizando el análisis biométrico de tu rostro</string>
+
+    <!-- Selección de país y documento -->
+    <string name="text_tittle_selec_document">Necesitamos que proporciones algunos de los siguientes documentos:</string>
+    <string name="text_dni_selec_document">Identificación Nacional</string>
+    <string name="text_license">Licencia Conducción</string>
+    <string name="text_passport">Pasaporte</string>
+    <string name="select_text">Selecciona tu país</string>
+    <string name="text_body_country">Selecciona el tipo de documento</string>
+    <string name="text_msn_selec_document">Por favor confirma que posees documentos reales o sus imágenes disponibles en tu dispositivo</string>
+
+    <!-- Captura y vista previa -->
+    <string name="text_tittle_intro_doc_front">CAPTURA DE DOCUMENTO</string>
+    <string name="text_tittle_intro_doc">PARTE TRASERA</string>
+    <string name="text_btn_introduction_doc">Capturar documento</string>
+    <string name="text_btn_intro_doc_galery">Galeria</string>
+    <string name="text_info_preview">¿Está clara la foto? No tiene ningún reflejo y no está borrosa</string>
+    <string name="text_confirm_preview">Si, la imagen es clara</string>
+    <string name="text_retry_previe">No, reintentar</string>
+
+    <!-- Carga, resultados y finalización -->
+    <string name="text_loader_init">Iniciando…</string>
+    <string name="text_loader">Cargando…</string>
+    <string name="text_varification_title">Captura inicial finalizada</string>
+    <string name="text_varification_body">Analizaremos la información suministrada para continuar con el proceso</string>
+    <string name="text_finish_upload">Enviar información</string>
+    <string name="text_info_upload">Estamos subiendo tu información...</string>
+    <string name="text_document_validation">Validando documentos...</string>
+    <string name="text_progress_result">Verificando el resultado...</string>
+    <string name="text_progress_delay_result">Estamos por finalizar</string>
+    <string name="text_progress_delay_finish_result">Estamos tardando un poco más de lo normal</string>
+    <string name="text_finish">Proceso finalizado</string>
+    <string name="text_sub_tittle_finish">Felicidades, la captura de tus datos esta completa</string>
+
+    <!-- Salir del proceso -->
+    <string name="text_undo">Volver</string>
+    <string name="text_sub_tittle_undo">¿Deseas terminar el proceso?</string>
+    <string name="text_tittle_undo">¿Estas seguro?</string>
+    <string name="terminate_text">Terminar</string>
+    <string name="text_cancel">Terminar</string>
+
+    <!-- Errores y reintento (un mensaje del backend puede tener prioridad) -->
+    <string name="text_title_button_retry">Volver a intentar</string>
+    <string name="text_title_document_error">Revisa las fotos de tu documento</string>
+    <string name="text_sub_title_document_error">Asegúrate de que el documento se vea completo, nítido y sin reflejos.</string>
+    <string name="text_error_capture_document">No pudimos completar la captura del documento. Intenta nuevamente.</string>
+    <string name="text_varification_title_error">Ocurrió un error</string>
+    <string name="text_varification_body_error">Intenta nuevamente</string>
+    <string name="text_varification_title_compliance_error">Validación fallida</string>
+    <string name="text_varification_body_compliance_error">No podemos continuar con el proceso</string>
+    <string name="text_error_compliance_not_allowed">Error de validación, no podemos continuar con el proceso.</string>
+    <string name="timeout_error">La conexión ha tardado demasiado. Inténtalo otra vez.</string>
+    <string name="no_internet_error">No tienes conexión a Internet. Verifica tu red.</string>
+    <string name="connection_lost_error">Se perdió la conexión a Internet. Inténtalo nuevamente.</string>
+    <string name="unknown_error">Ocurrió un error desconocido. Por favor, vuelve a intentarlo.</string>
+    <string name="general_error">Error, contacte al administrador</string>
+    <string name="text_empty_balance">Saldo insuficiente</string>
+    <string name="text_error_path_image_pick">No se puede obtener la ruta del archivo</string>
+
+    <!-- Microblink Capture (opcional; depende de la pantalla y versión del componente) -->
+    <string name="mbic_check_internet_connection">Verifica la conexión a internet</string>
+    <string name="mbic_flip_document">Voltea el documento</string>
+    <string name="mbic_lightning_too_bright">Muévete a un lugar con menos iluminación</string>
+    <string name="mbic_lightning_too_dark">Muévete a un lugar más brillante</string>
+    <string name="mbic_move_closer">Acércate</string>
+    <string name="mbic_move_farther">Aleja</string>
+    <string name="mbic_need_help_tooltip">¿Necesitas ayuda?</string>
+    <string name="mbic_network_error">Error de red</string>
+    <string name="mbic_occluded">Mantén el documento completamente visible</string>
+    <string name="mbic_onboarding_field_visible_title">Mantén todos los detalles visibles</string>
+    <string name="mbic_scan_the_back_side">Escanea el lado posterior del documento</string>
+    <string name="mbic_scan_the_front_side">Escanea el lado frontal del documento</string>
+    <string name="mbic_scanning_not_available">Escaneo no disponible</string>
+    <string name="mbic_torch_glare_tooltip_message">Cuidado con el reflejo de la linterna.\nMueve suavemente tu ID para evitarlo.</string>
+    <string name="mbic_tutorial_fields_visible_title">Mantén todos los campos visibles</string>
+    <string name="mbic_tutorial_harsh_light_title">Cuidado con la luz intensa</string>
+
+    <!-- AWS Face Liveness (opcional; conservar el significado de instrucciones y avisos de seguridad) -->
+    <string name="amplify_ui_liveness_challenge_a11y_cancel_content_description">Cancelar desafío</string>
+    <string name="amplify_ui_liveness_challenge_connecting">Conectando</string>
+    <string name="amplify_ui_liveness_challenge_instruction_hold_face_during_freshness">No te muevas</string>
+    <string name="amplify_ui_liveness_challenge_instruction_move_face">Mueve tu rostro frente a la cámara</string>
+    <string name="amplify_ui_liveness_challenge_instruction_move_face_closer">Acércate</string>
+    <string name="amplify_ui_liveness_challenge_instruction_move_face_further">Aléjate</string>
+    <string name="amplify_ui_liveness_challenge_instruction_multiple_faces_detected">Solo un rostro por verificación</string>
+    <string name="amplify_ui_liveness_challenge_recording_indicator_label">REC</string>
+    <string name="amplify_ui_liveness_challenge_verifying">Verificando</string>
+    <string name="amplify_ui_liveness_get_ready_a11y_photosensitivity_icon_content_description">Información sobre fotosensibilidad</string>
+    <string name="amplify_ui_liveness_get_ready_begin_check">Iniciar verificación de video</string>
+    <string name="amplify_ui_liveness_get_ready_center_face_label">Centra tu rostro</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_description">Esta verificación parpadea con diferentes colores. Usa precaución si eres fotosensible.</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_dialog_description">Algunas personas pueden experimentar convulsiones epilépticas al exponerse a luces de colores. Usa precaución si tú o alguien de tu familia tiene una condición epiléptica.</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_dialog_dismiss">Entendido</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_dialog_title">Advertencia de fotosensibilidad</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_title">Advertencia de fotosensibilidad</string>
+</resources>

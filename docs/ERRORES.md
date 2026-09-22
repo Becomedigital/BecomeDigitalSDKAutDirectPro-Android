@@ -85,6 +85,8 @@ Las causas del cuerpo de la respuesta tienen prioridad sobre el mapeo HTTP gené
 
 ### Cómo se reintenta
 
+Si aparece `identity_error_timeout` durante la carga de `newIdentity`, revise el recurso `timeOut` de la app: puede sobrescribir los 180 segundos incluidos en el AAR. Si ocurre al consultar resultados, revise `pollingTimeoutSeconds` y `pollingMaxAttempts`. [Configuración de tiempos de espera](../README.md#timeout-de-carga-y-servicios). Aumentarlos no corrige cortes de red ni timeouts del servidor.
+
 Con polling habilitado, sin URL guardada se reenvían los mismos datos a `newIdentity`; con URL guardada se reinicia la consulta GET. Sin polling, el reintento vuelve al POST y nunca inicia GET. Un error documental descarta las capturas documentales y la URL anteriores para recapturar. Un rechazo facial cierra la SDK y exige un proceso nuevo.
 
 Un resultado pendiente no es un error: sigue consultándose. `pollingMaxAttempts=0` no limita intentos; un límite positivo detiene el polling y muestra reintento al agotarse. Si el usuario decide salir desde un error recuperable, recibe `onCancel()`, no un error con la causa del servicio anterior.

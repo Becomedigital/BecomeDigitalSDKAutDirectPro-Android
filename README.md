@@ -255,6 +255,17 @@ val authenticationConfig = BDIVConfig(
 )
 ```
 
+## Timeout de carga y servicios
+
+Para extender o sobrescribir el timeout de la SDK desde su aplicación, defina `timeOut` en `app/src/main/res/values/become_config.xml`. El valor de la app tiene prioridad sobre el de la SDK. [Archivo de ejemplo](examples/network-config/res/values/become_config.xml):
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="timeOut">180</integer>
+</resources>
+```
+
 ## Consulta del resultado y polling
 
 Con `performVerificationCheck = true`, el SDK consulta la URL `url_resource` retornada por `POST /api/v1/newIdentity`. Si debe usar el fallback, consulta `GET /api/v1/identity/<user_id>`.

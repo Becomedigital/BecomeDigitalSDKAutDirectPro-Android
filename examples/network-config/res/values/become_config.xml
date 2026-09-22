@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Segundos para conexión, lectura y escritura. No modifica el polling. -->
+    <integer name="timeOut">180</integer>
+</resources>

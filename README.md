@@ -10,7 +10,6 @@ El SDK permite ejecutar procesos de onboarding y autenticación de identidad des
 - Control opcional de la consulta del resultado final con `performVerificationCheck`.
 - Configuración del número máximo de consultas mediante `pollingMaxAttempts`.
 - Configuración del timeout de cada consulta mediante `pollingTimeoutSeconds`.
-- Timeout de conexión, lectura y escritura aumentado de 2 a 180 segundos para la creación de identidad y los demás servicios que usan `timeOut`. [Configuración](#timeout-de-carga-y-servicios).
 - Envío al servicio de las capturas completas del documento; la imagen recortada por Microblink se conserva únicamente para la vista previa.
 - Aislamiento y limpieza de los archivos de cada captura para evitar que un reintento reutilice imágenes de un intento anterior.
 - `responseDictionary` ahora es nullable en `BDIdentityVerificationResponse`.
@@ -258,9 +257,7 @@ val authenticationConfig = BDIVConfig(
 
 ## Timeout de carga y servicios
 
-El AAR incluye **180 segundos (3 minutos)** para conexión, lectura y escritura de `POST /api/v1/newIdentity` y los demás servicios internos que utilizan el recurso `timeOut`. No necesita configurar `BDIVConfig` ni agregar XML si conserva este valor predeterminado.
-
-Si su app ya define `timeOut`, revise su valor: **la configuración de la app sobrescribe la de la SDK**. Para establecer 180 segundos, copie este [archivo de ejemplo](examples/network-config/res/values/become_config.xml) a `app/src/main/res/values/become_config.xml`:
+Para extender o sobrescribir el timeout de la SDK desde su aplicación, defina `timeOut` en `app/src/main/res/values/become_config.xml`. El valor de la app tiene prioridad sobre el de la SDK. [Archivo de ejemplo](examples/network-config/res/values/become_config.xml):
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -269,14 +266,9 @@ Si su app ya define `timeOut`, revise su valor: **la configuración de la app so
 </resources>
 ```
 
-- El nombre del archivo es libre; conserve exactamente la clave `timeOut` y su tipo `integer`. El valor está en **segundos**.
-- Si la clave ya existe, edítela sin duplicarla. Revise también los recursos de variantes e idiomas y recompile la aplicación.
-- Esta configuración también puede aplicarse al AAR anterior que incluía 2 segundos, sin regenerar la librería.
-- No agregue `longAnimTime`, `milisecondTimer` ni `milisecondRecodr` para resolver este problema: no se utilizan en la SDK actual.
+Cambie `180` por el tiempo deseado en **segundos**. Si la clave ya existe, edítela sin duplicarla y recompile la app; no necesita regenerar el AAR.
 
-Son límites por operación de red, **no un máximo total del proceso ni una espera ilimitada**. No evitan cortes de conexión ni timeouts del servidor, y no modifican los clientes HTTP de la aplicación anfitriona.
-
-El polling se configura por separado con `BDIVConfig.pollingTimeoutSeconds`, cuyo valor predeterminado sigue siendo **2 segundos**. Cambiar ese parámetro no modifica la carga de `newIdentity`, ni cambiar `timeOut` modifica el polling.
+Este override aplica a conexión, lectura y escritura de `newIdentity` y los demás servicios que usan `timeOut`, no a la duración total del proceso. El polling se ajusta por separado mediante `BDIVConfig.pollingTimeoutSeconds`.
 
 ## Consulta del resultado y polling
 

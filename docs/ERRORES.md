@@ -85,7 +85,7 @@ Las causas del cuerpo de la respuesta tienen prioridad sobre el mapeo HTTP gené
 
 ### Cómo se reintenta
 
-Si aparece `identity_error_timeout` durante la carga de `newIdentity`, revise el recurso `timeOut` de la app: puede sobrescribir los 180 segundos incluidos en el AAR. Si ocurre al consultar resultados, revise `pollingTimeoutSeconds` y `pollingMaxAttempts`. [Configuración de tiempos de espera](../README.md#timeout-de-carga-y-servicios). Aumentarlos no corrige cortes de red ni timeouts del servidor.
+Para extender el tiempo de espera de `newIdentity`, consulte [cómo sobrescribir el timeout desde la app](../README.md#timeout-de-carga-y-servicios). Para las consultas de resultados, ajuste `pollingTimeoutSeconds` y `pollingMaxAttempts` en `BDIVConfig`.
 
 Con polling habilitado, sin URL guardada se reenvían los mismos datos a `newIdentity`; con URL guardada se reinicia la consulta GET. Sin polling, el reintento vuelve al POST y nunca inicia GET. Un error documental descarta las capturas documentales y la URL anteriores para recapturar. Un rechazo facial cierra la SDK y exige un proceso nuevo.
 

@@ -85,7 +85,7 @@ Las causas del cuerpo de la respuesta tienen prioridad sobre el mapeo HTTP gené
 
 ### Cómo se reintenta
 
-Para extender el tiempo de espera de `newIdentity`, consulte [cómo sobrescribir el timeout desde la app](../README.md#timeout-de-carga-y-servicios). Para las consultas de resultados, ajuste `pollingTimeoutSeconds` y `pollingMaxAttempts` en `BDIVConfig`.
+Para extender el tiempo de espera, consulte [cómo configurar el timeout desde la app](../README.md#timeout-de-carga-y-servicios).
 
 Con polling habilitado, sin URL guardada se reenvían los mismos datos a `newIdentity`; con URL guardada se reinicia la consulta GET. Sin polling, el reintento vuelve al POST y nunca inicia GET. Un error documental descarta las capturas documentales y la URL anteriores para recapturar. Un rechazo facial cierra la SDK y exige un proceso nuevo.
 

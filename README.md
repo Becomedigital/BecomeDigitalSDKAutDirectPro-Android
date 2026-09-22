@@ -266,10 +266,6 @@ Para extender o sobrescribir el timeout de la SDK desde su aplicación, defina `
 </resources>
 ```
 
-Cambie `180` por el tiempo deseado en **segundos**. Si la clave ya existe, edítela sin duplicarla y recompile la app; no necesita regenerar el AAR.
-
-Este override aplica a conexión, lectura y escritura de `newIdentity` y los demás servicios que usan `timeOut`, no a la duración total del proceso. El polling se ajusta por separado mediante `BDIVConfig.pollingTimeoutSeconds`.
-
 ## Consulta del resultado y polling
 
 Con `performVerificationCheck = true`, el SDK consulta la URL `url_resource` retornada por `POST /api/v1/newIdentity`. Si debe usar el fallback, consulta `GET /api/v1/identity/<user_id>`.

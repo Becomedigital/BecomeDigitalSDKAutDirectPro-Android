@@ -18,6 +18,7 @@ El SDK permite ejecutar procesos de onboarding y autenticación de identidad des
 - Personalización de textos desde los recursos XML de la app, con ejemplos por idioma.
 - Mensajes específicos y rutas de recuperación para errores de creación de identidad y resultados. [Catálogo](docs/ERRORES.md).
 - Márgenes de seguridad para evitar que volver/cerrar se superpongan a la barra de estado, con íconos oscuros sobre fondo claro.
+- La autenticación facial exitosa retorna la respuesta completa de `POST /api/v1/matches` en `responseDictionary`.
 
 ## Requisitos
 
@@ -254,6 +255,21 @@ val authenticationConfig = BDIVConfig(
     BDIVConfig.Flow.Authentication
 )
 ```
+
+Cuando `POST /api/v1/matches` retorna `result = true`, `onFinish` entrega
+`StatusType.SUCCES` y el siguiente contrato en `responseDictionary`:
+
+| Clave | Tipo |
+| --- | --- |
+| `company` | `String` |
+| `confidence` | `Double` |
+| `executionId` | `String` |
+| `liveness` | `Double` (se omite cuando el servicio retorna `null`) |
+| `result` | `Boolean` |
+| `user_id` | `String` |
+
+El flujo `Authentication` no retorna `urlGetData`. Si `result = false`, la SDK entrega
+`StatusType.ERROR` con el mensaje de baja confianza y sin diccionario de éxito.
 
 ## Timeout de carga y servicios
 

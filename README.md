@@ -256,8 +256,10 @@ val authenticationConfig = BDIVConfig(
 )
 ```
 
-Cuando `POST /api/v1/matches` retorna `result = true`, `onFinish` entrega
-`StatusType.SUCCES` y el siguiente contrato en `responseDictionary`:
+Cuando `POST /api/v1/matches` retorna una respuesta válida, `onFinish` entrega
+`StatusType.SUCCES`. Esto aplica tanto para `result = true` como para `result = false`;
+el valor de `result` representa el resultado de negocio de la autenticación.
+`responseDictionary` usa el siguiente contrato:
 
 | Clave | Tipo |
 | --- | --- |
@@ -268,8 +270,8 @@ Cuando `POST /api/v1/matches` retorna `result = true`, `onFinish` entrega
 | `result` | `Boolean` |
 | `user_id` | `String` |
 
-El flujo `Authentication` no retorna `urlGetData`. Si `result = false`, la SDK entrega
-`StatusType.ERROR` con el mensaje de baja confianza y sin diccionario de éxito.
+El flujo `Authentication` no retorna `urlGetData`. `StatusType.ERROR` se reserva para
+errores de transporte o decodificación de la respuesta.
 
 ## Timeout de carga y servicios
 

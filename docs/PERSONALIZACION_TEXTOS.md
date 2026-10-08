@@ -20,7 +20,9 @@ También puede agregar las entradas al `strings.xml` que ya tiene, dentro de su 
 </resources>
 ```
 
-Las claves que no cambie conservan su texto original. Personalice cada idioma utilizado por la app para evitar que una traducción de la SDK tenga prioridad.
+La SDK obtiene `texts.{locale}.{namespace}.{clave}` de `GET /api/v1/public-config`. Para una clave faltante en el idioma activo, intenta `es` y luego el texto predeterminado del binario. Las claves nativas que la app defina en `strings.xml` tienen prioridad sobre la frase equivalente del contrato; no se configuran textos en `BDIVConfig`. Los namespaces visibles son `intro`, `atdp`, `contactValidation`, `documentType`, `countrySelection`, `capture`, `liveness`, `result`, `errors`, `confirmation`, `common`, `faceliveness` y `branding`. `faceliveness` corresponde a los recursos de Amplify. Las claves nativas de Become, Microblink y Amplify pueden tener nombres distintos a los namespaces web; use las entradas concretas de los ejemplos.
+
+Las claves que no cambie conservan el texto resuelto por el contrato o el predeterminado. Personalice cada idioma utilizado por la app.
 
 ## Claves por pantalla
 

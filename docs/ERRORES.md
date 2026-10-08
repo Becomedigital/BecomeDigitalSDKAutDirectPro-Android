@@ -13,7 +13,7 @@ Registre `BecomeInterfaseCallback` antes de iniciar la SDK y conserve la referen
 
 `SUCCES` conserva esa escritura por compatibilidad. El enum también define `PENDING`, `NOFOUND` y `CANCEL`: no trate ninguno como éxito. El gestor convierte `CANCEL` en `onCancel()`; no debe esperar ese estado por el `onFinish` habitual. Un resultado de polling pendiente se gestiona dentro de la SDK.
 
-`message` contiene el texto descriptivo. `responseDictionary` es nullable y no es un catálogo de errores; los errores terminales generados por la SDK lo entregan como `null`. Con `performVerificationCheck=false`, un éxito significa que `newIdentity` aceptó la creación, **no que terminó o aprobó la validación biométrica**. Su diccionario puede incluir `code`, `message`, `url_resource` y `user_id`.
+`message` contiene el texto descriptivo. Los objetos `onboarding`, `authentication` y `verification` son opcionales y solo se llena el que corresponde al resultado. Un error terminal puede entregarlos todos como `null`. Con `performVerificationCheck=false`, un éxito significa que `newIdentity` aceptó la creación, **no que terminó o aprobó la validación biométrica**; `onboarding` puede incluir `code`, `message`, `urlResource` y `userId`.
 
 ### Límite del mapeo
 
@@ -46,7 +46,7 @@ Una captura documental incompleta puede mostrar `text_error_capture_document` y 
 
 ## Catálogo ampliado de creación y resultados
 
-Este catálogo está incluido en el AAR de este repositorio e incorpora el mapeo del repositorio fuente `31872df`. Si utiliza una copia anterior, reemplace el AAR; agregar recursos XML en la app no actualiza el comportamiento del binario.
+Este catálogo está incluido en el AAR de este repositorio. Si utiliza una copia anterior, reemplace el AAR; agregar recursos XML en la app no actualiza el comportamiento del binario.
 
 Aplica a `POST /api/v1/newIdentity`, con o sin polling, y a GET de resultados cuando está habilitado. No sustituye el manejo independiente de `/matches`, autenticación inicial ni los errores de las dependencias.
 

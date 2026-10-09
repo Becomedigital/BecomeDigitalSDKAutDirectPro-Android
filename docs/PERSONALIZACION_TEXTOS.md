@@ -20,7 +20,7 @@ También puede agregar las entradas al `strings.xml` que ya tiene, dentro de su 
 </resources>
 ```
 
-Las claves que no cambie conservan su texto original. Personalice cada idioma utilizado por la app para evitar que una traducción de la SDK tenga prioridad.
+Las claves nativas definidas por la app tienen prioridad para esas frases. Las demás conservan los textos asignados al contrato o los valores predeterminados de la SDK. Personalice cada idioma utilizado por la app.
 
 ## Claves por pantalla
 
@@ -35,7 +35,7 @@ Los ejemplos contienen 115 claves. Una clave compartida cambia en todos los luga
 | Carga y envío | `text_loader_init`, `text_loader`, `text_varification_title`, `text_varification_body`, `text_finish_upload`, `text_info_upload`, `text_document_validation` |
 | Consulta de resultados | `text_progress_result`, `text_progress_delay_result`, `text_progress_delay_finish_result` |
 | Error documental y reintento | `text_title_document_error`, `text_sub_title_document_error`, `text_error_capture_document`, `text_title_button_retry` |
-| Creación de identidad y resultados: cierre facial, recaptura y reintento | Las 24 claves `identity_error_*` de los ejemplos. [Listado y acción por clave](ERRORES.md#catálogo-ampliado-de-creación-y-resultados). |
+| Creación de identidad y resultados: cierre facial, recaptura y reintento | Las claves `identity_error_*` de los ejemplos. |
 | Error general o validación fallida | `text_varification_title_error`, `text_varification_body_error`, `text_varification_title_compliance_error`, `text_varification_body_compliance_error`, `text_error_compliance_not_allowed`, `unknown_error`, `general_error`, `text_empty_balance` |
 | Error de conexión | `timeout_error`, `no_internet_error`, `connection_lost_error` |
 | Resultado final | `text_finish`, `text_sub_tittle_finish` |
@@ -52,6 +52,5 @@ Los ejemplos contienen 115 claves. Una clave compartida cambia en todos los luga
 - No duplique claves para el mismo idioma ni corrija sus nombres, aunque tengan erratas.
 - Mantenga el significado de las instrucciones de cámara, accesibilidad y fotosensibilidad.
 - Conserve los marcadores de formato y saltos de línea. Escape `&` como `&amp;` y los apóstrofos como `\'`.
-- Los mensajes enviados por el servicio y los permisos del sistema no se sustituyen con estos archivos.
-- No sobrescriba `there_already_a_record`, `_07` ni `sdk_version`; no son textos de personalización. Conserve el `app_name` de su aplicación.
+- Conserve el `app_name` de su aplicación.
 - Pruebe introducción, captura, error/reintento y resultado en cada idioma después de recompilar.

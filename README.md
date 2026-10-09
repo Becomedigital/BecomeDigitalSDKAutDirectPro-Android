@@ -4,21 +4,12 @@
 
 El SDK permite ejecutar procesos de onboarding y autenticación de identidad desde una aplicación Android. El archivo `becomedigitalsdk.aar` debe integrarse junto con las dependencias de AWS Amplify Face Liveness, Microblink Capture y AndroidX indicadas en esta guía.
 
-## Cambios incluidos en esta versión
+## Funciones públicas
 
-- Selección de flujo mediante `flow`: `BDIVConfig.Flow.Onboarding` o `BDIVConfig.Flow.Authentication`.
-- Control opcional de la consulta del resultado final con `performVerificationCheck`.
-- Configuración del número máximo de consultas mediante `pollingMaxAttempts`.
-- Configuración del timeout de cada consulta mediante `pollingTimeoutSeconds`.
-- Envío al servicio de las capturas completas del documento; la imagen recortada por Microblink se conserva únicamente para la vista previa.
-- Aislamiento y limpieza de los archivos de cada captura para evitar que un reintento reutilice imágenes de un intento anterior.
-- `responseDictionary` ahora es nullable en `BDIdentityVerificationResponse`.
-- Cuando la SDK reconoce que no se superó la prueba de vida en `newIdentity`, cierra el flujo y retorna un resultado con estado `ERROR`. La aplicación debe iniciar un proceso nuevo.
-- Logs opcionales mediante `debugLogsEnabled`, desactivados por defecto.
-- Personalización de textos desde los recursos XML de la app, con ejemplos por idioma.
-- Mensajes específicos y rutas de recuperación para errores de creación de identidad y resultados. [Catálogo](docs/ERRORES.md).
-- Márgenes de seguridad para evitar que volver/cerrar se superpongan a la barra de estado, con íconos oscuros sobre fondo claro.
-- La autenticación facial exitosa retorna la respuesta completa de `POST /api/v1/matches` en `responseDictionary`.
+- Flujos de onboarding y autenticación con navegación y presentación adaptadas al contrato.
+- Selección de país con búsqueda, captura documental y verificación facial según el flujo disponible.
+- Respuestas tipadas mediante `BDIdentityVerificationResponse`.
+- Selección del modo visual con `themeMode` y personalización de textos mediante recursos Android.
 
 ## Requisitos
 
@@ -137,239 +128,88 @@ El AAR declara los permisos de Internet y cámara. La aplicación debe solicitar
 <uses-permission android:name="android.permission.CAMERA" />
 ```
 
-## Personalización de textos
+## Configuración y personalización
 
-Copie las claves que necesite del ejemplo [español](examples/custom-texts/res/values/strings.xml) o [inglés](examples/custom-texts/res/values-b+en/strings.xml) al `strings.xml` de su app y cambie sus valores. Conserve los nombres y personalice cada idioma. No necesita cambiar `BDIVConfig` ni regenerar el AAR.
+La app selecciona `Flow.Onboarding` o `Flow.Authentication`. La SDK presenta los pasos y la identidad visual asignados al contrato. `themeMode` permite escoger `light`, `dark` o `system`; el valor predeterminado sigue el modo del dispositivo. Colores, logo, contenido y diseño no se configuran en `BDIVConfig`.
 
-[Guía de implementación y las 115 claves por pantalla](docs/PERSONALIZACION_TEXTOS.md).
+Para sobrescribir frases visibles en su app, copie las claves necesarias a `strings.xml`. Consulte la [guía de personalización](docs/PERSONALIZACION_TEXTOS.md).
 
 ## Inicialización
 
-El API conserva los nombres públicos `clienId` y `DocumetType` por compatibilidad. Los tipos de documento disponibles son `DNI`, `PASSPORT` y `LICENSE`.
+Los nombres públicos `clienId` y `DocumetType` se conservan por compatibilidad. Registre el callback antes de iniciar la SDK y conserve `BecomeCallBackManager` durante el proceso.
 
 ```kotlin
 private val callbackManager = BecomeCallBackManager.createNew()
 
-private fun configureBecomeSdk() {
+private fun startOnboarding() {
     BecomeResponseManager.getInstance().registerCallback(
         callbackManager,
         object : BecomeInterfaseCallback {
             override fun onFinish(response: BDIdentityVerificationResponse) {
                 when (response.responseStatus) {
                     BDIdentityVerificationResponse.StatusType.SUCCES -> {
-                        // Procese response sin imprimir datos personales.
+                        response.onboarding?.let { /* Inicio registrado. */ }
+                        response.verification?.let { /* Resultado final disponible. */ }
+                        response.authentication?.let { /* Revisar it.result. */ }
                     }
-
                     BDIdentityVerificationResponse.StatusType.ERROR -> {
-                        // Muestre o maneje el error; no lo registre completo.
+                        // Restaurar la app y ofrecer una nueva acción.
                     }
-
-                    else -> {
-                        // Procese response sin imprimir datos personales.
-                    }
+                    else -> Unit
                 }
             }
 
             override fun onCancel() {
-                // Maneje la cancelación en su aplicación.
+                // Restaurar la pantalla de la app.
             }
         }
     )
-}
 
-private fun startOnboarding() {
     val config = BDIVConfig(
-        "TU_CLIENT_ID",
-        "TU_CLIENT_SECRET",
-        "TU_CONTRACT_ID",
-        arrayOf(DocumetType.DNI, DocumetType.PASSPORT, DocumetType.LICENSE),
-        true,
-        "TU_USER_ID",
-        null,
-        true,
-        BDIVConfig.Flow.Onboarding,
-        0,
-        2
+        "TU_CLIENT_ID", "TU_CLIENT_SECRET", "TU_CONTRACT_ID",
+        arrayOf(DocumetType.DNI, DocumetType.PASSPORT),
+        true, "TU_USER_ID"
     )
-
+    config.themeMode = BDIVConfig.ThemeMode.system
     BecomeResponseManager.getInstance().startAuthentication(this, config)
 }
 ```
 
-Registre el callback antes de llamar a `startAuthentication` y mantenga una referencia a `BecomeCallBackManager` mientras el proceso esté activo.
+### Parámetros públicos
 
-## Parámetros de `BDIVConfig`
-
-| Posición | Parámetro | Tipo | Predeterminado | Descripción |
-| --- | --- | --- | --- | --- |
-| 1 | `clienId` | `String` | Requerido | Identificador entregado al cliente. |
-| 2 | `clientSecret` | `String` | Requerido | Credencial secreta del cliente. |
-| 3 | `contractId` | `String` | Requerido | Contrato asociado al proceso. |
-| 4 | `documentTypes` | `DocumetType[]` | Requerido en onboarding | Documentos habilitados: `DNI`, `PASSPORT` y `LICENSE`. |
-| 5 | `allowLibraryLoading` | `Boolean` | Requerido | Conserva la opción pública de carga de librerías. |
-| 6 | `userId` | `String` | Requerido | Identificador único del usuario. |
-| 7 | `customerLogo` | `ByteArray?` | `null` | Logo personalizado del cliente. |
-| 8 | `performVerificationCheck` | `Boolean` | `true` | Si es `true`, consulta el resultado final; si es `false`, retorna la respuesta decodificada de `POST /api/v1/newIdentity`. |
-| 9 | `flow` | `BDIVConfig.Flow` | `Onboarding` | Selecciona el flujo completo o solo autenticación facial. Un valor `null` se normaliza a `Onboarding`. |
-| 10 | `pollingMaxAttempts` | `Int` | `0` | Máximo de consultas del resultado. `0` significa ilimitado; los valores negativos se normalizan a `0`. |
-| 11 | `pollingTimeoutSeconds` | `Int` | `2` | Timeout en segundos para cada GET de resultados. Un valor menor o igual a cero se normaliza a `2`. |
-| 12 | `debugLogsEnabled` | `Boolean` | `false` | Logs de diagnóstico. También puede usar `setDebugLogsEnabled(true)`. [Uso](docs/LOGGING.md). |
-
-Los constructores anteriores de 7 parámetros siguen disponibles y conservan el comportamiento predeterminado: onboarding, consulta del resultado, intentos ilimitados y timeout de 2 segundos por GET.
-
-## Tipos de flujo
-
-### Onboarding
-
-Ejecuta la captura de documento, prueba de vida, creación de identidad y, cuando `performVerificationCheck` es `true`, la consulta del resultado.
-
-```kotlin
-val onboardingConfig = BDIVConfig(
-    clientId,
-    clientSecret,
-    contractId,
-    arrayOf(DocumetType.DNI, DocumetType.PASSPORT),
-    true,
-    userId,
-    null,
-    true,
-    BDIVConfig.Flow.Onboarding,
-    30,
-    5
-)
-```
-
-### Authentication
-
-Omite el onboarding y la validación de verificaciones anteriores. Ejecuta únicamente la prueba de vida y la autenticación facial mediante `POST /api/v1/matches`. `documentTypes` puede enviarse vacío porque este flujo no captura documentos.
-
-```kotlin
-val authenticationConfig = BDIVConfig(
-    clientId,
-    clientSecret,
-    contractId,
-    emptyArray(),
-    true,
-    userId,
-    null,
-    BDIVConfig.Flow.Authentication
-)
-```
-
-Cuando `POST /api/v1/matches` retorna una respuesta válida, `onFinish` entrega
-`StatusType.SUCCES`. Esto aplica tanto para `result = true` como para `result = false`;
-el valor de `result` representa el resultado de negocio de la autenticación.
-`responseDictionary` usa el siguiente contrato:
-
-| Clave | Tipo |
-| --- | --- |
-| `company` | `String` |
-| `confidence` | `Double` |
-| `executionId` | `String` |
-| `liveness` | `Double` (se omite cuando el servicio retorna `null`) |
-| `result` | `Boolean` |
-| `user_id` | `String` |
-
-El flujo `Authentication` no retorna `urlGetData`. `StatusType.ERROR` se reserva para
-errores de transporte o decodificación de la respuesta.
-
-## Timeout de carga y servicios
-
-Para extender o sobrescribir el timeout de la SDK desde su aplicación, defina `timeOut` en `app/src/main/res/values/become_config.xml`. El valor de la app tiene prioridad sobre el de la SDK. [Archivo de ejemplo](examples/network-config/res/values/become_config.xml):
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="timeOut">180</integer>
-</resources>
-```
-
-## Consulta del resultado y polling
-
-Con `performVerificationCheck = true`, el SDK consulta la URL `url_resource` retornada por `POST /api/v1/newIdentity`. Si debe usar el fallback, consulta `GET /api/v1/identity/<user_id>`.
-
-Las consultas se programan cada 4 segundos. `pollingTimeoutSeconds` controla el timeout individual de cada GET y no modifica ese intervalo. Si `pollingMaxAttempts` es mayor que cero, al agotarse los intentos se detiene el polling y la SDK muestra un error de timeout con opción de reintento; no se cierra ni emite un callback terminal automáticamente. El valor predeterminado `0` conserva el polling ilimitado.
-
-Con `performVerificationCheck = false`, no se inicia el polling. El SDK decodifica la respuesta documentada de `newIdentity` y la retorna en `responseDictionary`.
-
-```kotlin
-val configWithoutPolling = BDIVConfig(
-    clientId,
-    clientSecret,
-    contractId,
-    arrayOf(DocumetType.DNI),
-    true,
-    userId,
-    null,
-    false
-)
-```
-
-## Manejo de respuestas
-
-`BDIdentityVerificationResponse` contiene:
-
-| Propiedad | Tipo | Descripción |
+| Parámetro | Predeterminado | Uso |
 | --- | --- | --- |
-| `message` | `String` | Mensaje descriptivo del resultado. |
-| `responseDictionary` | `Map<String, Any>?` | Datos adicionales cuando existen. Es nullable y debe consumirse de forma segura. |
-| `responseStatus` | `StatusType` | `SUCCES`, `ERROR`, `PENDING`, `NOFOUND` o `CANCEL`. El nombre `SUCCES` se conserva por compatibilidad. |
+| `clienId`, `clientSecret`, `contractId`, `userId` | Requeridos | Identifican al cliente, contrato y usuario. |
+| `documentTypes` | Requerido en onboarding | `DocumetType[]`; admite `DNI`, `PASSPORT` y `LICENSE`. En autenticación puede estar vacío. |
+| `allowLibraryLoading` | Argumento del constructor | Habilita la opción pública de selección desde galería. |
+| `flow` | `Flow.Onboarding` | `Onboarding` o `Authentication`. |
+| `performVerificationCheck` | `true` | Espera el resultado final de onboarding antes de devolverlo. |
+| `pollingMaxAttempts` | `0` | Límite de intentos de espera; `0` no establece límite. |
+| `pollingTimeoutSeconds` | `2` | Tiempo máximo en segundos para cada intento de espera. |
+| `debugLogsEnabled` | `false` | Activa diagnósticos durante una prueba. |
+| `preventScreenCapture` | `true` | Protege el contenido mostrado por la SDK. |
+| `country`, `state` | `null` | País de dos letras y estado precargado para EE. UU. |
+| `nationalIdType`, `nationalIdTypeChoices`, `documentNumber` | Vacíos | Datos documentales precargados, si corresponden. |
+| `themeMode` | `ThemeMode.system` | Modo visual de la app. |
 
-```kotlin
-override fun onFinish(response: BDIdentityVerificationResponse) {
-    if (response.responseStatus == BDIdentityVerificationResponse.StatusType.ERROR) {
-        showError(response.message)
-        return
-    }
+Los campos opcionales se establecen con los setters de `BDIVConfig`. Para autenticación use `Flow.Authentication` y, si no corresponde capturar documentos, `emptyArray()`.
 
-    response.responseDictionary?.let { values ->
-        // Consumir únicamente las claves requeridas por la aplicación.
-        // Use values sin imprimir el contenido de la respuesta.
-    }
-}
-```
+## Respuestas
 
-Cuando `performVerificationCheck = false`, la respuesta exitosa de `newIdentity` puede incluir las claves `code`, `message`, `url_resource` y `user_id`. No use `!!` sobre `responseDictionary`, ya que otros resultados válidos pueden retornarlo como `null`.
+`onFinish` entrega `BDIdentityVerificationResponse`, con `responseStatus`, `message` y estos objetos opcionales:
 
-Si la SDK reconoce un rechazo de prueba de vida, cierra el flujo y entrega `StatusType.ERROR` con un mensaje descriptivo. La aplicación debe crear una nueva ejecución con `startAuthentication`, sin reutilizar la sesión facial anterior.
+| Objeto | Campos públicos | Cuándo consultarlo |
+| --- | --- | --- |
+| `onboarding` | `code`, `message`, `urlResource`, `userId` | Onboarding con `performVerificationCheck=false`; indica que se inició el proceso, no que haya sido aprobado. |
+| `verification` | `urlGetData` | Onboarding con espera del resultado final. |
+| `authentication` | `company`, `confidence`, `executionId`, `liveness`, `result`, `userId` | Autenticación. Evalúe `result` por separado de `responseStatus`. |
 
-### Catálogo y manejo de errores
+`responseStatus` puede ser `SUCCES`, `ERROR`, `PENDING`, `NOFOUND` o `CANCEL`. La cancelación habitual se recibe en `onCancel()`. Consulte [manejo de errores](docs/ERRORES.md).
 
-Consulte la [guía de errores](docs/ERRORES.md): estados, cancelación, configuración, errores faciales, documentos, red y resultados, con acciones recomendadas y ejemplo Kotlin. El callback devuelve estado y mensaje, no un código por causa. El catálogo ampliado está incluido en este AAR.
+## Diagnóstico y compatibilidad
 
-## Captura documental
+`config.setDebugLogsEnabled(true)` habilita diagnósticos para una prueba; desactívelos al terminar. [Guía de logs](docs/LOGGING.md).
 
-Microblink produce dos representaciones de cada lado del documento:
+Si necesita ajustar el tiempo de espera general desde la app, consulte el [recurso de ejemplo](examples/network-config/res/values/become_config.xml).
 
-- `ImageResult`: frame completo de la cámara. Es la imagen enviada por el SDK a `newIdentity`.
-- `TransformedImageResult`: documento recortado y corregido en perspectiva. Se usa solamente para la vista previa.
-
-Cada intento crea un identificador de captura independiente. Al cancelar, reintentar o finalizar el flujo, el SDK limpia las rutas anteriores para evitar mostrar o enviar una captura previa.
-
-## Logs de diagnóstico
-
-Antes de iniciar, use `config.setDebugLogsEnabled(true)` en Java o `config.isDebugLogsEnabled = true` en Kotlin. Para desactivar, use `false` o no establezca el parámetro.
-
-Filtre Logcat con `tag:BecomeSDK level:DEBUG`. [Ejemplos de implementación](docs/LOGGING.md). No se imprimen datos personales ni respuestas completas.
-
-## Generación y reemplazo del AAR
-
-Desde el directorio `SDK` del repositorio fuente:
-
-```bash
-GRADLE_USER_HOME=$PWD/.gradle \
-JAVA_TOOL_OPTIONS='-Djava.net.useSystemProxies=false -Dhttp.proxyHost= -Dhttp.proxyPort= -Dhttps.proxyHost= -Dhttps.proxyPort=' \
-./gradlew --no-daemon :becomedigitalsdk:clean :becomedigitalsdk:assembleRelease
-```
-
-El artefacto se genera en:
-
-```text
-becomedigitalsdk/build/outputs/aar/becomedigitalsdk-release.aar
-```
-
-Copie ese archivo como `becomedigitalsdk.aar` en este repositorio y en `ClientDemo/app/libs`. Distribuya el build `release` y mantenga `debugLogsEnabled` en `false` fuera de las pruebas.
-
-## Compatibilidad con Android 15 y páginas de 16 KB
-
-El AAR contiene librerías nativas para `armeabi-v7a`, `arm64-v8a`, `x86` y `x86_64`. Antes de publicar un APK o AAB dirigido a Android 15 o superior, valide el paquete final con las herramientas de Android Studio y Google Play para confirmar la compatibilidad de todas las dependencias nativas con páginas de 16 KB.
+Antes de publicar en Android 15 o posterior, valide el paquete final y sus dependencias nativas con Android Studio y Google Play.

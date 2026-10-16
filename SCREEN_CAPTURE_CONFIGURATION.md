@@ -47,4 +47,6 @@ Screen capture policy should be chosen by the integrator based on the applicatio
 
 The AAR contains `BDIVConfig.isPreventScreenCapture()` and `setPreventScreenCapture(boolean)`. Its constructors initialize the value to `false` unless the caller explicitly supplies `true`. The AAR includes the SDK's native production endpoint library. Functional document capture and face liveness require the integrator's licensed application and a physical device.
 
+The AAR retains the same distribution filename as earlier builds. Use the checksum below to identify this build after replacing a locally stored copy.
+
 The SHA-256 checksum of `becomedigitalsdk.aar` is `3acaeb92d836d007fe5a5d1cbab8b2075b2e91ec36baf2ab344354328ed3bb73`.

@@ -1,5 +1,7 @@
 # SDK de Become para Android
 
+> **Screen capture behavior changed in this AAR:** protection is now off by default. Applications that require it must set `preventScreenCapture` to `true`. See the [screen capture integration and migration guide](SCREEN_CAPTURE_CONFIGURATION.md).
+
 ## Descripción general
 
 El SDK permite ejecutar procesos de onboarding y autenticación de identidad desde una aplicación Android. El archivo `becomedigitalsdk.aar` debe integrarse junto con las dependencias de AWS Amplify Face Liveness, Microblink Capture y AndroidX indicadas en esta guía.
@@ -214,18 +216,9 @@ Registre el callback antes de llamar a `startAuthentication` y mantenga una refe
 | 10 | `pollingMaxAttempts` | `Int` | `0` | Máximo de consultas del resultado. `0` significa ilimitado; los valores negativos se normalizan a `0`. |
 | 11 | `pollingTimeoutSeconds` | `Int` | `2` | Timeout en segundos para cada GET de resultados. Un valor menor o igual a cero se normaliza a `2`. |
 | 12 | `debugLogsEnabled` | `Boolean` | `false` | Logs de diagnóstico. También puede usar `setDebugLogsEnabled(true)`. [Uso](docs/LOGGING.md). |
-| 13 | `preventScreenCapture` | `Boolean` | `true` | Protege contra capturas de pantalla el contenido mostrado por la SDK. Pase `false` para desactivar esta protección. |
+| 13 | `preventScreenCapture` | `Boolean` | `false` | Screen capture protection is opt-in. Set `true` before starting the SDK to apply `FLAG_SECURE`. [Integration guide](SCREEN_CAPTURE_CONFIGURATION.md). |
 
 Los constructores anteriores de 7 parámetros siguen disponibles y conservan el comportamiento predeterminado: onboarding, consulta del resultado, intentos ilimitados y timeout de 2 segundos por GET.
-
-La protección de pantalla está activada por defecto en todos los constructores que omiten `preventScreenCapture`. Para desactivarla antes de iniciar el flujo, configure la instancia de `BDIVConfig`:
-
-```kotlin
-config.isPreventScreenCapture = false
-BecomeResponseManager.getInstance().startAuthentication(this, config)
-```
-
-En Java, use `config.setPreventScreenCapture(false)`. El constructor de 13 parámetros también acepta `preventScreenCapture` como último argumento, después de `debugLogsEnabled`.
 
 ## Tipos de flujo
 

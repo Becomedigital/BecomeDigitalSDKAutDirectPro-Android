@@ -1,6 +1,6 @@
 # SDK de Become para Android
 
-> **Screen capture behavior changed in this AAR:** protection is now off by default. Applications that require it must set `preventScreenCapture` to `true`. See the [screen capture integration and migration guide](SCREEN_CAPTURE_CONFIGURATION.md).
+> **Cambio en la protección contra capturas:** este AAR la desactiva de forma predeterminada. Si su aplicación la requiere, configure `preventScreenCapture` en `true`. Consulte la [guía de integración y migración](SCREEN_CAPTURE_CONFIGURATION.md).
 
 ## Descripción general
 
@@ -216,7 +216,7 @@ Registre el callback antes de llamar a `startAuthentication` y mantenga una refe
 | 10 | `pollingMaxAttempts` | `Int` | `0` | Máximo de consultas del resultado. `0` significa ilimitado; los valores negativos se normalizan a `0`. |
 | 11 | `pollingTimeoutSeconds` | `Int` | `2` | Timeout en segundos para cada GET de resultados. Un valor menor o igual a cero se normaliza a `2`. |
 | 12 | `debugLogsEnabled` | `Boolean` | `false` | Logs de diagnóstico. También puede usar `setDebugLogsEnabled(true)`. [Uso](docs/LOGGING.md). |
-| 13 | `preventScreenCapture` | `Boolean` | `false` | Screen capture protection is opt-in. Set `true` before starting the SDK to apply `FLAG_SECURE`. [Integration guide](SCREEN_CAPTURE_CONFIGURATION.md). |
+| 13 | `preventScreenCapture` | `Boolean` | `false` | La protección contra capturas es opcional. Configure `true` antes de iniciar la SDK para aplicar `FLAG_SECURE` a su actividad. [Guía de integración](SCREEN_CAPTURE_CONFIGURATION.md). |
 
 Los constructores anteriores de 7 parámetros siguen disponibles y conservan el comportamiento predeterminado: onboarding, consulta del resultado, intentos ilimitados y timeout de 2 segundos por GET.
 

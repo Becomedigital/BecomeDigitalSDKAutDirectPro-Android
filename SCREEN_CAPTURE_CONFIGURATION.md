@@ -1,21 +1,21 @@
-# Screen capture configuration for the Android SDK
+# Configuración de la protección contra capturas de pantalla en Android
 
-This guide applies to the `becomedigitalsdk.aar` included in this repository. The AAR was built from source commit `7b2414c0232a315354179fbb9da1be696fb35032` using the Android library's Release variant. The source uses the production Become API endpoint.
+Esta guía corresponde al `becomedigitalsdk.aar` incluido en este repositorio. El AAR se compiló a partir del commit `7b2414c0232a315354179fbb9da1be696fb35032` con la variante Release de la biblioteca Android. El código fuente utiliza el servicio de producción de Become.
 
-## Behavior change
+## Cambio de comportamiento
 
-`BDIVConfig.preventScreenCapture` now defaults to `false` in every constructor that omits it. Earlier distributed builds defaulted to `true`. An application that omits the setting now permits screenshots and screen recording while the SDK activity is visible. The default is the same in Debug and Release builds. An explicit value continues to take precedence.
+`BDIVConfig.preventScreenCapture` ahora tiene el valor predeterminado `false` en todos los constructores que omiten este parámetro. En versiones distribuidas anteriores, el valor predeterminado era `true`. Si la aplicación omite la configuración, se permiten las capturas de pantalla y la grabación mientras está visible la actividad de la SDK. El valor predeterminado es el mismo en Debug y Release. Los valores indicados explícitamente conservan el comportamiento solicitado.
 
-| Value | SDK behavior |
+| Valor | Comportamiento de la SDK |
 | --- | --- |
-| `false` (default) | The SDK clears `WindowManager.LayoutParams.FLAG_SECURE` on its activity. |
-| `true` | The SDK sets `FLAG_SECURE` on its activity to prevent screenshots and screen recording of that window. |
+| `false` (predeterminado) | La SDK quita `WindowManager.LayoutParams.FLAG_SECURE` de su actividad. |
+| `true` | La SDK aplica `FLAG_SECURE` a su actividad para impedir capturas de pantalla y grabaciones de esa ventana. |
 
-The option controls the Become SDK activity. It does not change flags on unrelated host application activities or override capture policies applied independently by Android or another component.
+La opción controla la actividad de la SDK de Become. No modifica las banderas de otras actividades de la aplicación anfitriona ni anula protecciones aplicadas de forma independiente por Android u otros componentes.
 
-## Enable protection explicitly
+## Activar la protección explícitamente
 
-Set the value on `BDIVConfig` before calling `startAuthentication`:
+Configure `BDIVConfig` antes de llamar a `startAuthentication`:
 
 ```java
 BDIVConfig config = new BDIVConfig(
@@ -32,21 +32,21 @@ config.setPreventScreenCapture(true);
 BecomeResponseManager.getInstance().startAuthentication(this, config);
 ```
 
-In Kotlin, set `config.isPreventScreenCapture = true` before starting the flow. The longest `BDIVConfig` constructor also accepts `preventScreenCapture` as its final Boolean argument, after `debugLogsEnabled`. Omit the flag or pass `false` to use the new default. The setting applies to both `Flow.Onboarding` and `Flow.Authentication`.
+En Kotlin, configure `config.isPreventScreenCapture = true` antes de iniciar el flujo. El constructor más completo de `BDIVConfig` también acepta `preventScreenCapture` como último argumento booleano, después de `debugLogsEnabled`. Omita el parámetro o indique `false` para usar el nuevo valor predeterminado. La opción aplica a `Flow.Onboarding` y `Flow.Authentication`.
 
-## Migration from an earlier AAR
+## Migración desde un AAR anterior
 
-1. Review every `BDIVConfig` creation in the host application. Constructors that omit the setting change from protected to unprotected when this AAR is integrated.
-2. Call `setPreventScreenCapture(true)` wherever the previous protected behavior must continue. Explicit `true` and `false` values need no change.
-3. Replace the old `becomedigitalsdk.aar` in the host application and rebuild it with the dependencies described in the main README.
-4. On a physical device, check screenshots and screen recording during document capture, face liveness, cancellation, and return to the host application. Run this check once with the default and once with `true` if your application supports both modes.
+1. Revise cada creación de `BDIVConfig` en la aplicación. Los constructores que omiten la opción pasan de tener protección a permitir capturas al integrar este AAR.
+2. Llame a `setPreventScreenCapture(true)` donde deba mantenerse la protección anterior. Los valores explícitos `true` y `false` no requieren cambios.
+3. Reemplace el archivo `becomedigitalsdk.aar` de la aplicación y recompílela con las dependencias indicadas en el [README](README.md).
+4. En un dispositivo físico, compruebe las capturas de pantalla y la grabación durante la captura del documento, la prueba de vida, la cancelación y el regreso a la aplicación. Si la aplicación admite ambos modos, pruebe el valor predeterminado y el valor `true`.
 
-Screen capture policy should be chosen by the integrator based on the application's privacy requirements. This flag controls the SDK window; it is not a substitute for application-wide data handling or device policy.
+La aplicación integradora debe elegir esta configuración según sus requisitos de privacidad. El parámetro controla la ventana de la SDK; no reemplaza las políticas de tratamiento de datos ni la protección general de la aplicación.
 
-## Artifact verification
+## Verificación del artefacto
 
-The AAR contains `BDIVConfig.isPreventScreenCapture()` and `setPreventScreenCapture(boolean)`. Its constructors initialize the value to `false` unless the caller explicitly supplies `true`. The AAR includes the SDK's native production endpoint library. Functional document capture and face liveness require the integrator's licensed application and a physical device.
+El AAR contiene `BDIVConfig.isPreventScreenCapture()` y `setPreventScreenCapture(boolean)`. Sus constructores inicializan el valor en `false` salvo que la aplicación indique explícitamente `true`. El AAR incluye la biblioteca nativa del servicio de producción. Las pruebas funcionales de captura de documentos y validación facial requieren una aplicación con licencia y un dispositivo físico.
 
-The AAR retains the same distribution filename as earlier builds. Use the checksum below to identify this build after replacing a locally stored copy.
+El nombre del archivo de distribución no cambió respecto a versiones anteriores. Después de reemplazar una copia local, identifique este artefacto mediante su SHA-256:
 
-The SHA-256 checksum of `becomedigitalsdk.aar` is `3acaeb92d836d007fe5a5d1cbab8b2075b2e91ec36baf2ab344354328ed3bb73`.
+`3acaeb92d836d007fe5a5d1cbab8b2075b2e91ec36baf2ab344354328ed3bb73`

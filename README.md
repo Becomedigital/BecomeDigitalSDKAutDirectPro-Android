@@ -206,7 +206,7 @@ Para habilitar la protección de capturas de pantalla y grabaciones, consulte la
 | `verification` | `urlGetData` | Onboarding con espera del resultado final. |
 | `authentication` | `company`, `confidence`, `executionId`, `liveness`, `result`, `userId` | Autenticación. Evalúe `result` por separado de `responseStatus`. |
 
-`responseStatus` puede ser `SUCCES`, `ERROR`, `PENDING`, `NOFOUND` o `CANCEL`. La cancelación habitual se recibe en `onCancel()`. Consulte [manejo de errores](docs/ERRORES.md).
+`responseStatus` puede ser `SUCCES`, `ERROR`, `PENDING`, `NOFOUND` o `CANCEL`. La cancelación habitual se recibe en `onCancel()`. Consulte [manejo de errores](docs/ERRORES.md). Cuando el contrato solo solicita captura documental, el resultado final se confirma con la aprobación del documento; no se exige un resultado facial.
 
 ## Diagnóstico y compatibilidad
 

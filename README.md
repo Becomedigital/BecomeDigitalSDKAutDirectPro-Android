@@ -187,12 +187,14 @@ private fun startOnboarding() {
 | `pollingMaxAttempts` | `0` | Límite de intentos de espera; `0` no establece límite. |
 | `pollingTimeoutSeconds` | `2` | Tiempo máximo en segundos para cada intento de espera. |
 | `debugLogsEnabled` | `false` | Activa diagnósticos durante una prueba. |
-| `preventScreenCapture` | `true` | Protege el contenido mostrado por la SDK. |
+| `preventScreenCapture` | `false` | Protege el contenido mostrado por la SDK cuando es `true`. |
 | `country`, `state` | `null` | País de dos letras y estado precargado para EE. UU. |
 | `nationalIdType`, `nationalIdTypeChoices`, `documentNumber` | Vacíos | Datos documentales precargados, si corresponden. |
 | `themeMode` | `ThemeMode.system` | Modo visual de la app. |
 
 Los campos opcionales se establecen con los setters de `BDIVConfig`. Para autenticación use `Flow.Authentication` y, si no corresponde capturar documentos, `emptyArray()`.
+
+Para habilitar la protección de capturas de pantalla y grabaciones, consulte la [guía de capturas](SCREEN_CAPTURE_CONFIGURATION.md).
 
 ## Respuestas
 

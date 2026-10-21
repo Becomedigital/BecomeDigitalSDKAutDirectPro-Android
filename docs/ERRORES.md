@@ -1,26 +1,27 @@
-# Manejo de errores — Android
+# Error and result handling — Android
 
-## Salidas públicas
+Register `BecomeInterfaseCallback` before starting verification and retain `BecomeCallBackManager` while the flow is active.
 
-Registre `BecomeInterfaseCallback` antes de iniciar la SDK y conserve `BecomeCallBackManager` mientras el flujo esté activo.
-
-| Salida | Manejo recomendado |
+| Callback or status | Host action |
 | --- | --- |
-| `onFinish(response)` con `SUCCES` | Revise el objeto opcional correspondiente al flujo. En autenticación, evalúe también `authentication.result`. |
-| `onFinish(response)` con `ERROR` | Restaure la pantalla de la app y ofrezca una acción para iniciar de nuevo. |
-| `onFinish(response)` con `PENDING` o `NOFOUND` | No considere aprobada la identidad. |
-| `onCancel()` | Regrese a la app sin marcar el proceso como aprobado. |
+| `onFinish(response)` with `SUCCES` | Inspect the optional object for the completed SDK operation. For authentication, evaluate `authentication.result` separately. |
+| `onFinish(response)` with `ERROR` | Restore the host UI and offer a new user-initiated attempt. |
+| `PENDING` or `NOFOUND` | Do not treat the result as approval. |
+| `onCancel()` | Return to the host UI without marking the verification approved. |
 
-`SUCCES` mantiene esa escritura por compatibilidad. `message` es un texto descriptivo, no un código estable. Los objetos `onboarding`, `authentication` y `verification` pueden ser `null`. Si `performVerificationCheck=false`, `onboarding` indica que se inició el proceso; no equivale a un resultado final aprobado.
+`SUCCES` retains its historical spelling. `message` is descriptive text, not a stable error code. The `onboarding`, `authentication`, and `verification` objects can be `null`.
 
-La SDK muestra dentro de su propia interfaz las opciones de reintento disponibles. La app no recibe un callback por cada intento de captura.
+With `performVerificationCheck = false`, an `onboarding` object confirms creation, not final approval. With final-result checking enabled, inspect the `verification` object. Document-only flows do not require a facial result.
 
-## Problemas que puede resolver la app
+The SDK presents its available capture and retry actions inside its own UI. The host does not receive a callback for every capture attempt.
 
-- **Configuración incompleta:** compruebe `clienId`, `clientSecret`, `contractId`, `userId` y los tipos documentales requeridos para onboarding.
-- **Cámara no disponible o permiso denegado:** compruebe el dispositivo y solicite el permiso antes de repetir.
+## Integration checks
+
+- **Configuration:** provide nonempty client credentials and a contract ID. Authentication also requires a nonempty existing user ID. An empty document array uses the contract's available document types.
+- **Camera:** check the physical device and obtain runtime camera permission before starting again.
 - **Capture license:** verify `app/src/main/assets/com.become.mb.key` and the licensed `applicationId`.
-- **Conexión interrumpida:** permita un nuevo intento iniciado por el usuario cuando vuelva la conectividad.
-- **Captura no completada:** deje que el usuario repita la captura desde la SDK.
+- **Missing class or resource:** include all three AARs and the runtime dependencies in the [README](../README.md). Avoid mixing Capture versions or adding BlinkID migration dependencies.
+- **Connection:** allow a new user-initiated attempt after connectivity returns. Result checks use `pollingTimeoutSeconds` and `pollingMaxAttempts`; the general connection/read/write timeout is a separate resource setting.
+- **Incomplete capture:** allow the SDK to request the required sides again. A cropped preview is not a substitute for a missing full-frame capture.
 
-No use comparaciones de `message` para decidir aprobación o reintentos automáticos: el texto puede cambiar por idioma o personalización. Si el problema persiste, comparta con soporte la versión de la SDK, el paso donde ocurrió y los [logs de diagnóstico](LOGGING.md). No incluya credenciales ni imágenes.
+Do not branch on localized message text to approve an identity or trigger automatic retries. When requesting support, provide the SDK version, device, visible step, and relevant [client diagnostics](LOGGING.md), excluding credentials and images.

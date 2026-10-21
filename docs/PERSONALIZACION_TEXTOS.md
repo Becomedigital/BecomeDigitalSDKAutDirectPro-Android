@@ -1,54 +1,44 @@
-# Personalizar textos — Android
+# Text customization — Android
 
-## Implementación
+## Scope of this distributed AAR
 
-1. Copie las claves que necesite del ejemplo [español](../examples/custom-texts/res/values/strings.xml) o [inglés](../examples/custom-texts/res/values-b+en/strings.xml) a los recursos de su app.
-2. Use `app/src/main/res/values/become_strings.xml` para los textos predeterminados y `values-b+en/become_strings.xml` para inglés. Si ya tiene `values-en`, use esa carpeta sin duplicarla.
-3. Cambie los valores, mantenga exactamente cada `name` y recompile la app. No necesita configurar `BDIVConfig` ni regenerar el AAR.
+The current Compose screens read their visible copy from the contract. If a key is missing, the SDK checks the requested locale, its base language, Spanish, and the bundled screen default.
 
-También puede agregar las entradas al `strings.xml` que ya tiene, dentro de su único bloque `<resources>`. La clave y el idioma determinan la sobrescritura, no el nombre del archivo.
+App `strings.xml` overrides apply where the SDK or a native component reads Android string resources. They do **not** replace the contract-rendered Compose labels in this artifact. In particular, defining legacy introduction or document-button resource names in the app does not override the corresponding Compose screen copy. `BDIVConfig` does not provide custom text, logo, color, or localization-table setters.
 
-## Ejemplo
+The [Spanish template](../examples/custom-texts/res/values/strings.xml) and [English template](../examples/custom-texts/res/values-b+en/strings.xml) include resource keys retained across SDK versions. Some are compatibility entries that the current flow does not display. Copy only keys used by the component or error label you want to customize.
+
+## Resource-backed labels
+
+Use the exact Android resource name. For example:
 
 ```xml
 <resources>
-    <string name="text_start_btn">Comenzar</string>
-    <string name="text_title_button_retry">Volver a intentar</string>
-    <string name="text_title_document_error">Revisa las fotos de tu documento</string>
-    <string name="text_btn_introduction_doc">Capturar documento</string>
-    <string name="amplify_ui_liveness_get_ready_begin_check">Iniciar prueba de vida</string>
+    <string name="identity_error_documentfront">Capture the front again with all edges visible.</string>
+    <string name="identity_error_documentback">Capture the back again with all edges visible.</string>
+    <string name="timeout_error">The operation is taking too long. Try again.</string>
+    <string name="mbic_scan_the_front_side">Scan the front of your document</string>
+    <string name="amplify_ui_liveness_get_ready_begin_check">Start the liveness check</string>
 </resources>
 ```
 
-Las claves nativas definidas por la app tienen prioridad para esas frases. Las demás conservan los textos asignados al contrato o los valores predeterminados de la SDK. Personalice cada idioma utilizado por la app.
-
-Capture UX uses the `mbic_*` string resources included in the examples. Define the required entries in the host's strings.xml. Become's introduction, preview, and error screens continue to use the keys listed below.
-
-## Claves por pantalla
-
-Los ejemplos contienen 115 claves. Una clave compartida cambia en todos los lugares donde se utiliza; algunas solo aparecen según el flujo y la versión del componente.
-| Pantalla / uso | Claves |
+| Component or label | Resource names |
 | --- | --- |
-| Inicio | `text_tittle_general_intro`, `text_sub_tittle_general_intro`, `text_start_btn`, `and_intro_general`, `text_video_intro_general`, `text_document_intr_general` |
-| Introducción y análisis facial | `text_video_intro`, `text_tittle_selfie`, `btn_text_recording_video`, `text_loader_selfie`, `text_progress_inteligence` |
-| Selección de país y documento | `text_tittle_selec_document`, `text_dni_selec_document`, `text_license`, `text_passport`, `select_text`, `text_body_country`, `text_msn_selec_document` |
-| Captura y galería | `text_tittle_intro_doc_front`, `text_tittle_intro_doc`, `text_btn_introduction_doc`, `text_btn_intro_doc_galery`, `text_error_path_image_pick` |
-| Vista previa | `text_info_preview`, `text_confirm_preview`, `text_retry_previe` |
-| Carga y envío | `text_loader_init`, `text_loader`, `text_varification_title`, `text_varification_body`, `text_finish_upload`, `text_info_upload`, `text_document_validation` |
-| Consulta de resultados | `text_progress_result`, `text_progress_delay_result`, `text_progress_delay_finish_result` |
-| Error documental y reintento | `text_title_document_error`, `text_sub_title_document_error`, `text_error_capture_document`, `text_title_button_retry` |
-| Creación de identidad y resultados: cierre facial, recaptura y reintento | Las claves `identity_error_*` de los ejemplos. |
-| Error general o validación fallida | `text_varification_title_error`, `text_varification_body_error`, `text_varification_title_compliance_error`, `text_varification_body_compliance_error`, `text_error_compliance_not_allowed`, `unknown_error`, `general_error`, `text_empty_balance` |
-| Error de conexión | `timeout_error`, `no_internet_error`, `connection_lost_error` |
-| Resultado final | `text_finish`, `text_sub_tittle_finish` |
-| Confirmar salida | `text_undo`, `text_sub_tittle_undo`, `text_tittle_undo`, `terminate_text`, `text_cancel` |
-| Face Liveness: preparación y fotosensibilidad | `amplify_ui_liveness_get_ready_a11y_photosensitivity_icon_content_description`, `amplify_ui_liveness_get_ready_begin_check`, `amplify_ui_liveness_get_ready_center_face_label`, `amplify_ui_liveness_get_ready_photosensitivity_description`, `amplify_ui_liveness_get_ready_photosensitivity_dialog_description`, `amplify_ui_liveness_get_ready_photosensitivity_dialog_dismiss`, `amplify_ui_liveness_get_ready_photosensitivity_dialog_title`, `amplify_ui_liveness_get_ready_photosensitivity_title` |
-| Face Liveness: instrucciones y captura | `amplify_ui_liveness_challenge_a11y_cancel_content_description`, `amplify_ui_liveness_challenge_connecting`, `amplify_ui_liveness_challenge_instruction_hold_face_during_freshness`, `amplify_ui_liveness_challenge_instruction_move_face`, `amplify_ui_liveness_challenge_instruction_move_face_closer`, `amplify_ui_liveness_challenge_instruction_move_face_further`, `amplify_ui_liveness_challenge_instruction_multiple_faces_detected`, `amplify_ui_liveness_challenge_recording_indicator_label`, `amplify_ui_liveness_challenge_verifying` |
+| Identity and document errors | The applicable `identity_error_*` entries in the template |
+| Connection errors | `timeout_error`, `no_internet_error`, `connection_lost_error` |
+| Capture UX instructions | Supported `mbic_*` entries |
+| Amplify preparation and photosensitivity | Supported `amplify_ui_liveness_get_ready_*` entries |
+| Amplify capture instructions | Supported `amplify_ui_liveness_challenge_*` entries |
 
-## Antes de entregar
+Resource keys vary between Android and iOS. For example, Android uses `identity_error_documentfront`; the iOS resource uses `identity_error_documentFront`.
 
-- No duplique claves para el mismo idioma ni corrija sus nombres, aunque tengan erratas.
-- Mantenga el significado de las instrucciones de cámara, accesibilidad y fotosensibilidad.
-- Conserve los marcadores de formato y saltos de línea. Escape `&` como `&amp;` y los apóstrofos como `\'`.
-- Conserve el `app_name` de su aplicación.
-- Pruebe introducción, captura, error/reintento y resultado en cada idioma después de recompilar.
+## Installation
+
+1. Add selected entries under the app's `app/src/main/res/values/become_strings.xml`, or its existing `strings.xml`.
+2. Add language variants under the corresponding Android resource qualifier, such as `values-en`. The supplied `values-b+en` example is also a valid English qualifier; use one location per language rather than duplicating it.
+3. Keep one `<resources>` root, preserve each `name`, and retain the app's own `app_name`.
+4. Preserve format placeholders and intended line breaks. Escape `&` as `&amp;` and Android apostrophes as needed.
+5. Rebuild the host app. App resource changes do not require rebuilding the AAR.
+6. Validate the affected native component or error message in each supported language on a physical device.
+
+Changing a resource does not enable a step, change the document type, or change the configured capture mode.

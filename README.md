@@ -126,6 +126,12 @@ Resolve dependencies from `google()` and `mavenCentral()`. A local AAR does not 
 
 Automatic document capture includes framing, image quality guidance, and instructions for scanning the other side when required. If automatic capture does not finish, a manual capture button becomes available after 30 seconds by default. Manual photographs retain document recognition, and the user can retry an invalid capture.
 
+### Startup appearance
+
+The SDK displays an animated loading screen until the flow and its presentation are ready. The indicator initially uses the host application's theme primary color when available, with the theme accent color as a fallback, and shows a localized loading message (`Cargando…` in Spanish).
+
+The first visible screen already uses the contract's colors, branding, and text. This also applies when the flow starts after the introduction. Initialization failures are delivered through the existing SDK callback so the application can offer a new attempt. No additional `BDIVConfig` setting is required.
+
 ## Licencia y permisos
 
 Add the BlinkID Core license as `app/src/main/assets/com.become.blinkid.key`. The application's `applicationId` must match the license. Keep the license contents out of source control. A development app with a different `applicationId` requires its own valid license.

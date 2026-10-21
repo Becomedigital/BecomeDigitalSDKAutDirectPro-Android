@@ -2,7 +2,7 @@
 
 ## Descripción general
 
-El SDK permite ejecutar procesos de onboarding y autenticación de identidad desde una aplicación Android. El archivo `becomedigitalsdk.aar` debe integrarse junto con las dependencias de AWS Amplify Face Liveness, Microblink Capture y AndroidX indicadas en esta guía.
+The SDK provides native onboarding and identity authentication. Integrate `becomedigitalsdk.aar` with the AWS Amplify Face Liveness, Microblink BlinkID Core/UX, and AndroidX dependencies listed below.
 
 ## Funciones públicas
 
@@ -21,8 +21,9 @@ El SDK permite ejecutar procesos de onboarding y autenticación de identidad des
 | Java | 11 |
 | Android Gradle Plugin | 9.0.1 recomendado |
 | Kotlin | 2.2.10 recomendado |
-| Microblink Capture Core | 1.4.2 |
-| Microblink Capture UX | 1.4.2 |
+| BlinkID Core | 8002.0.0 |
+| BlinkID UX | 8002.0.0 |
+| Compose BOM | 2026.06.00 |
 | Amplify UI Face Liveness | 1.10.0 |
 | Amplify AWS Cognito | 2.33.0 |
 | CameraX | 1.5.3 |
@@ -80,6 +81,7 @@ android {
 
 dependencies {
     implementation files("libs/becomedigitalsdk.aar")
+    implementation platform("androidx.compose:compose-bom:2026.06.00")
 
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.5"
 
@@ -95,6 +97,7 @@ dependencies {
     implementation "androidx.camera:camera-camera2:1.5.3"
     implementation "androidx.camera:camera-view:1.5.3"
     implementation "androidx.camera:camera-lifecycle:1.5.3"
+    implementation "com.google.guava:guava:33.3.1-android"
 
     implementation "com.google.code.gson:gson:2.10.1"
     implementation "com.squareup.okhttp3:okhttp:4.9.3"
@@ -103,11 +106,11 @@ dependencies {
 
     implementation "com.amplifyframework.ui:liveness:1.10.0"
     implementation "com.amplifyframework:aws-auth-cognito:2.33.0"
-    implementation "androidx.compose.material3:material3:1.4.0"
+    implementation "androidx.compose.material3:material3"
     implementation "androidx.activity:activity-compose:1.7.2"
 
-    implementation "com.microblink:capture-core:1.4.2"
-    implementation "com.microblink:capture-ux:1.4.2"
+    implementation "com.microblink:blinkid-core:8002.0.0"
+    implementation "com.microblink:blinkid-ux:8002.0.0"
 
     implementation "androidx.room:room-runtime:2.6.1"
     implementation "androidx.lifecycle:lifecycle-livedata:2.8.7"
@@ -117,9 +120,15 @@ dependencies {
 
 > Evite declarar una segunda versión de estas dependencias. Si la aplicación ya las utiliza, resuelva la versión de forma explícita y valide el flujo completo.
 
+Resolve dependencies from `google()` and `mavenCentral()`. A local AAR does not carry Gradle dependency metadata, so the application must declare the dependencies above. Keep Compose UI, runtime, and Material 3 aligned with the indicated BOM. When upgrading, remove the previous `capture-core` and `capture-ux` dependencies.
+
+### Document capture
+
+Automatic document capture includes framing, image quality guidance, and instructions for scanning the other side when required. If automatic capture does not finish, a manual capture button becomes available after 30 seconds by default. Manual photographs retain document recognition, and the user can retry an invalid capture.
+
 ## Licencia y permisos
 
-Incluya el archivo de licencia `com.become.mb.key` en `app/src/main/assets`. El `applicationId` debe coincidir con el autorizado en la licencia.
+Add the BlinkID Core license as `app/src/main/assets/com.become.blinkid.key`. The application's `applicationId` must match the license. Keep the license contents out of source control. A development app with a different `applicationId` requires its own valid license.
 
 El AAR declara los permisos de Internet y cámara. La aplicación debe solicitar el permiso de cámara en tiempo de ejecución antes de iniciar un flujo que la necesite.
 

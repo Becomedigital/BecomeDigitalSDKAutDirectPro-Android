@@ -15,12 +15,14 @@ También puede agregar las entradas al `strings.xml` que ya tiene, dentro de su 
     <string name="text_start_btn">Comenzar</string>
     <string name="text_title_button_retry">Volver a intentar</string>
     <string name="text_title_document_error">Revisa las fotos de tu documento</string>
-    <string name="mbic_scan_the_front_side">Escanea el frente del documento</string>
+    <string name="text_btn_introduction_doc">Capturar documento</string>
     <string name="amplify_ui_liveness_get_ready_begin_check">Iniciar prueba de vida</string>
 </resources>
 ```
 
 Las claves nativas definidas por la app tienen prioridad para esas frases. Las demás conservan los textos asignados al contrato o los valores predeterminados de la SDK. Personalice cada idioma utilizado por la app.
+
+BlinkID UX provides its own localized capture guidance. The `mbic_*` entries retained in the examples belong to the previous Capture UI and do not customize BlinkID UX. Use the resources supplied by the pinned BlinkID UX dependency for its capture interface. Become's introduction, preview, and error screens continue to use the keys listed below.
 
 ## Claves por pantalla
 
@@ -40,10 +42,6 @@ Los ejemplos contienen 115 claves. Una clave compartida cambia en todos los luga
 | Error de conexión | `timeout_error`, `no_internet_error`, `connection_lost_error` |
 | Resultado final | `text_finish`, `text_sub_tittle_finish` |
 | Confirmar salida | `text_undo`, `text_sub_tittle_undo`, `text_tittle_undo`, `terminate_text`, `text_cancel` |
-| Microblink: frente/reverso | `mbic_scan_the_front_side`, `mbic_scan_the_back_side`, `mbic_flip_document` |
-| Microblink: encuadre y luz | `mbic_move_closer`, `mbic_move_farther`, `mbic_lightning_too_bright`, `mbic_lightning_too_dark`, `mbic_occluded`, `mbic_torch_glare_tooltip_message` |
-| Microblink: ayuda | `mbic_need_help_tooltip`, `mbic_onboarding_field_visible_title`, `mbic_tutorial_fields_visible_title`, `mbic_tutorial_harsh_light_title` |
-| Microblink: conexión y disponibilidad | `mbic_check_internet_connection`, `mbic_network_error`, `mbic_scanning_not_available` |
 | Face Liveness: preparación y fotosensibilidad | `amplify_ui_liveness_get_ready_a11y_photosensitivity_icon_content_description`, `amplify_ui_liveness_get_ready_begin_check`, `amplify_ui_liveness_get_ready_center_face_label`, `amplify_ui_liveness_get_ready_photosensitivity_description`, `amplify_ui_liveness_get_ready_photosensitivity_dialog_description`, `amplify_ui_liveness_get_ready_photosensitivity_dialog_dismiss`, `amplify_ui_liveness_get_ready_photosensitivity_dialog_title`, `amplify_ui_liveness_get_ready_photosensitivity_title` |
 | Face Liveness: instrucciones y captura | `amplify_ui_liveness_challenge_a11y_cancel_content_description`, `amplify_ui_liveness_challenge_connecting`, `amplify_ui_liveness_challenge_instruction_hold_face_during_freshness`, `amplify_ui_liveness_challenge_instruction_move_face`, `amplify_ui_liveness_challenge_instruction_move_face_closer`, `amplify_ui_liveness_challenge_instruction_move_face_further`, `amplify_ui_liveness_challenge_instruction_multiple_faces_detected`, `amplify_ui_liveness_challenge_recording_indicator_label`, `amplify_ui_liveness_challenge_verifying` |
 

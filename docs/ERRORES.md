@@ -19,7 +19,7 @@ La SDK muestra dentro de su propia interfaz las opciones de reintento disponible
 
 - **Configuración incompleta:** compruebe `clienId`, `clientSecret`, `contractId`, `userId` y los tipos documentales requeridos para onboarding.
 - **Cámara no disponible o permiso denegado:** compruebe el dispositivo y solicite el permiso antes de repetir.
-- **Licencia de captura:** verifique `com.become.mb.key` y el `applicationId` autorizado.
+- **BlinkID license:** verify `app/src/main/assets/com.become.blinkid.key` and the licensed `applicationId`.
 - **Conexión interrumpida:** permita un nuevo intento iniciado por el usuario cuando vuelva la conectividad.
 - **Captura no completada:** deje que el usuario repita la captura desde la SDK.
 

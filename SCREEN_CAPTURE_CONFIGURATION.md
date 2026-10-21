@@ -1,6 +1,6 @@
 # Configuración de la protección contra capturas de pantalla en Android
 
-Esta guía corresponde al `becomedigitalsdk.aar` incluido en este repositorio. El AAR se compiló a partir del commit `7b2414c0232a315354179fbb9da1be696fb35032` con la variante Release de la biblioteca Android. El código fuente utiliza el servicio de producción de Become.
+Esta guía corresponde al `becomedigitalsdk.aar` incluido en este repositorio.
 
 ## Cambio de comportamiento
 
@@ -24,8 +24,7 @@ BDIVConfig config = new BDIVConfig(
     contractId,
     documentTypes,
     true,     // allowLibraryLoading
-    userId,
-    null      // customerLogo
+    userId
 );
 config.setPreventScreenCapture(true);
 
@@ -42,11 +41,3 @@ En Kotlin, configure `config.isPreventScreenCapture = true` antes de iniciar el 
 4. En un dispositivo físico, compruebe las capturas de pantalla y la grabación durante la captura del documento, la prueba de vida, la cancelación y el regreso a la aplicación. Si la aplicación admite ambos modos, pruebe el valor predeterminado y el valor `true`.
 
 La aplicación integradora debe elegir esta configuración según sus requisitos de privacidad. El parámetro controla la ventana de la SDK; no reemplaza las políticas de tratamiento de datos ni la protección general de la aplicación.
-
-## Verificación del artefacto
-
-El AAR contiene `BDIVConfig.isPreventScreenCapture()` y `setPreventScreenCapture(boolean)`. Sus constructores inicializan el valor en `false` salvo que la aplicación indique explícitamente `true`. El AAR incluye la biblioteca nativa del servicio de producción. Las pruebas funcionales de captura de documentos y validación facial requieren una aplicación con licencia y un dispositivo físico.
-
-El nombre del archivo de distribución no cambió respecto a versiones anteriores. Después de reemplazar una copia local, identifique este artefacto mediante su SHA-256:
-
-`3acaeb92d836d007fe5a5d1cbab8b2075b2e91ec36baf2ab344354328ed3bb73`

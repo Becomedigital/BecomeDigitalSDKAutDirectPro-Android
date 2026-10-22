@@ -1,44 +1,52 @@
-# Text customization — Android
+# Language and optional local text overrides — Android
 
-## Scope of this distributed AAR
+## Standard integration
 
-The current Compose screens read their visible copy from the contract. If a key is missing, the SDK checks the requested locale, its base language, Spanish, and the bundled screen default.
+Become Compose screen text is applied automatically from the contract. **Copying the `strings.xml` examples is not required to integrate the SDK or receive contract text updates.**
 
-App `strings.xml` overrides apply where the SDK or a native component reads Android string resources. They do **not** replace the contract-rendered Compose labels in this artifact. In particular, defining legacy introduction or document-button resource names in the app does not override the corresponding Compose screen copy. `BDIVConfig` does not provide custom text, logo, color, or localization-table setters.
+This guide remains useful for intentional app overrides and text that still reads native resources. The [Spanish](../examples/custom-texts/res/values/strings.xml) and [English](../examples/custom-texts/res/values-b+en/strings.xml) templates are compatibility references. Historical entries are not a catalog of every phrase on the current screens.
 
-The [Spanish template](../examples/custom-texts/res/values/strings.xml) and [English template](../examples/custom-texts/res/values-b+en/strings.xml) include resource keys retained across SDK versions. Some are compatibility entries that the current flow does not display. Copy only keys used by the component or error label you want to customize.
+## Override scope
 
-## Resource-backed labels
+| Text | Current behavior |
+| --- | --- |
+| Become Compose screens | Resolve contract text for the current locale, base language, Spanish, then the SDK screen default. |
+| Introduction | First check supported native `intro_*` keys, such as `intro_title`, `intro_body`, and `intro_cta`. |
+| Data processing notice | First check supported `atdp_*` keys, such as `atdp_title`, `atdp_markdown`, `atdp_checkbox_label`, and `atdp_accept`. |
+| Loading and errors that read Android resources | Accept an override for the resource actually read by that label, such as `text_loader_init`, `identity_error_documentfront`, or `timeout_error`. |
+| Internal capture and facial detector instructions | Use the native component's supported resources. |
 
-Use the exact Android resource name. For example:
+Introduction key dots become underscores: `header.reminder` maps to `intro_header_reminder`. ATDP camel-case keys become snake case: `checkboxLabel` maps to `atdp_checkbox_label`.
+
+Other Compose labels do not have a general mapping from every contract namespace to `strings.xml`. Historical introduction/document keys such as `text_tittle_general_intro` and `text_dni_selec_document` do not replace those current Compose labels. `BDIVConfig` has no locale selector or localization-table parameter; contract text uses the Android environment's locale.
+
+## Optional example
+
+Add **only intentional overrides** to `app/src/main/res/values/become_strings.xml`:
 
 ```xml
 <resources>
-    <string name="identity_error_documentfront">Capture the front again with all edges visible.</string>
-    <string name="identity_error_documentback">Capture the back again with all edges visible.</string>
-    <string name="timeout_error">The operation is taking too long. Try again.</string>
-    <string name="mbic_scan_the_front_side">Scan the front of your document</string>
-    <string name="amplify_ui_liveness_get_ready_begin_check">Start the liveness check</string>
+    <string name="intro_cta">Start verification</string>
+    <string name="atdp_accept">Accept and continue</string>
+    <string name="text_loader_init">Loading…</string>
+    <string name="identity_error_documentfront">Capture the front again, fully visible and in focus.</string>
 </resources>
 ```
 
-| Component or label | Resource names |
-| --- | --- |
-| Identity and document errors | The applicable `identity_error_*` entries in the template |
-| Connection errors | `timeout_error`, `no_internet_error`, `connection_lost_error` |
-| Capture UX instructions | Supported `mbic_*` entries |
-| Amplify preparation and photosensitivity | Supported `amplify_ui_liveness_get_ready_*` entries |
-| Amplify capture instructions | Supported `amplify_ui_liveness_challenge_*` entries |
+An override takes priority in the path that reads that resource and can hide later contract updates. If the whole template was copied into the app, remove entries that should no longer be fixed locally. Use contract text for normal flow copy changes.
 
-Resource keys vary between Android and iOS. For example, Android uses `identity_error_documentfront`; the iOS resource uses `identity_error_documentFront`.
+## Native components
 
-## Installation
+This distribution uses legacy Capture UX. Its instructions support compatible `mbic_*` native resource keys for the integrated version; the Become introduction copy has its own resolution path.
 
-1. Add selected entries under the app's `app/src/main/res/values/become_strings.xml`, or its existing `strings.xml`.
-2. Add language variants under the corresponding Android resource qualifier, such as `values-en`. The supplied `values-b+en` example is also a valid English qualifier; use one location per language rather than duplicating it.
-3. Keep one `<resources>` root, preserve each `name`, and retain the app's own `app_name`.
-4. Preserve format placeholders and intended line breaks. Escape `&` as `&amp;` and Android apostrophes as needed.
-5. Rebuild the host app. App resource changes do not require rebuilding the AAR.
-6. Validate the affected native component or error message in each supported language on a physical device.
+Amplify Face Liveness uses supported native `amplify_ui_liveness_*` keys. Become facial introduction copy and internal detector instructions have separate localization paths; contract copy is not automatically mapped to every internal component phrase.
 
-Changing a resource does not enable a step, change the document type, or change the configured capture mode.
+## Installing and checking overrides
+
+1. Add only selected keys, preserving their exact names and one `<resources>` root per file.
+2. Use language variants such as `values-en` for languages you customize. `values-b+en` is also valid; avoid duplicate definitions in equivalent qualifiers for one language.
+3. Preserve format placeholders and line breaks. Escape `&` as `&amp;` and apostrophes as required by Android.
+4. Rebuild the host app; rebuilding the AAR is unnecessary.
+5. Validate affected resources on a physical device and check that phrases without overrides still follow the contract or their defaults.
+
+Resource names differ between platforms: Android uses `identity_error_documentfront`; iOS uses `identity_error_documentFront`.

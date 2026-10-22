@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Optional reference, not required for SDK integration.
+         Normal screen copy follows the contract. Copy only intentional overrides.
+         Historical keys do not all control the current Compose screens.
+         See docs/PERSONALIZACION_TEXTOS.md for supported override paths. -->
     <!-- Errores de creación de identidad y resultados: docs/ERRORES.md -->
     <string name="identity_error_liveness">We could not confirm your liveness check. Start a new verification and try again in good lighting.</string>
     <string name="identity_error_face">We could not verify your face. Start a new verification with your own document and your face uncovered.</string>

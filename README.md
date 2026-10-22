@@ -99,6 +99,14 @@ android {
         compose true
         viewBinding true
     }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
@@ -229,6 +237,10 @@ Complete frames are used for document uploads. Cropped, perspective-corrected im
 The host selects `themeMode`. Colors, logos, typography, component appearance, layout, and Compose screen copy are assigned to the contract. They are not configurable through `BDIVConfig`. Host `strings.xml` overrides apply to resource-backed labels, such as supported native component and error strings; they do not replace the contract-rendered Compose copy in this artifact. See [text customization](docs/PERSONALIZACION_TEXTOS.md).
 
 An animated loader remains visible until the first configured screen is ready. Its initial color uses the host's primary theme color, then its accent color. Document-only contracts do not require a facial result to complete.
+
+## R8 optimization
+
+The AAR includes R8 consumer rules. Enable code and resource shrinking in the host release as shown above. Follow the [R8 guide](docs/R8.md) to configure and validate the optimized release.
 
 ## Typed results and errors
 

@@ -4,7 +4,9 @@
 
 Become Compose screen text is applied automatically from the contract. **Copying the `strings.xml` examples is not required to integrate the SDK or receive contract text updates.**
 
-This guide remains useful for intentional app overrides and text that still reads native resources. The [Spanish](../examples/custom-texts/res/values/strings.xml) and [English](../examples/custom-texts/res/values-b+en/strings.xml) templates are compatibility references. Historical entries are not a catalog of every phrase on the current screens.
+Use contract configuration for normal Become flow text changes, including introduction, consent, country and document selection, capture introductions, review, and results. Keep those phrases out of app resource files when they should receive later contract updates. Missing contract entries retain the SDK defaults.
+
+Local resource customization primarily covers the internal interfaces of Microblink Capture UX and Amplify Face Liveness. It is not restricted to those providers: native loading/error labels and the supported Become screen overrides described below remain available for compatibility. The [Spanish](../examples/custom-texts/res/values/strings.xml) and [English](../examples/custom-texts/res/values-b+en/strings.xml) templates are optional references. Historical entries are not a catalog of every current screen phrase.
 
 ## Override scope
 
@@ -14,24 +16,25 @@ This guide remains useful for intentional app overrides and text that still read
 | Introduction | First check supported native `intro_*` keys, such as `intro_title`, `intro_body`, and `intro_cta`. |
 | Data processing notice | First check supported `atdp_*` keys, such as `atdp_title`, `atdp_markdown`, `atdp_checkbox_label`, and `atdp_accept`. |
 | Loading and errors that read Android resources | Accept an override for the resource actually read by that label, such as `text_loader_init`, `identity_error_documentfront`, or `timeout_error`. |
-| Internal capture and facial detector instructions | Use the native component's supported resources. |
+| Microblink Capture UX scanning guidance | Uses supported `mbic_*` resources for the integrated Capture UX version. |
+| Amplify Face Liveness detector guidance | Uses supported `amplify_ui_liveness_*` resources for the integrated Amplify version. |
 
 Introduction key dots become underscores: `header.reminder` maps to `intro_header_reminder`. ATDP camel-case keys become snake case: `checkboxLabel` maps to `atdp_checkbox_label`.
 
 Other Compose labels do not have a general mapping from every contract namespace to `strings.xml`. Historical introduction/document keys such as `text_tittle_general_intro` and `text_dni_selec_document` do not replace those current Compose labels. `BDIVConfig` has no locale selector or localization-table parameter; contract text uses the Android environment's locale.
 
-## Optional example
+## Optional native component example
 
-Add **only intentional overrides** to `app/src/main/res/values/become_strings.xml`:
+Add **only the supported component entries you intend to customize** to `app/src/main/res/values/become_strings.xml`:
 
 ```xml
 <resources>
-    <string name="intro_cta">Start verification</string>
-    <string name="atdp_accept">Accept and continue</string>
-    <string name="text_loader_init">Loading…</string>
-    <string name="identity_error_documentfront">Capture the front again, fully visible and in focus.</string>
+    <string name="mbic_flip_document">Turn the document over</string>
+    <string name="amplify_ui_liveness_challenge_connecting">Connecting…</string>
 </resources>
 ```
+
+These entries target the Capture UX and Amplify interfaces, respectively. They do not replace the Become document-capture introduction or facial introduction text. For an intentional Become override, use the supported `intro_*`, `atdp_*`, or native loading/error key described above. Do not copy flow keys merely to configure the providers.
 
 An override takes priority in the path that reads that resource and can hide later contract updates. If the whole template was copied into the app, remove entries that should no longer be fixed locally. Use contract text for normal flow copy changes.
 

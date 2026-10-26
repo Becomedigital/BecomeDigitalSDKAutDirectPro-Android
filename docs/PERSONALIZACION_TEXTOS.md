@@ -1,31 +1,29 @@
-# Language and optional local text overrides — Android
+# Native component text — Android
 
-## Standard integration
+## Become flow text
 
-Become Compose screen text is applied automatically from the contract. **Copying the `strings.xml` examples is not required to integrate the SDK or receive contract text updates.**
+Become titles, instructions, consent, country/document selection, introductions, review and results are managed by the contract configuration. Local translation files are not required to receive those texts. Missing entries retain the SDK defaults.
 
-Use contract configuration for normal Become flow text changes, including introduction, consent, country and document selection, capture introductions, review, and results. Keep those phrases out of app resource files when they should receive later contract updates. Missing contract entries retain the SDK defaults.
+This guide and its examples intentionally list native component and technical SDK keys only. Remove old flow entries from app resources when those phrases should follow contract updates. A supported local override can pin a phrase and hide later updates; do not copy the whole template.
 
-Local resource customization primarily covers the internal interfaces of Microblink Capture UX and Amplify Face Liveness. It is not restricted to those providers: native loading/error labels and the supported Become screen overrides described below remain available for compatibility. The [Spanish](../examples/custom-texts/res/values/strings.xml) and [English](../examples/custom-texts/res/values-b+en/strings.xml) templates are optional references. Historical entries are not a catalog of every current screen phrase.
+## Native technical SDK labels
 
-## Override scope
+These labels still read local resources rather than contract text. The examples retain verified startup `text_loader_init`; network errors `timeout_error`, `no_internet_error` and `connection_lost_error`; progress `text_info_upload`, `text_progress_result`, `text_progress_delay_result` and `text_progress_delay_finish_result` (the SDK appends the upload percentage).
 
-| Text | Current behavior |
-| --- | --- |
-| Become Compose screens | Resolve contract text for the current locale, base language, Spanish, then the SDK screen default. |
-| Introduction | First check supported native `intro_*` keys, such as `intro_title`, `intro_body`, and `intro_cta`. |
-| Data processing notice | First check supported `atdp_*` keys, such as `atdp_title`, `atdp_markdown`, `atdp_checkbox_label`, and `atdp_accept`. |
-| Loading and errors that read Android resources | Accept an override for the resource actually read by that label, such as `text_loader_init`, `identity_error_documentfront`, or `timeout_error`. |
-| Microblink Capture UX scanning guidance | Uses supported `mbic_*` resources for the integrated Capture UX version. |
-| Amplify Face Liveness detector guidance | Uses supported `amplify_ui_liveness_*` resources for the integrated Amplify version. |
+These are not flow title/action configuration keys.
 
-Introduction key dots become underscores: `header.reminder` maps to `intro_header_reminder`. ATDP camel-case keys become snake case: `checkboxLabel` maps to `atdp_checkbox_label`.
+## Supported components
 
-Other Compose labels do not have a general mapping from every contract namespace to `strings.xml`. Historical introduction/document keys such as `text_tittle_general_intro` and `text_dni_selec_document` do not replace those current Compose labels. `BDIVConfig` has no locale selector or localization-table parameter; contract text uses the Android environment's locale.
+| Component | Verified version | Local keys |
+| --- | --- | --- |
+| Microblink Capture UX | 1.2.0 | `mbic_*` |
+| Amplify Face Liveness | 1.10.0 | `amplify_ui_liveness_*` |
 
-## Optional native component example
+This distribution retains Capture Legacy. BlinkID `mb_*` / `mb_blinkid_*` resources do not apply to its capture interface. Names differ across platforms; use this distribution’s keys.
 
-Add **only the supported component entries you intend to customize** to `app/src/main/res/values/become_strings.xml`:
+## Optional customization
+
+Add only the entries you intend to customize to `app/src/main/res/values/become_strings.xml`:
 
 ```xml
 <resources>
@@ -34,22 +32,10 @@ Add **only the supported component entries you intend to customize** to `app/src
 </resources>
 ```
 
-These entries target the Capture UX and Amplify interfaces, respectively. They do not replace the Become document-capture introduction or facial introduction text. For an intentional Become override, use the supported `intro_*`, `atdp_*`, or native loading/error key described above. Do not copy flow keys merely to configure the providers.
+The 16 Capture examples are the native resource IDs wired by this SDK’s Capture settings, not a generic catalog for other Capture versions. App resources replace the same merged resource names. Equivalent Amplify instructions may receive contract text; the native resource is the fallback when that instruction has no configured text. Contract-managed phrases should be updated through that configuration.
 
-An override takes priority in the path that reads that resource and can hide later contract updates. If the whole template was copied into the app, remove entries that should no longer be fixed locally. Use contract text for normal flow copy changes.
+Use `values-es` / `values-en` language variants; avoid duplicating `values-b+en`. See the optional [Spanish](../examples/custom-texts/res/values/strings.xml) and [English](../examples/custom-texts/res/values-b+en/strings.xml) examples.
 
-## Native components
+## Validation
 
-This distribution uses legacy Capture UX. Its instructions support compatible `mbic_*` native resource keys for the integrated version; the Become introduction copy has its own resolution path.
-
-Amplify Face Liveness uses supported native `amplify_ui_liveness_*` keys. Become facial introduction copy and internal detector instructions have separate localization paths; contract copy is not automatically mapped to every internal component phrase.
-
-## Installing and checking overrides
-
-1. Add only selected keys, preserving their exact names and one `<resources>` root per file.
-2. Use language variants such as `values-en` for languages you customize. `values-b+en` is also valid; avoid duplicate definitions in equivalent qualifiers for one language.
-3. Preserve format placeholders and line breaks. Escape `&` as `&amp;` and apostrophes as required by Android.
-4. Rebuild the host app; rebuilding the AAR is unnecessary.
-5. Validate affected resources on a physical device and check that phrases without overrides still follow the contract or their defaults.
-
-Resource names differ between platforms: Android uses `identity_error_documentfront`; iOS uses `identity_error_documentFront`.
+Preserve exact key names, capitalization, format placeholders, and the meaning of camera safety and photosensitivity instructions. Edit only required values. Rebuild the app after resource changes; rebuilding the SDK is unnecessary. Validate customized languages on physical devices. `BDIVConfig` does not select a localization table or configure Become flow text.

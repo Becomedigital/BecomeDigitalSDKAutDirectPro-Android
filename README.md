@@ -211,6 +211,8 @@ class DemoActivity : AppCompatActivity() {
 | `performVerificationCheck` | `true` | Wait for final onboarding confirmation. Set `false` to return the creation result directly. |
 | `pollingMaxAttempts` | `0` | Maximum result checks; `0` means no attempt limit. |
 | `pollingTimeoutSeconds` | `2` | Timeout in seconds for each result check. Use a larger value for slow connections. |
+
+When final verification remains pending, the SDK keeps waiting while `performVerificationCheck` is enabled. Set a positive `pollingMaxAttempts` to bound the total number of checks and handle the resulting error callback. `pollingTimeoutSeconds` applies to each request, not to the whole verification.
 | `debugLogsEnabled` | `false` | Enable optional client diagnostics. |
 | `preventScreenCapture` | `false` | Enable the SDK's screen-capture protection when `true`. |
 | `country`, `state` | `null` | Optional two-letter country code or comma-separated country list; optional US postal state code. |

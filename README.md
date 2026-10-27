@@ -99,6 +99,14 @@ android {
         compose true
         viewBinding true
     }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
@@ -211,14 +219,14 @@ class DemoActivity : AppCompatActivity() {
 | `performVerificationCheck` | `true` | Wait for final onboarding confirmation. Set `false` to return the creation result directly. |
 | `pollingMaxAttempts` | `0` | Maximum result checks; `0` means no attempt limit. |
 | `pollingTimeoutSeconds` | `2` | Timeout in seconds for each result check. Use a larger value for slow connections. |
-
-When final verification remains pending, the SDK keeps waiting while `performVerificationCheck` is enabled. Set a positive `pollingMaxAttempts` to bound the total number of checks and handle the resulting error callback. `pollingTimeoutSeconds` applies to each request, not to the whole verification.
 | `debugLogsEnabled` | `false` | Enable optional client diagnostics. |
 | `preventScreenCapture` | `false` | Enable the SDK's screen-capture protection when `true`. |
 | `country`, `state` | `null` | Optional two-letter country code or comma-separated country list; optional US postal state code. |
 | `nationalIdType`, `documentNumber` | `null` | Optional prefilled document details. |
 | `nationalIdTypeChoices` | Empty array | Optional document subtype choices. |
 | `themeMode` | `ThemeMode.system` | `light`, `dark`, or the device's preferred appearance. |
+
+When final verification remains pending, the SDK keeps waiting while `performVerificationCheck` is enabled. Set a positive `pollingMaxAttempts` to bound the total number of checks and handle the resulting error callback. `pollingTimeoutSeconds` applies to each request, not to the whole verification.
 
 Set optional fields through `BDIVConfig` setters before starting the SDK. For authentication, use `Flow.Authentication`, an existing nonempty `userId`, and `emptyArray()` when documents are not required.
 
@@ -228,9 +236,13 @@ The SDK displays the steps and document types available for the contract. A supp
 
 Complete frames are used for document uploads. Cropped, perspective-corrected images are used for preview; if no crop is available, the preview can show the complete frame. Full-frame uploads preserve the image bounds while applying JPEG encoding and size limits.
 
-The host selects `themeMode`. Colors, logos, typography, component appearance, layout, and Compose screen copy are assigned to the contract. They are not configurable through `BDIVConfig`. Host `strings.xml` overrides apply to resource-backed labels, such as supported native component and error strings; they do not replace the contract-rendered Compose copy in this artifact. See [text customization](docs/PERSONALIZACION_TEXTOS.md).
+The SDK applies the flow, appearance and text assigned to the contract. `BDIVConfig` does not configure flow copy or design. Local resources are optional for native component instructions and technical loading/network labels; see the [native text guide](docs/PERSONALIZACION_TEXTOS.md).
 
 An animated loader remains visible until the first configured screen is ready. Its initial color uses the host's primary theme color, then its accent color. Document-only contracts do not require a facial result to complete.
+
+## R8 optimization
+
+The AAR includes R8 consumer rules. Enable code and resource shrinking in the host release as shown above. Follow the [R8 guide](docs/R8.md) to configure and validate the optimized release.
 
 ## Typed results and errors
 
@@ -246,7 +258,7 @@ The response object provides `toJson()`. Do not expect a response dictionary. `S
 
 ## Additional guides
 
-- [Text customization and its scope](docs/PERSONALIZACION_TEXTOS.md)
+- [Language and optional local text overrides](docs/PERSONALIZACION_TEXTOS.md)
 - [Optional client diagnostics](docs/LOGGING.md)
 - [Screen-capture protection](SCREEN_CAPTURE_CONFIGURATION.md)
 - [General connection/read/write timeout example](examples/network-config/res/values/become_config.xml). The default is 180 seconds; result checks use `BDIVConfig` polling settings instead.

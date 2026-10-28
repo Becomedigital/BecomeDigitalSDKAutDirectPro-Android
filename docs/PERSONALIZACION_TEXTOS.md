@@ -1,44 +1,41 @@
-# Text customization — Android
+# Native component text — Android
 
-## Scope of this distributed AAR
+## Become flow text
 
-The current Compose screens read their visible copy from the contract. If a key is missing, the SDK checks the requested locale, its base language, Spanish, and the bundled screen default.
+Become titles, instructions, consent, country/document selection, introductions, review and results are managed by the contract configuration. Local translation files are not required to receive those texts. Missing entries retain the SDK defaults.
 
-App `strings.xml` overrides apply where the SDK or a native component reads Android string resources. They do **not** replace the contract-rendered Compose labels in this artifact. In particular, defining legacy introduction or document-button resource names in the app does not override the corresponding Compose screen copy. `BDIVConfig` does not provide custom text, logo, color, or localization-table setters.
+This guide and its examples intentionally list native component and technical SDK keys only. Remove old flow entries from app resources when those phrases should follow contract updates. A supported local override can pin a phrase and hide later updates; do not copy the whole template.
 
-The [Spanish template](../examples/custom-texts/res/values/strings.xml) and [English template](../examples/custom-texts/res/values-b+en/strings.xml) include resource keys retained across SDK versions. Some are compatibility entries that the current flow does not display. Copy only keys used by the component or error label you want to customize.
+## Native technical SDK labels
 
-## Resource-backed labels
+These labels still read local resources rather than contract text. The examples retain verified startup `text_loader_init`; network errors `timeout_error`, `no_internet_error` and `connection_lost_error`; progress `text_info_upload`, `text_progress_result`, `text_progress_delay_result` and `text_progress_delay_finish_result` (the SDK appends the upload percentage).
 
-Use the exact Android resource name. For example:
+These are not flow title/action configuration keys.
+
+## Supported components
+
+| Component | Verified version | Local keys |
+| --- | --- | --- |
+| Microblink Capture UX | 1.2.0 | `mbic_*` |
+| Amplify Face Liveness | 1.10.0 | `amplify_ui_liveness_*` |
+
+This distribution retains Capture Legacy. BlinkID `mb_*` / `mb_blinkid_*` resources do not apply to its capture interface. Names differ across platforms; use this distribution’s keys.
+
+## Optional customization
+
+Add only the entries you intend to customize to `app/src/main/res/values/become_strings.xml`:
 
 ```xml
 <resources>
-    <string name="identity_error_documentfront">Capture the front again with all edges visible.</string>
-    <string name="identity_error_documentback">Capture the back again with all edges visible.</string>
-    <string name="timeout_error">The operation is taking too long. Try again.</string>
-    <string name="mbic_scan_the_front_side">Scan the front of your document</string>
-    <string name="amplify_ui_liveness_get_ready_begin_check">Start the liveness check</string>
+    <string name="mbic_flip_document">Turn the document over</string>
+    <string name="amplify_ui_liveness_challenge_connecting">Connecting…</string>
 </resources>
 ```
 
-| Component or label | Resource names |
-| --- | --- |
-| Identity and document errors | The applicable `identity_error_*` entries in the template |
-| Connection errors | `timeout_error`, `no_internet_error`, `connection_lost_error` |
-| Capture UX instructions | Supported `mbic_*` entries |
-| Amplify preparation and photosensitivity | Supported `amplify_ui_liveness_get_ready_*` entries |
-| Amplify capture instructions | Supported `amplify_ui_liveness_challenge_*` entries |
+The 16 Capture examples are the native resource IDs wired by this SDK’s Capture settings, not a generic catalog for other Capture versions. App resources replace the same merged resource names. Equivalent Amplify instructions may receive contract text; the native resource is the fallback when that instruction has no configured text. Contract-managed phrases should be updated through that configuration.
 
-Resource keys vary between Android and iOS. For example, Android uses `identity_error_documentfront`; the iOS resource uses `identity_error_documentFront`.
+Use `values-es` / `values-en` language variants; avoid duplicating `values-b+en`. See the optional [Spanish](../examples/custom-texts/res/values/strings.xml) and [English](../examples/custom-texts/res/values-b+en/strings.xml) examples.
 
-## Installation
+## Validation
 
-1. Add selected entries under the app's `app/src/main/res/values/become_strings.xml`, or its existing `strings.xml`.
-2. Add language variants under the corresponding Android resource qualifier, such as `values-en`. The supplied `values-b+en` example is also a valid English qualifier; use one location per language rather than duplicating it.
-3. Keep one `<resources>` root, preserve each `name`, and retain the app's own `app_name`.
-4. Preserve format placeholders and intended line breaks. Escape `&` as `&amp;` and Android apostrophes as needed.
-5. Rebuild the host app. App resource changes do not require rebuilding the AAR.
-6. Validate the affected native component or error message in each supported language on a physical device.
-
-Changing a resource does not enable a step, change the document type, or change the configured capture mode.
+Preserve exact key names, capitalization, format placeholders, and the meaning of camera safety and photosensitivity instructions. Edit only required values. Rebuild the app after resource changes; rebuilding the SDK is unnecessary. Validate customized languages on physical devices. `BDIVConfig` does not select a localization table or configure Become flow text.

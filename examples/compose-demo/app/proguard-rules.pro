@@ -1,1 +1,1 @@
-# The distributed Become AAR supplies its own consumer rules.
+# El AAR de Become incluido aporta las reglas de compatibilidad de la SDK.

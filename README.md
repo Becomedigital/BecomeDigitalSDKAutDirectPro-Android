@@ -1,6 +1,8 @@
 # Become Android SDK — Capture legacy
 
-This guide matches the `becomedigitalsdk.aar` distributed on `feature/mobile-contract-parity`. It provides Compose verification screens with onboarding and authentication, typed results, contract-controlled appearance, and Microblink Capture legacy document capture.
+This guide matches the supplied `becomedigitalsdk.aar`. It provides Compose verification screens with onboarding and authentication, typed results, contract-controlled appearance, and Microblink Capture legacy document capture.
+
+For a complete host app, see the [Jetpack Compose integration example](examples/compose-demo/README.md). It shows camera permission, the callback manager, SDK configuration, results, cancellation, and localizable resources. The example requires credentials and a capture license issued for your own contract and app ID before a verification can run.
 
 ## Validated integration versions
 

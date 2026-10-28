@@ -1,0 +1,12 @@
+/credentials.properties
+/local.properties
+/app/src/main/assets/com.become.mb.key
+/.gradle/
+/.kotlin/
+/build/
+/app/build/
+/.idea/
+*.apk
+*.aab
+*.jks
+*.keystore

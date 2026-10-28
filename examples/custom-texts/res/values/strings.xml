@@ -33,7 +33,7 @@
     <string name="mbic_torch_glare_tooltip_message">Cuidado con el reflejo de la linterna.\nMueve suavemente tu ID para evitarlo.</string>
     <string name="mbic_tutorial_fields_visible_title">Mantén todos los campos visibles</string>
     <string name="mbic_tutorial_harsh_light_title">Cuidado con la luz intensa</string>
-    <!-- Native startup, network errors and progress: these labels still read app resources. -->
+    <!-- Mensajes opcionales de carga, conexión y progreso de la aplicación. -->
     <string name="text_loader_init">Iniciando…</string>
     <string name="timeout_error">La conexión ha tardado demasiado. Inténtalo otra vez.</string>
     <string name="no_internet_error">No tienes conexión a Internet. Verifica tu red.</string>

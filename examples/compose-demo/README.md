@@ -1,18 +1,18 @@
-# Jetpack Compose integration example
+# Ejemplo de integración con Jetpack Compose
 
-This app shows how a Compose screen starts the distributed Android SDK through an `AppCompatActivity`. `BecomeComposeScreen` collects a user ID and requests camera permission. `BecomeComposeLauncher` retains the callback manager, configures `BDIVConfig`, and reports SDK completion or cancellation to Compose state.
+Este proyecto muestra cómo una pantalla de Compose inicia la SDK de Android distribuida mediante una `AppCompatActivity`. `BecomeComposeScreen` recibe el identificador de usuario y solicita el permiso de cámara. `BecomeComposeLauncher` conserva el administrador de respuestas, configura `BDIVConfig` y comunica la finalización o cancelación a la pantalla de Compose.
 
-This repository includes no client credentials or capture license for the example. A contract with Become, credentials for that contract, and a license issued for your app ID are required to complete a verification. The example builds without them and displays a missing configuration message before requesting camera permission.
+El repositorio no incluye credenciales de cliente ni licencia de captura para este ejemplo. Para completar una verificación necesitas un contrato con Become, las credenciales de ese contrato y una licencia emitida para el identificador de tu aplicación. Sin estos datos, el ejemplo compila y muestra un aviso de configuración faltante antes de solicitar el permiso de cámara.
 
-## Prepare your local app
+## Preparar la aplicación local
 
-1. Follow the [installation guide](../../README.md#installation-and-dependencies). Use JDK 21 and Android 7.0 or later.
-2. Copy `credentials.example.properties` to `credentials.properties`. Fill in `applicationId`, `clientId`, `clientSecret`, and `contractId` with the values issued for your integration. The real file is ignored by Git. The application ID must match the capture license; an empty `applicationId` uses a nonfunctional example ID.
-3. Place the license issued for that app ID at `app/src/main/assets/com.become.mb.key`. The license file is ignored by Git.
-4. Open this folder in Android Studio, select JDK 21 for Gradle, and build the `app` module. On a physical Android device, enter a user ID and tap **Start onboarding**.
+1. Lee la [guía de instalación](../../INSTALACION.md). Utiliza JDK 21 y Android 7.0 o posterior.
+2. Copia `credentials.example.properties` como `credentials.properties`. Completa `applicationId`, `clientId`, `clientSecret` y `contractId` con los valores entregados para tu integración. El archivo real está excluido de Git. El identificador de la aplicación debe coincidir con la licencia de captura; si dejas `applicationId` vacío, el proyecto utiliza un identificador de ejemplo que no está autorizado para verificar identidades.
+3. Coloca la licencia emitida para ese identificador en `app/src/main/assets/com.become.mb.key`. El archivo de licencia está excluido de Git.
+4. Abre esta carpeta en Android Studio, selecciona JDK 21 para Gradle y compila el módulo `app`. En un dispositivo Android físico, ingresa un identificador de usuario y toca **Iniciar verificación**.
 
-The app references `becomedigitalsdk.aar` and the two Capture AARs directly from the repository root. No SDK binary is copied into the example. The Gradle wrapper, plugin versions, and dependencies match the [distribution guide](../../README.md#installation-and-dependencies). Debug and Release both use the production SDK; a different build variant does not change its environment.
+La aplicación referencia directamente `becomedigitalsdk.aar` y los dos AAR de Capture de este repositorio. El ejemplo no contiene copias de esos binarios. Las versiones de Gradle, los complementos y las dependencias corresponden a la [guía de instalación](../../INSTALACION.md). Las variantes Debug y Release utilizan la SDK de producción; cambiar la variante no cambia su ambiente.
 
-`BDIVConfig.debugLogsEnabled` is enabled for support diagnostics. Logs can contain personal information from a test session. English and Spanish resources show how to translate the host screen and supported native text; [localization guidance](../../docs/PERSONALIZACION_TEXTOS.md) explains which flow text comes from the contract. See the [logging guide](../../docs/LOGGING.md) for diagnostics.
+`BDIVConfig.debugLogsEnabled` está activado para generar mensajes de diagnóstico. Los registros de una prueba pueden contener información personal. Los recursos en inglés y español muestran cómo traducir la pantalla de la aplicación y los textos nativos compatibles. La [guía de localización](../../docs/PERSONALIZACION_TEXTOS.md) explica cuáles textos del flujo provienen del contrato. Consulta también la [guía de registros](../../docs/LOGGING.md).
 
-Document capture and facial verification require a physical device and valid integration details. A successful build confirms compilation and resource packaging only. Do not commit `credentials.properties`, the license, or a built APK or AAB.
+La captura de documentos y la validación facial requieren un dispositivo físico y datos válidos de integración. Una compilación correcta solo confirma que el código y los recursos se empaquetan. No agregues a Git `credentials.properties`, la licencia ni un APK o AAB compilado.

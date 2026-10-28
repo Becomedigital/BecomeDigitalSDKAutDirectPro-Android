@@ -1,41 +1,96 @@
-# Native component text — Android
+# Localización de la SDK de Android
 
-## Become flow text
+La SDK utiliza los textos de verificación asociados a tu contrato. No necesitas agregar archivos locales para los títulos, consentimiento, selección de país y documento, introducciones, revisión o resultado. Si falta un texto del contrato, se conserva el valor disponible en la SDK.
 
-Become titles, instructions, consent, country/document selection, introductions, review and results are managed by the contract configuration. Local translation files are not required to receive those texts. Missing entries retain the SDK defaults.
+Puedes personalizar las indicaciones de captura y los mensajes de carga y conexión que se enumeran en esta guía.
 
-This guide and its examples intentionally list native component and technical SDK keys only. Remove old flow entries from app resources when those phrases should follow contract updates. A supported local override can pin a phrase and hide later updates; do not copy the whole template.
+## Agregar traducciones a tu aplicación
 
-## Native technical SDK labels
+1. Crea o edita `app/src/main/res/values/become_strings.xml`.
+2. Agrega únicamente las claves que deseas personalizar.
+3. Utiliza variantes como `values-es` y `values-en` para los idiomas que necesites.
 
-These labels still read local resources rather than contract text. The examples retain verified startup `text_loader_init`; network errors `timeout_error`, `no_internet_error` and `connection_lost_error`; progress `text_info_upload`, `text_progress_result`, `text_progress_delay_result` and `text_progress_delay_finish_result` (the SDK appends the upload percentage).
-
-These are not flow title/action configuration keys.
-
-## Supported components
-
-| Component | Verified version | Local keys |
-| --- | --- | --- |
-| Microblink Capture UX | 1.2.0 | `mbic_*` |
-| Amplify Face Liveness | 1.10.0 | `amplify_ui_liveness_*` |
-
-This distribution retains Capture Legacy. BlinkID `mb_*` / `mb_blinkid_*` resources do not apply to its capture interface. Names differ across platforms; use this distribution’s keys.
-
-## Optional customization
-
-Add only the entries you intend to customize to `app/src/main/res/values/become_strings.xml`:
+Ejemplo:
 
 ```xml
 <resources>
-    <string name="mbic_flip_document">Turn the document over</string>
-    <string name="amplify_ui_liveness_challenge_connecting">Connecting…</string>
+    <string name="mbic_flip_document">Voltea el documento</string>
+    <string name="amplify_ui_liveness_challenge_connecting">Conectando…</string>
+    <string name="text_loader_init">Iniciando…</string>
 </resources>
 ```
 
-The 16 Capture examples are the native resource IDs wired by this SDK’s Capture settings, not a generic catalog for other Capture versions. App resources replace the same merged resource names. Equivalent Amplify instructions may receive contract text; the native resource is the fallback when that instruction has no configured text. Contract-managed phrases should be updated through that configuration.
+Las claves no incluidas conservan sus traducciones disponibles. Para la captura facial, los textos configurados en el contrato tienen prioridad sobre la traducción local de la misma indicación; si no hay un texto configurado, se utiliza el recurso local disponible.
 
-Use `values-es` / `values-en` language variants; avoid duplicating `values-b+en`. See the optional [Spanish](../examples/custom-texts/res/values/strings.xml) and [English](../examples/custom-texts/res/values-b+en/strings.xml) examples.
+Encontrarás ejemplos en [español](../examples/custom-texts/res/values/strings.xml) e [inglés](../examples/custom-texts/res/values-b+en/strings.xml). Si tu aplicación ya contiene `values-en`, incorpora allí las entradas del ejemplo en inglés sin duplicarlas en `values-b+en`.
 
-## Validation
+## Claves disponibles
 
-Preserve exact key names, capitalization, format placeholders, and the meaning of camera safety and photosensitivity instructions. Edit only required values. Rebuild the app after resource changes; rebuilding the SDK is unnecessary. Validate customized languages on physical devices. `BDIVConfig` does not select a localization table or configure Become flow text.
+Estas claves corresponden a Capture UX 1.2.0 y Face Liveness 1.10.0, las dependencias de esta entrega. Utiliza los nombres exactos de esta plataforma.
+
+### Carga, progreso y conexión
+
+| Clave | Ejemplo de texto |
+| --- | --- |
+| `text_loader_init` | Iniciando… |
+| `timeout_error` | La conexión ha tardado demasiado. Inténtalo otra vez. |
+| `no_internet_error` | No tienes conexión a Internet. Verifica tu red. |
+| `connection_lost_error` | Se perdió la conexión a Internet. Inténtalo nuevamente. |
+| `text_info_upload` | Estamos subiendo tu información... |
+| `text_progress_result` | Verificando el resultado... |
+| `text_progress_delay_result` | Estamos por finalizar |
+| `text_progress_delay_finish_result` | Estamos tardando un poco más de lo normal |
+
+La SDK agrega el porcentaje al mensaje de carga; no agregues un marcador de porcentaje a estas claves.
+
+### Captura de documento
+
+| Clave | Ejemplo de texto |
+| --- | --- |
+| `mbic_check_internet_connection` | Verifica la conexión a internet |
+| `mbic_flip_document` | Voltea el documento |
+| `mbic_lightning_too_bright` | Muévete a un lugar con menos iluminación |
+| `mbic_lightning_too_dark` | Muévete a un lugar más brillante |
+| `mbic_move_closer` | Acércate |
+| `mbic_move_farther` | Aleja |
+| `mbic_need_help_tooltip` | ¿Necesitas ayuda? |
+| `mbic_network_error` | Error de red |
+| `mbic_occluded` | Mantén el documento completamente visible |
+| `mbic_onboarding_field_visible_title` | Mantén todos los detalles visibles |
+| `mbic_scan_the_back_side` | Escanea el lado posterior del documento |
+| `mbic_scan_the_front_side` | Escanea el lado frontal del documento |
+| `mbic_scanning_not_available` | Escaneo no disponible |
+| `mbic_torch_glare_tooltip_message` | Cuidado con el reflejo de la linterna.<br>Mueve suavemente tu ID para evitarlo. |
+| `mbic_tutorial_fields_visible_title` | Mantén todos los campos visibles |
+| `mbic_tutorial_harsh_light_title` | Cuidado con la luz intensa |
+
+### Captura facial
+
+| Clave | Ejemplo de texto |
+| --- | --- |
+| `amplify_ui_liveness_challenge_a11y_cancel_content_description` | Cancelar desafío |
+| `amplify_ui_liveness_challenge_connecting` | Conectando |
+| `amplify_ui_liveness_challenge_instruction_hold_face_during_freshness` | No te muevas |
+| `amplify_ui_liveness_challenge_instruction_move_face` | Mueve tu rostro frente a la cámara |
+| `amplify_ui_liveness_challenge_instruction_move_face_closer` | Acércate |
+| `amplify_ui_liveness_challenge_instruction_move_face_further` | Aléjate |
+| `amplify_ui_liveness_challenge_instruction_multiple_faces_detected` | Solo un rostro por verificación |
+| `amplify_ui_liveness_challenge_recording_indicator_label` | REC |
+| `amplify_ui_liveness_challenge_verifying` | Verificando |
+| `amplify_ui_liveness_get_ready_a11y_photosensitivity_icon_content_description` | Información sobre fotosensibilidad |
+| `amplify_ui_liveness_get_ready_begin_check` | Iniciar verificación de video |
+| `amplify_ui_liveness_get_ready_center_face_label` | Centra tu rostro |
+| `amplify_ui_liveness_get_ready_photosensitivity_description` | Esta verificación parpadea con diferentes colores. Usa precaución si eres fotosensible. |
+| `amplify_ui_liveness_get_ready_photosensitivity_dialog_description` | Algunas personas pueden experimentar convulsiones epilépticas al exponerse a luces de colores. Usa precaución si tú o alguien de tu familia tiene una condición epiléptica. |
+| `amplify_ui_liveness_get_ready_photosensitivity_dialog_dismiss` | Entendido |
+| `amplify_ui_liveness_get_ready_photosensitivity_dialog_title` | Advertencia de fotosensibilidad |
+| `amplify_ui_liveness_get_ready_photosensitivity_title` | Advertencia de fotosensibilidad |
+
+## Recomendaciones
+
+- Mantén los nombres, mayúsculas, saltos de línea y marcadores de formato de cada clave.
+- Conserva el significado de los avisos de permisos, seguridad de captura y fotosensibilidad.
+- Verifica las traducciones en un dispositivo físico con el idioma que utilizará tu usuario.
+- Actualiza los textos generales de verificación en la configuración del contrato. `BDIVConfig` permite elegir `themeMode`, pero no establece una tabla de traducciones ni textos del flujo.
+
+Volver a la [guía de integración](../README.md).

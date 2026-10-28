@@ -1,6 +1,10 @@
 # Revisión al actualizar la integración
 
-Estos son los aspectos de funcionamiento público que debes revisar al incorporar esta entrega de la SDK.
+Esta entrega actualiza Capture Core y Capture UX a **1.4.1** para admitir dispositivos Android con páginas de memoria de **16 KB**. Reemplaza ambos archivos de Capture junto con `becomedigitalsdk.aar` y utiliza AppCompat **1.7.1**, según la [guía de instalación](../INSTALACION.md).
+
+Los parámetros de inicialización y los resultados públicos se conservan. Comprueba la licencia de tu aplicación y realiza las pruebas de captura en un dispositivo físico.
+
+Estos son los demás aspectos de funcionamiento público que debes revisar al incorporar esta entrega de la SDK.
 
 | Aspecto | Comportamiento y acción de integración |
 | --- | --- |

@@ -1,5 +1,7 @@
 # Instalación de la SDK de Become
 
+Esta entrega incluye Capture Core y Capture UX **1.4.1**, con soporte para páginas de memoria de **16 KB**. Reemplaza los dos archivos de Capture al actualizar la SDK. Comprueba también las demás dependencias de tu aplicación y realiza la prueba final en un dispositivo compatible con 16 KB.
+
 ## Requisitos
 
 | Requisito | Versión o condición |
@@ -11,7 +13,7 @@
 | Gradle | 9.2.1 |
 | Complemento de Android para Gradle | 9.0.1 |
 | Kotlin y complemento de Compose | 2.2.10 |
-| Capture Core y Capture UX incluidos | 1.2.0 |
+| Capture Core y Capture UX incluidos | 1.4.1 |
 | Licencia de captura | Emitida para el `applicationId` de tu aplicación |
 
 Necesitas las credenciales y el identificador de contrato entregados por Become. Esta entrega está preparada para producción. Realiza las pruebas de cámara, documentos y rostro en un dispositivo físico.
@@ -23,8 +25,8 @@ Necesitas las credenciales y el identificador de contrato entregados por Become.
 Copia los siguientes archivos a `app/libs`:
 
 - [`becomedigitalsdk.aar`](becomedigitalsdk.aar)
-- [`capture-core-1.2.0.aar`](libs/capture-core-1.2.0.aar)
-- [`capture-ux-1.2.0.aar`](libs/capture-ux-1.2.0.aar)
+- [`capture-core-1.4.1.aar`](libs/capture-core-1.4.1.aar)
+- [`capture-ux-1.4.1.aar`](libs/capture-ux-1.4.1.aar)
 
 Incluye también las dependencias de los ejemplos siguientes, aunque tu contrato no solicite captura facial. Si ya utilizas alguna en tu aplicación, mantén una única versión compatible con esta entrega.
 
@@ -83,6 +85,8 @@ android {
         applicationId "TU_APPLICATION_ID"
         minSdk 24
         targetSdk 36
+        versionCode 1
+        versionName "1.0"
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -106,12 +110,12 @@ android {
 
 dependencies {
     implementation files("libs/becomedigitalsdk.aar")
-    implementation files("libs/capture-core-1.2.0.aar")
-    implementation files("libs/capture-ux-1.2.0.aar")
+    implementation files("libs/capture-core-1.4.1.aar")
+    implementation files("libs/capture-ux-1.4.1.aar")
     implementation platform("androidx.compose:compose-bom:2026.06.00")
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.5"
 
-    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.7.1"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "androidx.core:core-ktx:1.15.0"
     implementation "androidx.activity:activity-ktx:1.12.4"

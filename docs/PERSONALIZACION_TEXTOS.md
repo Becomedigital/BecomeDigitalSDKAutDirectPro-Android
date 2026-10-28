@@ -26,7 +26,7 @@ Encontrarás ejemplos en [español](../examples/custom-texts/res/values/strings.
 
 ## Claves disponibles
 
-Estas claves corresponden a Capture UX 1.2.0 y Face Liveness 1.10.0, las dependencias de esta entrega. Utiliza los nombres exactos de esta plataforma.
+Estas claves corresponden a Capture UX 1.4.1 y Face Liveness 1.10.0, las dependencias de esta entrega. Utiliza los nombres exactos de esta plataforma.
 
 ### Carga, progreso y conexión
 

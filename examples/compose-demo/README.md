@@ -1,18 +1,24 @@
-# Jetpack Compose integration example
+# Ejemplo de integración con Compose
 
-This app shows how a Compose screen starts the distributed Android SDK through an `AppCompatActivity`. `BecomeComposeScreen` collects a user ID and requests camera permission. `BecomeComposeLauncher` retains the callback manager, configures `BDIVConfig`, and reports SDK completion or cancellation to Compose state.
+Este proyecto muestra cómo iniciar la SDK de Become desde una pantalla Compose: solicita el permiso de cámara, configura la verificación y presenta su resultado o cancelación.
 
-This repository includes no client credentials or capture license for the example. A contract with Become, credentials for that contract, and a license issued for your app ID are required to complete a verification. The example builds without them and displays a missing configuration message before requesting camera permission.
+## Preparar la aplicación
 
-## Prepare your local app
+1. Sigue los requisitos y dependencias de la [guía de instalación](../../INSTALACION.md). Utiliza JDK 21 para esta configuración.
+2. Copia `credentials.example.properties` como `credentials.properties` y completa `applicationId`, `clientId`, `clientSecret` y `contractId` con los datos de tu integración. El archivo local está excluido de Git.
+3. Agrega la licencia emitida para ese identificador como `app/src/main/assets/com.become.mb.key`. Cada identificador de aplicación requiere su propia licencia.
+4. Abre esta carpeta en Android Studio y genera la aplicación. En un dispositivo físico, ingresa el identificador del usuario e inicia el onboarding.
 
-1. Follow the [installation guide](../../README.md#installation-and-dependencies). Use JDK 21 and Android 7.0 or later.
-2. Copy `credentials.example.properties` to `credentials.properties`. Fill in `applicationId`, `clientId`, `clientSecret`, and `contractId` with the values issued for your integration. The real file is ignored by Git. The application ID must match the capture license; an empty `applicationId` uses a nonfunctional example ID.
-3. Place the license issued for that app ID at `app/src/main/assets/com.become.mb.key`. The license file is ignored by Git.
-4. Open this folder in Android Studio, select JDK 21 for Gradle, and build the `app` module. On a physical Android device, enter a user ID and tap **Start onboarding**.
+El ejemplo utiliza el archivo `becomedigitalsdk.aar` y los dos AAR de Capture Core/UX **1.4.1** incluidos en este repositorio. Mantén estos archivos actualizados en conjunto. Incluye los ajustes de AppCompat **1.7.1** necesarios para esta entrega.
 
-The app references `becomedigitalsdk.aar` and the two Capture AARs directly from the repository root. No SDK binary is copied into the example. The Gradle wrapper, plugin versions, and dependencies match the [distribution guide](../../README.md#installation-and-dependencies). Debug and Release both use the production SDK; a different build variant does not change its environment.
+El proyecto puede compilar sin credenciales ni licencia; para completar una verificación necesita los valores válidos de tu integración. Si falta alguno, muestra un mensaje antes de solicitar la cámara. No incluyas esos valores ni los archivos de licencia al compartir el proyecto.
 
-`BDIVConfig.debugLogsEnabled` is enabled for support diagnostics. Logs can contain personal information from a test session. English and Spanish resources show how to translate the host screen and supported native text; [localization guidance](../../docs/PERSONALIZACION_TEXTOS.md) explains which flow text comes from the contract. See the [logging guide](../../docs/LOGGING.md) for diagnostics.
+## Idioma y diagnóstico
 
-Document capture and facial verification require a physical device and valid integration details. A successful build confirms compilation and resource packaging only. Do not commit `credentials.properties`, the license, or a built APK or AAB.
+La pantalla de ejemplo y las instrucciones de captura incluyen recursos en español e inglés. Consulta las [claves de localización](../../docs/PERSONALIZACION_TEXTOS.md) para personalizar solo los textos que necesites.
+
+El ejemplo activa `debugLogsEnabled` para facilitar el soporte. Revisa los mensajes antes de compartirlos y desactiva la opción al terminar tus pruebas, según la [guía de diagnóstico](../../docs/LOGGING.md).
+
+## Prueba de integración
+
+Comprueba en un dispositivo físico el permiso de cámara, los lados del documento, la alternativa manual, la revisión de las imágenes, la cancelación y la recepción del resultado. Utiliza también la versión de publicación de tu aplicación al realizar esta comprobación.

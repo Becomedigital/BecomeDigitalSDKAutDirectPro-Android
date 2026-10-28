@@ -1,4 +1,4 @@
-# Ejemplo de integración con Compose
+# Ejemplo de integración con Compose Legacy
 
 Este proyecto muestra cómo iniciar la SDK de Become desde una pantalla Compose: solicita el permiso de cámara, configura la verificación y presenta su resultado o cancelación.
 
@@ -7,7 +7,7 @@ Este proyecto muestra cómo iniciar la SDK de Become desde una pantalla Compose:
 1. Sigue los requisitos y dependencias de la [guía de instalación](../../INSTALACION.md). Utiliza JDK 21 para esta configuración.
 2. Copia `credentials.example.properties` como `credentials.properties` y completa `applicationId`, `clientId`, `clientSecret` y `contractId` con los datos de tu integración. El archivo local está excluido de Git.
 3. Agrega la licencia emitida para ese identificador como `app/src/main/assets/com.become.mb.key`. Cada identificador de aplicación requiere su propia licencia.
-4. Abre esta carpeta en Android Studio y genera la aplicación. En un dispositivo físico, ingresa el identificador del usuario e inicia el onboarding.
+4. Abre esta carpeta en Android Studio; el proyecto se muestra como `BecomeComposeDemoLegacy`. Genera la aplicación. En un dispositivo físico, ingresa el identificador del usuario e inicia el onboarding.
 
 El ejemplo utiliza el archivo `becomedigitalsdk.aar` y los dos AAR de Capture Core/UX **1.4.1** incluidos en este repositorio. Mantén estos archivos actualizados en conjunto. Incluye los ajustes de AppCompat **1.7.1** necesarios para esta entrega.
 

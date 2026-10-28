@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="host_app_name">Become Legacy Integration</string>
+    <string name="host_app_name">Become Integration Legacy</string>
     <string name="user_id_label">User ID</string>
     <string name="user_id_required">Enter a user ID</string>
     <string name="camera_permission_required">Camera permission is required</string>

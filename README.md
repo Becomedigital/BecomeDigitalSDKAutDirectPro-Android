@@ -17,6 +17,7 @@ Consulta el [proyecto de ejemplo con Compose](examples/compose-demo/README.md) p
 - [Instalación](INSTALACION.md#instalación)
 - [Licencia y permisos](INSTALACION.md#licencia-y-permisos)
 - [Iniciar una verificación](#iniciar-una-verificación)
+- [JWT y compatibilidad con credenciales](docs/AUTENTICACION.md)
 - [Configurar la SDK](#configurar-la-sdk)
 - [Consultar el resultado](#consultar-el-resultado)
 - [Apariencia e idioma](#apariencia-e-idioma)
@@ -24,7 +25,7 @@ Consulta el [proyecto de ejemplo con Compose](examples/compose-demo/README.md) p
 
 ## Antes de comenzar
 
-Necesitas una aplicación para Android 7.0 o posterior, las credenciales de tu integración, el identificador del contrato y la licencia de captura correspondiente a tu aplicación. Sigue la [guía de instalación](INSTALACION.md) para agregar la SDK, sus dependencias y permisos.
+Necesitas una aplicación para Android 7.0 o posterior, un JWT válido obtenido mediante tu backend, el identificador del contrato y la licencia de captura correspondiente a tu aplicación. Sigue la [guía de instalación](INSTALACION.md) para agregar la SDK, sus dependencias y permisos.
 
 ## Iniciar una verificación
 
@@ -42,7 +43,7 @@ import com.becomedigital.sdk.identity.becomedigitalsdk.models.DocumetType
 class VerificacionActivity : AppCompatActivity() {
     private val callbackManager = BecomeCallBackManager.createNew()
 
-    fun iniciarOnboarding() {
+    fun iniciarOnboarding(jwt: String) {
         BecomeResponseManager.getInstance().registerCallback(
             callbackManager,
             object : BecomeInterfaseCallback {
@@ -74,7 +75,7 @@ class VerificacionActivity : AppCompatActivity() {
             }
         )
         val config = BDIVConfig(
-            "TU_CLIENT_ID", "TU_CLIENT_SECRET", "TU_CONTRACT_ID",
+            jwt, "TU_CONTRACT_ID",
             arrayOf(DocumetType.DNI, DocumetType.PASSPORT, DocumetType.LICENSE),
             true, "TU_USER_ID"
         )
@@ -85,7 +86,9 @@ class VerificacionActivity : AppCompatActivity() {
 }
 ```
 
-Utiliza los identificadores `clienId`, `DocumetType`, `BecomeInterfaseCallback` y `SUCCES` exactamente como aparecen en esta guía. El método `startAuthentication` inicia el flujo que hayas elegido en `config.flow`.
+Entrega `jwt` sin el prefijo `Bearer `. Tu aplicación debe obtenerlo mediante su backend antes de iniciar la SDK y gestionar su vigencia y renovación. No incluyas credenciales en una integración nueva. Consulta la [guía de JWT y compatibilidad](docs/AUTENTICACION.md).
+
+Utiliza los identificadores `DocumetType`, `BecomeInterfaseCallback` y `SUCCES` exactamente como aparecen en esta guía. El método `startAuthentication` inicia el flujo que hayas elegido en `config.flow`.
 
 ### Autenticar a un usuario existente
 
@@ -97,7 +100,8 @@ Define las opciones mediante el constructor y los métodos de `BDIVConfig` antes
 
 | Parámetro | Valor predeterminado | Uso |
 | --- | --- | --- |
-| `clienId`, `clientSecret`, `contractId` | Obligatorios | Credenciales de tu integración e identificador del contrato. No deben estar vacíos. |
+| `jwt` | Obligatorio en la firma recomendada | Token válido de tu integración, sin el prefijo `Bearer `. No debe estar vacío. |
+| `contractId` | Obligatorio | Identificador del contrato. No debe estar vacío. |
 | `userId` | Argumento obligatorio | Identificador del usuario. En onboarding puede ser una cadena vacía; en autenticación debe identificar a un usuario existente. |
 | `documentTypes` | Argumento obligatorio | Tipos `DNI`, `PASSPORT` y `LICENSE`. Un arreglo vacío utiliza los disponibles en el contrato. |
 | `allowLibraryLoading` | Argumento obligatorio | Indica `true` como en el ejemplo. El modo de captura corresponde al contrato. |
@@ -115,6 +119,8 @@ Define las opciones mediante el constructor y los métodos de `BDIVConfig` antes
 | `themeMode` | `ThemeMode.system` | Apariencia `light`, `dark` o la preferencia del dispositivo con `system`. |
 
 En Kotlin puedes utilizar las propiedades, por ejemplo `config.themeMode = BDIVConfig.ThemeMode.dark`. En Java, utiliza los métodos, por ejemplo `config.setThemeMode(BDIVConfig.ThemeMode.dark)`.
+
+Las firmas anteriores con `clienId` y `clientSecret` siguen disponibles y funcionales, marcadas como deprecadas. Conservan sus parámetros y valores predeterminados para permitir una migración gradual a JWT. Revisa los [ejemplos de migración](docs/AUTENTICACION.md#integraciones-existentes).
 
 ### Espera del resultado
 
@@ -155,6 +161,7 @@ Las indicaciones de captura y algunos mensajes de carga y conexión admiten trad
 ## Guías complementarias
 
 - [Instalación, dependencias, licencia y permisos](INSTALACION.md)
+- [JWT y compatibilidad con credenciales](docs/AUTENTICACION.md)
 - [Resultados, errores y cancelación](docs/ERRORES.md)
 - [Localización y claves disponibles](docs/PERSONALIZACION_TEXTOS.md)
 - [Diagnóstico para soporte](docs/LOGGING.md)

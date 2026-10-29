@@ -16,7 +16,7 @@ Esta entrega incluye Capture Core y Capture UX **1.4.1**, con soporte para pági
 | Capture Core y Capture UX incluidos | 1.4.1 |
 | Licencia de captura | Emitida para el `applicationId` de tu aplicación |
 
-Necesitas las credenciales y el identificador de contrato entregados por Become. Esta entrega está preparada para producción. Realiza las pruebas de cámara, documentos y rostro en un dispositivo físico.
+Necesitas un JWT válido obtenido mediante tu backend y el identificador de contrato de tu integración. Esta entrega está preparada para producción; utiliza un token correspondiente a ese ambiente. Consulta la [guía de autenticación de la integración](docs/AUTENTICACION.md). Realiza las pruebas de cámara, documentos y rostro en un dispositivo físico.
 
 ## Instalación
 

@@ -15,8 +15,7 @@ Define el valor antes de iniciar la verificación:
 
 ```java
 BDIVConfig config = new BDIVConfig(
-    clientId,
-    clientSecret,
+    jwt,
     contractId,
     documentTypes,
     true,

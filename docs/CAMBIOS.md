@@ -2,12 +2,13 @@
 
 Esta entrega actualiza Capture Core y Capture UX a **1.4.1** para admitir dispositivos Android con páginas de memoria de **16 KB**. Reemplaza ambos archivos de Capture junto con `becomedigitalsdk.aar` y utiliza AppCompat **1.7.1**, según la [guía de instalación](../INSTALACION.md).
 
-Los parámetros de inicialización y los resultados públicos se conservan. Comprueba la licencia de tu aplicación y realiza las pruebas de captura en un dispositivo físico.
+La inicialización recomendada ahora recibe `jwt`. Las firmas anteriores con `clienId` y `clientSecret` siguen funcionando y están marcadas como deprecadas, sin una versión de retiro anunciada. Sus parámetros y valores predeterminados se conservan, al igual que los resultados públicos. Consulta la [guía de migración](AUTENTICACION.md). Comprueba la licencia de tu aplicación y realiza las pruebas de captura en un dispositivo físico.
 
 Estos son los demás aspectos de funcionamiento público que debes revisar al incorporar esta entrega de la SDK.
 
 | Aspecto | Comportamiento y acción de integración |
 | --- | --- |
+| Acceso a la SDK | Obtén un JWT mediante tu backend y entrégalo a `BDIVConfig`. Tu aplicación administra su vigencia y renovación. Las firmas con credenciales siguen disponibles durante la migración. |
 | Flujos | Se mantienen **Onboarding** y **Authentication**. Para autenticar a un usuario existente, selecciona `Flow.Authentication` e indica su `userId`. |
 | Pasos y documentos | Se muestran los pasos y tipos de documento disponibles para el contrato. Un único tipo también se presenta para confirmación. |
 | Apariencia y textos | Se utilizan los asociados al contrato. El modo claro, oscuro o del sistema se elige con `themeMode`. |

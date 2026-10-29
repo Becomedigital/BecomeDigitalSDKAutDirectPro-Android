@@ -16,6 +16,7 @@ Consulta el [proyecto de ejemplo con Compose](examples/compose-demo/README.md) p
 - [Requisitos](INSTALACION.md#requisitos)
 - [Instalación](INSTALACION.md#instalación)
 - [Licencia y permisos](INSTALACION.md#licencia-y-permisos)
+- [Firmas de inicialización](#firmas-de-inicialización)
 - [Iniciar una verificación](#iniciar-una-verificación)
 - [JWT y compatibilidad con credenciales](docs/AUTENTICACION.md)
 - [Configurar la SDK](#configurar-la-sdk)
@@ -26,6 +27,35 @@ Consulta el [proyecto de ejemplo con Compose](examples/compose-demo/README.md) p
 ## Antes de comenzar
 
 Necesitas una aplicación para Android 7.0 o posterior, un JWT válido obtenido mediante tu backend, el identificador del contrato y la licencia de captura correspondiente a tu aplicación. Sigue la [guía de instalación](INSTALACION.md) para agregar la SDK, sus dependencias y permisos.
+
+## Firmas de inicialización
+
+### Firma recomendada: JWT
+
+Para una integración nueva, utiliza el JWT obtenido mediante tu backend:
+
+```kotlin
+val config = BDIVConfig(
+    jwt, contractId, documentTypes, allowLibraryLoading, userId
+)
+```
+
+`jwt` no debe incluir el prefijo `Bearer `. Tu integración administra su vigencia y renovación.
+
+### Firma deprecada: credenciales
+
+Las aplicaciones existentes pueden seguir usando esta firma durante la migración:
+
+```kotlin
+// Deprecada, todavía compatible.
+val config = BDIVConfig(
+    clientId, clientSecret, contractId, documentTypes, allowLibraryLoading, userId
+)
+```
+
+El parámetro de la API se llama `clienId`; `clientId` en el ejemplo es la variable de tu aplicación. Esta firma sigue funcionando y genera una advertencia de deprecación en Java y Kotlin. No se anuncia una versión de retiro en esta entrega.
+
+Para migrar, prepara la obtención del JWT en tu backend y reemplaza los dos argumentos `clientId, clientSecret` por `jwt`. Conserva el contrato, los documentos, el usuario y las opciones adicionales de tu constructor. Consulta los [ejemplos Java/Kotlin y las ocho variantes de ambas firmas](docs/AUTENTICACION.md#opciones-adicionales-del-constructor).
 
 ## Iniciar una verificación
 
@@ -102,6 +132,7 @@ Define las opciones mediante el constructor y los métodos de `BDIVConfig` antes
 | --- | --- | --- |
 | `jwt` | Obligatorio en la firma recomendada | Token válido de tu integración, sin el prefijo `Bearer `. No debe estar vacío. |
 | `contractId` | Obligatorio | Identificador del contrato. No debe estar vacío. |
+| `clienId`, `clientSecret` | Solo en la firma deprecada | Credenciales no vacías de una integración existente. Para nuevas integraciones, utiliza la firma JWT. |
 | `userId` | Argumento obligatorio | Identificador del usuario. En onboarding puede ser una cadena vacía; en autenticación debe identificar a un usuario existente. |
 | `documentTypes` | Argumento obligatorio | Tipos `DNI`, `PASSPORT` y `LICENSE`. Un arreglo vacío utiliza los disponibles en el contrato. |
 | `allowLibraryLoading` | Argumento obligatorio | Indica `true` como en el ejemplo. El modo de captura corresponde al contrato. |

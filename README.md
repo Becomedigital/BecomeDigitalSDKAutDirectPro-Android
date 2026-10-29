@@ -7,7 +7,7 @@ Puedes iniciar dos flujos:
 - **Onboarding:** registro y verificación de una identidad.
 - **Authentication:** autenticación de un usuario existente.
 
-Los pasos, documentos admitidos, apariencia y textos de la verificación corresponden al contrato de tu organización. Esta entrega utiliza Capture Core y Capture UX **1.4.1** para admitir dispositivos Android con páginas de memoria de **16 KB**.
+Los pasos, documentos admitidos, apariencia y textos de la verificación corresponden al contrato de tu organización. Esta entrega amplía la compatibilidad con dispositivos Android con páginas de memoria de **16 KB**. Consulta los requisitos y dependencias en la [guía de instalación](INSTALACION.md).
 
 Consulta el [proyecto de ejemplo con Compose](examples/compose-demo/README.md) para integrar el inicio, los permisos y el resultado en tu aplicación.
 

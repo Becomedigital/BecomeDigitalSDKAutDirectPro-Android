@@ -1,6 +1,6 @@
 # Revisión al actualizar la integración
 
-Esta entrega actualiza Capture Core y Capture UX a **1.4.1** para admitir dispositivos Android con páginas de memoria de **16 KB**. Reemplaza ambos archivos de Capture junto con `becomedigitalsdk.aar` y utiliza AppCompat **1.7.1**, según la [guía de instalación](../INSTALACION.md).
+Esta entrega amplía la compatibilidad con dispositivos Android con páginas de memoria de **16 KB**. Al actualizar, sigue la [guía de instalación](../INSTALACION.md) para reemplazar los archivos de la SDK y configurar las dependencias de tu aplicación.
 
 La inicialización recomendada ahora recibe `jwt`. Las firmas anteriores con `clienId` y `clientSecret` siguen funcionando y están marcadas como deprecadas, sin una versión de retiro anunciada. Sus parámetros y valores predeterminados se conservan, al igual que los resultados públicos. Consulta la [guía de migración](AUTENTICACION.md). Comprueba la licencia de tu aplicación y realiza las pruebas de captura en un dispositivo físico.
 

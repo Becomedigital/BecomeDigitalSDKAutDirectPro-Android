@@ -9,6 +9,8 @@
     <string name="status_starting">Iniciando verificación</string>
     <string name="status_cancelled">Verificación cancelada</string>
     <string name="sdk_status">Estado de la SDK: %1$s</string>
-    <string name="credentials_missing">Faltan las credenciales locales de la demo</string>
+    <string name="jwt_label">JWT de acceso</string>
+    <string name="jwt_missing">Ingresa un JWT de acceso</string>
+    <string name="configuration_missing">Falta el contrato local de la demo</string>
     <string name="license_missing">Falta la licencia de captura en la aplicación</string>
 </resources>

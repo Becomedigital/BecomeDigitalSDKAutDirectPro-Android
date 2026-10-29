@@ -22,8 +22,6 @@ android {
         targetSdk 36
         versionCode 1
         versionName '1.0'
-        buildConfigField 'String', 'BECOME_CLIENT_ID', '"' + credentialValue('clientId') + '"'
-        buildConfigField 'String', 'BECOME_CLIENT_SECRET', '"' + credentialValue('clientSecret') + '"'
         buildConfigField 'String', 'BECOME_CONTRACT_ID', '"' + credentialValue('contractId') + '"'
     }
     buildTypes {

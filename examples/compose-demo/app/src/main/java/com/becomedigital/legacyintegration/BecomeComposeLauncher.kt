@@ -36,11 +36,13 @@ class BecomeComposeLauncher(private val activity: AppCompatActivity) {
         status = message
     }
 
-    fun checkConfiguration(): Boolean {
-        if (BuildConfig.BECOME_CLIENT_ID.isBlank() ||
-            BuildConfig.BECOME_CLIENT_SECRET.isBlank() ||
-            BuildConfig.BECOME_CONTRACT_ID.isBlank()) {
-            status = activity.getString(R.string.credentials_missing)
+    fun checkConfiguration(jwt: String): Boolean {
+        if (jwt.isBlank()) {
+            status = activity.getString(R.string.jwt_missing)
+            return false
+        }
+        if (BuildConfig.BECOME_CONTRACT_ID.isBlank()) {
+            status = activity.getString(R.string.configuration_missing)
             return false
         }
         try {
@@ -52,11 +54,10 @@ class BecomeComposeLauncher(private val activity: AppCompatActivity) {
         return true
     }
 
-    fun startOnboarding(userId: String) {
-        if (!checkConfiguration()) return
+    fun startOnboarding(userId: String, jwt: String) {
+        if (!checkConfiguration(jwt)) return
         val config = BDIVConfig(
-            BuildConfig.BECOME_CLIENT_ID,
-            BuildConfig.BECOME_CLIENT_SECRET,
+            jwt.trim(),
             BuildConfig.BECOME_CONTRACT_ID,
             arrayOf(DocumetType.DNI, DocumetType.PASSPORT),
             true,

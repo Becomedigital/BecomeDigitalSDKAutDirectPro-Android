@@ -9,6 +9,8 @@
     <string name="status_starting">Starting onboarding</string>
     <string name="status_cancelled">Cancelled</string>
     <string name="sdk_status">SDK status: %1$s</string>
-    <string name="credentials_missing">Local demo credentials are missing</string>
+    <string name="jwt_label">Access JWT</string>
+    <string name="jwt_missing">Enter an access JWT</string>
+    <string name="configuration_missing">The local demo contract is missing</string>
     <string name="license_missing">The capture license is missing from the app</string>
 </resources>

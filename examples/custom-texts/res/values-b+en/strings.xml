@@ -33,7 +33,7 @@
     <string name="mbic_torch_glare_tooltip_message">Beware of the flashlight reflection. Gently move your ID to avoid it.</string>
     <string name="mbic_tutorial_fields_visible_title">Keep all fields visible</string>
     <string name="mbic_tutorial_harsh_light_title">Beware of intense light</string>
-    <!-- Native startup, network errors and progress: these labels still read app resources. -->
+    <!-- Mensajes opcionales de carga, conexión y progreso de la aplicación. -->
     <string name="text_loader_init">Starting...</string>
     <string name="timeout_error">The connection took too long. Please try again.</string>
     <string name="no_internet_error">You have no Internet connection. Please check your network.</string>

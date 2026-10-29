@@ -1,18 +1,16 @@
-# Diagnóstico — Android
+# Diagnóstico para soporte en Android
 
-Para una prueba, active el parámetro antes de iniciar la SDK:
+Activa `debugLogsEnabled` cuando necesites recopilar información para revisar una incidencia de integración. Su valor predeterminado es `false`.
 
 ```kotlin
 config.setDebugLogsEnabled(true)
 BecomeResponseManager.getInstance().startAuthentication(activity, config)
 ```
 
-En Java, use también `config.setDebugLogsEnabled(true)`. El valor predeterminado es `false`; vuelva a desactivarlo al terminar.
+En Java, utiliza también `config.setDebugLogsEnabled(true)` antes de iniciar la SDK.
 
-En Logcat, filtre por `tag:BecomeSDK level:DEBUG`. Por terminal:
+En Logcat de Android Studio, filtra por la etiqueta `BecomeSDK` y habilita el nivel **Debug**. Para soporte, indica la versión de la SDK, el dispositivo, la versión de Android y el paso donde ocurrió el problema.
 
-```sh
-adb logcat -v threadtime 'BecomeSDK:D' '*:S'
-```
+Comparte solo los mensajes relevantes y revisa su contenido antes de enviarlos. No incluyas JWT, credenciales, licencias, imágenes ni datos personales.
 
-Para solicitar soporte, indique la versión de la SDK, el dispositivo, el paso visible y las líneas relevantes de `BecomeSDK`. Revise cualquier registro antes de compartirlo para excluir información personal.
+Al terminar, desactiva la opción con `config.setDebugLogsEnabled(false)` antes de iniciar una nueva verificación.

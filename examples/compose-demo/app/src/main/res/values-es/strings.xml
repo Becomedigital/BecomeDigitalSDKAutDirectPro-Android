@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="host_app_name">Prueba de Become Legacy</string>
+    <string name="user_id_label">ID de usuario</string>
+    <string name="user_id_required">Ingresa un ID de usuario</string>
+    <string name="camera_permission_required">Se requiere permiso para usar la cámara</string>
+    <string name="start_onboarding">Iniciar verificación</string>
+    <string name="status_ready">Listo para iniciar</string>
+    <string name="status_starting">Iniciando verificación</string>
+    <string name="status_cancelled">Verificación cancelada</string>
+    <string name="sdk_status">Estado de la SDK: %1$s</string>
+    <string name="jwt_label">JWT de acceso</string>
+    <string name="jwt_missing">Ingresa un JWT de acceso</string>
+    <string name="configuration_missing">Falta el contrato local de la demo</string>
+    <string name="license_missing">Falta la licencia de captura en la aplicación</string>
+</resources>

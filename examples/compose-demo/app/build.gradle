@@ -1,0 +1,72 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
+}
+
+def credentials = new Properties()
+def credentialsFile = rootProject.file('credentials.properties')
+if (credentialsFile.isFile()) credentialsFile.withInputStream { credentials.load(it) }
+def credentialValue = { key ->
+    def value = (credentials.getProperty(key) ?: '').trim()
+    return value.replace('\\', '\\\\').replace('"', '\\"')
+}
+def demoApplicationId = credentials.getProperty('applicationId')?.trim() ?: 'com.example.become.legacy.demo'
+
+android {
+    namespace 'com.becomedigital.legacyintegration'
+    compileSdk 36
+    defaultConfig {
+        applicationId demoApplicationId
+        minSdk 24
+        targetSdk 36
+        versionCode 1
+        versionName '1.0'
+        buildConfigField 'String', 'BECOME_CONTRACT_ID', '"' + credentialValue('contractId') + '"'
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions { jvmTarget = '11' }
+    buildFeatures { compose true; viewBinding true; buildConfig true }
+}
+
+dependencies {
+    implementation files('../../../becomedigitalsdk.aar')
+    implementation files('../../../libs/capture-core-1.4.1.aar')
+    implementation files('../../../libs/capture-ux-1.4.1.aar')
+    implementation platform('androidx.compose:compose-bom:2026.06.00')
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.core:core-ktx:1.15.0'
+    implementation 'androidx.activity:activity-ktx:1.12.4'
+    implementation 'androidx.activity:activity-compose:1.12.4'
+    implementation 'androidx.fragment:fragment-ktx:1.6.2'
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'androidx.navigation:navigation-ui:2.5.3'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.camera:camera-core:1.5.3'
+    implementation 'androidx.camera:camera-camera2:1.5.3'
+    implementation 'androidx.camera:camera-view:1.5.3'
+    implementation 'androidx.camera:camera-lifecycle:1.5.3'
+    implementation 'com.google.guava:guava:33.3.1-android'
+    implementation 'com.amplifyframework.ui:liveness:1.10.0'
+    implementation 'com.amplifyframework:aws-auth-cognito:2.33.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    implementation 'androidx.room:room-runtime:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.8.7'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.8.7'
+}

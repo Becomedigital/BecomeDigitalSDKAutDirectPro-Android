@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="amplify_ui_liveness_challenge_a11y_cancel_content_description">Cancel Challenge</string>
+    <string name="amplify_ui_liveness_challenge_connecting">Connecting</string>
+    <string name="amplify_ui_liveness_challenge_instruction_hold_face_during_freshness">Hold still</string>
+    <string name="amplify_ui_liveness_challenge_instruction_move_face">Move face in front of camera</string>
+    <string name="amplify_ui_liveness_challenge_instruction_move_face_closer">Move closer</string>
+    <string name="amplify_ui_liveness_challenge_instruction_move_face_further">Move back</string>
+    <string name="amplify_ui_liveness_challenge_instruction_multiple_faces_detected">Only one face per check</string>
+    <string name="amplify_ui_liveness_challenge_recording_indicator_label">REC</string>
+    <string name="amplify_ui_liveness_challenge_verifying">Verifying</string>
+    <string name="amplify_ui_liveness_get_ready_a11y_photosensitivity_icon_content_description">Photosensitivity Information</string>
+    <string name="amplify_ui_liveness_get_ready_begin_check">Start video check</string>
+    <string name="amplify_ui_liveness_get_ready_center_face_label">Center your face</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_description">This check flashes different colors. Use caution if you are photosensitive.</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_dialog_description">Some people may experience epileptic seizures when exposed to colored lights. Use caution if you, or anyone in your family, have an epileptic condition.</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_dialog_dismiss">Got it</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_dialog_title">Photosensitivity warning</string>
+    <string name="amplify_ui_liveness_get_ready_photosensitivity_title">Photosensitivity warning</string>
+    <string name="mbic_check_internet_connection">Check internet connection</string>
+    <string name="mbic_flip_document">Flip the document</string>
+    <string name="mbic_lightning_too_bright">Move to a place with less lighting</string>
+    <string name="mbic_lightning_too_dark">Move to a brighter place</string>
+    <string name="mbic_move_closer">Move closer</string>
+    <string name="mbic_move_farther">Move farther</string>
+    <string name="mbic_need_help_tooltip">Need help?</string>
+    <string name="mbic_network_error">Network error</string>
+    <string name="mbic_occluded">Keep the document completely visible</string>
+    <string name="mbic_onboarding_field_visible_title">Keep all details visible</string>
+    <string name="mbic_scan_the_back_side">Scan the back side of the document</string>
+    <string name="mbic_scan_the_front_side">Scan the front side of the document</string>
+    <string name="mbic_scanning_not_available">Scanning not available</string>
+    <string name="mbic_torch_glare_tooltip_message">Beware of the flashlight reflection. Gently move your ID to avoid it.</string>
+    <string name="mbic_tutorial_fields_visible_title">Keep all fields visible</string>
+    <string name="mbic_tutorial_harsh_light_title">Beware of intense light</string>
+    <!-- Native startup, network errors and progress: these labels still read app resources. -->
+    <string name="text_loader_init">Starting...</string>
+    <string name="timeout_error">The connection took too long. Please try again.</string>
+    <string name="no_internet_error">You have no Internet connection. Please check your network.</string>
+    <string name="connection_lost_error">The Internet connection was lost. Please try again.</string>
+    <string name="text_info_upload">We are uploading your information ...</string>
+    <string name="text_progress_result">Checking the result...</string>
+    <string name="text_progress_delay_result">We are about to finish</string>
+    <string name="text_progress_delay_finish_result">This is taking a little longer than usual</string>
+</resources>

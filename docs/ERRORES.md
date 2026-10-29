@@ -1,27 +1,40 @@
-# Error and result handling — Android
+# Resultados, errores y cancelación en Android
 
-Register `BecomeInterfaseCallback` before starting verification and retain `BecomeCallBackManager` while the flow is active.
+Registra `BecomeInterfaseCallback` antes de iniciar una verificación y conserva `BecomeCallBackManager` mientras el flujo esté activo.
 
-| Callback or status | Host action |
+## Qué recibe tu aplicación
+
+| Notificación | Cómo atenderla |
 | --- | --- |
-| `onFinish(response)` with `SUCCES` | Inspect the optional object for the completed SDK operation. For authentication, evaluate `authentication.result` separately. |
-| `onFinish(response)` with `ERROR` | Restore the host UI and offer a new user-initiated attempt. |
-| `PENDING` or `NOFOUND` | Do not treat the result as approval. |
-| `onCancel()` | Return to the host UI without marking the verification approved. |
+| `onFinish(response)` con `SUCCES` | Consulta el objeto opcional correspondiente al flujo. En autenticación, evalúa también `authentication.result`. |
+| `onFinish(response)` con `ERROR` | Recupera la interfaz de tu aplicación y permite un nuevo intento si corresponde. |
+| Estado `PENDING` o `NOFOUND` | El resultado no representa una aprobación. |
+| `onCancel()` o estado `CANCEL` | Regresa a tu aplicación sin marcar la verificación como aprobada. |
 
-`SUCCES` retains its historical spelling. `message` is descriptive text, not a stable error code. The `onboarding`, `authentication`, and `verification` objects can be `null`.
+`onboarding`, `verification` y `authentication` pueden ser `null`. Los estados y los campos disponibles se describen en la [guía de integración](../README.md#consultar-el-resultado).
 
-With `performVerificationCheck = false`, an `onboarding` object confirms creation, not final approval. With final-result checking enabled, inspect the `verification` object. Document-only flows do not require a facial result.
+Si elegiste `performVerificationCheck = false`, `onboarding` confirma la creación del registro, no su aprobación final. Cuando esperas la confirmación, consulta `verification`. Para autenticación, la decisión está en el booleano `authentication.result`.
 
-The SDK presents its available capture and retry actions inside its own UI. The host does not receive a callback for every capture attempt.
+## Reintentos durante la captura
 
-## Integration checks
+La SDK presenta las opciones de revisión y reintento disponibles para el usuario. Tu aplicación recibe la notificación al terminar o cancelar el flujo; no recibe una notificación por cada intento de captura.
 
-- **Configuration:** provide nonempty client credentials and a contract ID. Authentication also requires a nonempty existing user ID. An empty document array uses the contract's available document types.
-- **Camera:** check the physical device and obtain runtime camera permission before starting again.
-- **Capture license:** verify `app/src/main/assets/com.become.mb.key` and the licensed `applicationId`.
-- **Missing class or resource:** include all three AARs and the runtime dependencies in the [README](../README.md). Avoid mixing Capture versions or adding BlinkID migration dependencies.
-- **Connection:** allow a new user-initiated attempt after connectivity returns. Result checks use `pollingTimeoutSeconds` and `pollingMaxAttempts`; the general connection/read/write timeout is a separate resource setting.
-- **Incomplete capture:** allow the SDK to request the required sides again. A cropped preview is not a substitute for a missing full-frame capture.
+## Resolver problemas de integración
 
-Do not branch on localized message text to approve an identity or trigger automatic retries. When requesting support, provide the SDK version, device, visible step, and relevant [client diagnostics](LOGGING.md), excluding credentials and images.
+| Situación | Qué revisar |
+| --- | --- |
+| No inicia la verificación | JWT e identificador de contrato no vacíos. Si aún utilizas la firma deprecada, revisa `clienId` y `clientSecret`. En autenticación, indica un `userId` existente. |
+| El JWT fue rechazado o perdió vigencia | Obtén un nuevo token mediante tu backend antes de reiniciar la SDK. No reutilices el token rechazado. |
+| No se abre la cámara | Dispositivo físico y permiso de cámara concedido. |
+| No se habilita la captura de documento | Archivo `app/src/main/assets/com.become.mb.key` y coincidencia del `applicationId` con la licencia. |
+| Falta una clase o recurso al integrar | Los tres archivos AAR y las dependencias indicadas en [Instalación](../INSTALACION.md#instalación). |
+| La conexión se interrumpe | Recuperar la conectividad y permitir que el usuario vuelva a intentarlo. |
+| Se agota la espera del resultado | Revisar `pollingTimeoutSeconds` y `pollingMaxAttempts` según el comportamiento que necesita tu aplicación. |
+| El problema aparece solo al publicar | Revisar la [configuración de R8](R8.md) y probar la versión de publicación en un dispositivo físico. |
+| Se solicita repetir el documento o el rostro | Seguir las indicaciones de la pantalla y permitir una nueva captura. |
+
+## Información para soporte
+
+Comparte la versión de la SDK, el modelo del dispositivo, la versión de Android, el paso visible y una descripción del problema. Si habilitaste el [diagnóstico](LOGGING.md), agrega únicamente las líneas relevantes, después de revisar que no contengan datos personales ni credenciales.
+
+No utilices el texto de `message` para decidir una aprobación o iniciar reintentos automáticos. Es un mensaje descriptivo y puede variar según el idioma.

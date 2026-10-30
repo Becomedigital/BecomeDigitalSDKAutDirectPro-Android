@@ -7,6 +7,7 @@ Esta entrega incluye Capture Core y Capture UX **1.4.1**, con soporte para pági
 | Requisito | Versión o condición |
 | --- | --- |
 | Sistema operativo | Android 7.0, nivel de API 24, o posterior |
+| Arquitecturas de captura | ARMv7 (`armeabi-v7a`) y ARM64 (`arm64-v8a`) |
 | `compileSdk` y `targetSdk` de la integración de referencia | 36 |
 | JDK para Gradle | 21 |
 | Compatibilidad de Java y Kotlin | 11 |
@@ -152,3 +153,9 @@ Agrega la licencia de captura como **`app/src/main/assets/com.become.mb.key`**. 
 La SDK incluye las declaraciones de permisos de internet, cámara y ubicación aproximada. Solicita el permiso de cámara antes de iniciar un flujo que la requiera. Si tu contrato utiliza ubicación, su permiso es opcional: rechazarlo no bloquea la verificación.
 
 Continúa con el [ejemplo de inicialización](README.md#iniciar-una-verificación).
+
+## Arquitecturas y emuladores
+
+La dependencia Capture Core 1.4.1 incluye el motor de captura para ARMv7 y ARM64; no incluye una biblioteca nativa `x86_64`. Consulta los [requisitos de arquitectura del proveedor](https://github.com/BlinkID/capture-android#processor-architecture). Una app puede compilar y contener otras bibliotecas para `x86_64` sin que esto habilite la captura documental en esa arquitectura.
+
+Para revisar la integración en un emulador, utiliza una arquitectura ARM compatible con las dependencias de captura. Las pruebas funcionales de cámara, documento y rostro se realizan en un dispositivo físico con la licencia correspondiente a la app.

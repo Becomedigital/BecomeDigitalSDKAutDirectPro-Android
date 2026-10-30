@@ -38,9 +38,10 @@ Para una integración nueva, utiliza el JWT obtenido mediante tu backend:
 val config = BDIVConfig(
     jwt, contractId, documentTypes, allowLibraryLoading, userId
 )
+config.verificationResultsJwt = resultsJwt
 ```
 
-`jwt` no debe incluir el prefijo `Bearer `. Tu integración administra su vigencia y renovación.
+Para esperar el resultado final de onboarding, asigna `config.verificationResultsJwt = resultsJwt` antes de iniciar. Obtén `jwt` con `verification:create` y `resultsJwt` con `verification:get`. Tu integración administra su vigencia y renovación, sin incluir el prefijo `Bearer`. Consulta el [diagnóstico de HTTP 403](docs/AUTENTICACION.md#creación-correcta-y-consulta-con-http-403).
 
 ### Firma deprecada: credenciales
 
@@ -73,7 +74,7 @@ import com.becomedigital.sdk.identity.becomedigitalsdk.models.DocumetType
 class VerificacionActivity : AppCompatActivity() {
     private val callbackManager = BecomeCallBackManager.createNew()
 
-    fun iniciarOnboarding(jwt: String) {
+    fun iniciarOnboarding(jwt: String, resultsJwt: String) {
         BecomeResponseManager.getInstance().registerCallback(
             callbackManager,
             object : BecomeInterfaseCallback {
@@ -109,6 +110,7 @@ class VerificacionActivity : AppCompatActivity() {
             arrayOf(DocumetType.DNI, DocumetType.PASSPORT, DocumetType.LICENSE),
             true, "TU_USER_ID"
         )
+        config.verificationResultsJwt = resultsJwt
         config.flow = BDIVConfig.Flow.Onboarding
         config.themeMode = BDIVConfig.ThemeMode.system
         BecomeResponseManager.getInstance().startAuthentication(this, config)
@@ -131,6 +133,7 @@ Define las opciones mediante el constructor y los métodos de `BDIVConfig` antes
 | Parámetro | Valor predeterminado | Uso |
 | --- | --- | --- |
 | `jwt` | Obligatorio en la firma recomendada | Token válido de tu integración, sin el prefijo `Bearer `. No debe estar vacío. |
+| `verificationResultsJwt` | `null` | JWT para consultar el resultado de onboarding. Asígnalo después de `setJwt(...)` y antes de iniciar. Si se omite, se conserva el uso del token principal; no modifica la firma deprecada. |
 | `contractId` | Obligatorio | Identificador del contrato. No debe estar vacío. |
 | `clienId`, `clientSecret` | Solo en la firma deprecada | Credenciales no vacías de una integración existente. Para nuevas integraciones, utiliza la firma JWT. |
 | `userId` | Argumento obligatorio | Identificador del usuario. En onboarding puede ser una cadena vacía; en autenticación debe identificar a un usuario existente. |

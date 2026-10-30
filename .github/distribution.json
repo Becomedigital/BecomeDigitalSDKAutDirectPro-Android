@@ -1,0 +1,24 @@
+{
+  "platform": "android",
+  "repository": "Becomedigital/BecomeDigitalSDKAutDirectPro-Android",
+  "artifacts": [
+    "becomedigitalsdk.aar",
+    "libs/capture-core-1.4.1.aar",
+    "libs/capture-ux-1.4.1.aar"
+  ],
+  "public_api": [
+    "BDIVConfig",
+    "BDIdentityVerificationResponse",
+    "BecomeInterfaseCallback"
+  ],
+  "integration": [
+    "scripts/prepare_maven_release.py",
+    "examples/compose-demo/app/build.gradle",
+    ".github/scripts/distribution.py",
+    ".github/distribution.json",
+    "CHECKSUMS.sha256"
+  ],
+  "native_artifacts": [
+    "libs/capture-core-1.4.1.aar"
+  ]
+}

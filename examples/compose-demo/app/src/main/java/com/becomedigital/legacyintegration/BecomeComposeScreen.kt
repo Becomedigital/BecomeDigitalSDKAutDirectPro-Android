@@ -34,10 +34,11 @@ import androidx.core.content.ContextCompat
 fun BecomeComposeScreen(sdkLauncher: BecomeComposeLauncher) {
     val context = LocalContext.current
     var jwt by remember { mutableStateOf("") }
+    var resultsJwt by remember { mutableStateOf("") }
     var userId by rememberSaveable { mutableStateOf("") }
     var pendingUserId by rememberSaveable { mutableStateOf("") }
     val permissionRequest = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) sdkLauncher.startOnboarding(pendingUserId, jwt)
+        if (granted) sdkLauncher.startOnboarding(pendingUserId, jwt, resultsJwt)
         else sdkLauncher.report(context.getString(R.string.camera_permission_required))
     }
 
@@ -48,6 +49,16 @@ fun BecomeComposeScreen(sdkLauncher: BecomeComposeLauncher) {
             value = jwt,
             onValueChange = { jwt = it },
             label = { Text(stringResource(R.string.jwt_label)) },
+            modifier = Modifier.fillMaxWidth(),
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            singleLine = true
+        )
+        Spacer(Modifier.height(20.dp))
+        OutlinedTextField(
+            value = resultsJwt,
+            onValueChange = { resultsJwt = it },
+            label = { Text(stringResource(R.string.results_jwt_label)) },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -66,9 +77,9 @@ fun BecomeComposeScreen(sdkLauncher: BecomeComposeLauncher) {
             val id = userId.trim()
             if (id.isEmpty()) {
                 sdkLauncher.report(context.getString(R.string.user_id_required))
-            } else if (sdkLauncher.checkConfiguration(jwt)) {
+            } else if (sdkLauncher.checkConfiguration(jwt, resultsJwt)) {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                    sdkLauncher.startOnboarding(id, jwt)
+                    sdkLauncher.startOnboarding(id, jwt, resultsJwt)
                 } else {
                     pendingUserId = id
                     permissionRequest.launch(Manifest.permission.CAMERA)

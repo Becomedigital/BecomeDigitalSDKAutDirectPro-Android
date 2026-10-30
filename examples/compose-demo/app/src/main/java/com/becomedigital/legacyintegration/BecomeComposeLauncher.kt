@@ -36,9 +36,13 @@ class BecomeComposeLauncher(private val activity: AppCompatActivity) {
         status = message
     }
 
-    fun checkConfiguration(jwt: String): Boolean {
+    fun checkConfiguration(jwt: String, resultsJwt: String): Boolean {
         if (jwt.isBlank()) {
             status = activity.getString(R.string.jwt_missing)
+            return false
+        }
+        if (resultsJwt.isBlank()) {
+            status = activity.getString(R.string.results_jwt_missing)
             return false
         }
         if (BuildConfig.BECOME_CONTRACT_ID.isBlank()) {
@@ -54,8 +58,8 @@ class BecomeComposeLauncher(private val activity: AppCompatActivity) {
         return true
     }
 
-    fun startOnboarding(userId: String, jwt: String) {
-        if (!checkConfiguration(jwt)) return
+    fun startOnboarding(userId: String, jwt: String, resultsJwt: String) {
+        if (!checkConfiguration(jwt, resultsJwt)) return
         val config = BDIVConfig(
             jwt.trim(),
             BuildConfig.BECOME_CONTRACT_ID,
@@ -63,6 +67,7 @@ class BecomeComposeLauncher(private val activity: AppCompatActivity) {
             true,
             userId
         )
+        config.verificationResultsJwt = resultsJwt.trim()
         config.flow = BDIVConfig.Flow.Onboarding
         config.setDebugLogsEnabled(true)
         status = activity.getString(R.string.status_starting)

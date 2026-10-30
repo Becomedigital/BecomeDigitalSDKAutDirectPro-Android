@@ -9,6 +9,7 @@ Estos son los demás aspectos de funcionamiento público que debes revisar al in
 | Aspecto | Comportamiento y acción de integración |
 | --- | --- |
 | Acceso a la SDK | Obtén un JWT mediante tu backend y entrégalo a `BDIVConfig`. Tu aplicación administra su vigencia y renovación. Las firmas con credenciales siguen disponibles durante la migración. |
+| Consulta del resultado | Permite configurar `verificationResultsJwt` para usar un JWT de consulta diferente al de creación. Consulta la [guía de autenticación](AUTENTICACION.md). |
 | Flujos | Se mantienen **Onboarding** y **Authentication**. Para autenticar a un usuario existente, selecciona `Flow.Authentication` e indica su `userId`. |
 | Pasos y documentos | Se muestran los pasos y tipos de documento disponibles para el contrato. Un único tipo también se presenta para confirmación. |
 | Apariencia y textos | Se utilizan los asociados al contrato. El modo claro, oscuro o del sistema se elige con `themeMode`. |

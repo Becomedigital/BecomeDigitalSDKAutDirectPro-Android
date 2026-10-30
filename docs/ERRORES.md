@@ -25,6 +25,7 @@ La SDK presenta las opciones de revisión y reintento disponibles para el usuari
 | --- | --- |
 | No inicia la verificación | JWT e identificador de contrato no vacíos. Si aún utilizas la firma deprecada, revisa `clienId` y `clientSecret`. En autenticación, indica un `userId` existente. |
 | El JWT fue rechazado o perdió vigencia | Obtén un nuevo token mediante tu backend antes de reiniciar la SDK. No reutilices el token rechazado. |
+| Creación correcta y HTTP 403 al consultar | Comprueba `jwt` con permiso de creación y `verificationResultsJwt` con permiso de consulta. Cambiar solo el token principal a `verification:get` deja sin cubrir la creación. Revisa vigencia, ambiente y contrato; consulta la [guía de autenticación](AUTENTICACION.md#creación-correcta-y-consulta-con-http-403). |
 | No se abre la cámara | Dispositivo físico y permiso de cámara concedido. |
 | No se habilita la captura de documento | Archivo `app/src/main/assets/com.become.mb.key` y coincidencia del `applicationId` con la licencia. |
 | Falta una clase o recurso al integrar | Los tres archivos AAR y las dependencias indicadas en [Instalación](../INSTALACION.md#instalación). |

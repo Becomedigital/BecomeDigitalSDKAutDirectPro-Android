@@ -242,7 +242,21 @@ def declared_release_version(config, actual, root):
     return actual
 
 
+def android_required_abis(config):
+    required = set(config.get('required_abis', ['arm64-v8a', 'x86_64']))
+    require(required.issubset({'arm64-v8a', 'armeabi-v7a', 'x86_64', 'x86'}),
+            'La configuración contiene una ABI no admitida.')
+    if config.get('repository') == 'Becomedigital/BecomeDigitalSDKAutDirectPro-Android':
+        require({'arm64-v8a', 'armeabi-v7a'}.issubset(required),
+                'Legacy debe conservar ARMv7 y ARM64.')
+    else:
+        require({'arm64-v8a', 'x86_64'}.issubset(required),
+                'Esta distribución debe conservar arm64-v8a y x86_64.')
+    return required
+
+
 def audit_android(config, root=ROOT):
+    required_abis = android_required_abis(config)
     failures = []
     declared_version = None
     for name in config["artifacts"]:
@@ -273,10 +287,10 @@ def audit_android(config, root=ROOT):
         abis = native_abis(data)
         require(abis or name not in config.get('native_artifacts', []), f'Faltan las bibliotecas nativas de {name}.')
         if abis:
-            missing = {"arm64-v8a", "x86_64"} - set(abis)
+            missing = required_abis - set(abis)
             if missing:
                 failures.append(f"{name}: faltan {', '.join(sorted(missing))}")
-            for abi in ("arm64-v8a", "x86_64"):
+            for abi in sorted(required_abis):
                 if abi in abis:
                     require(abis[abi] == abis.get("arm64-v8a", set()), f"Bibliotecas nativas distintas: {name} / {abi}.")
     for entry in config.get('native_dependencies', []):
@@ -284,10 +298,10 @@ def audit_android(config, root=ROOT):
         if entry.get('requires_native'):
             require(abis, 'Faltan las bibliotecas nativas de la dependencia.')
         if abis:
-            missing = {'arm64-v8a', 'x86_64'} - set(abis)
+            missing = required_abis - set(abis)
             if missing:
                 failures.append(f"{entry['coordinate']}: faltan {', '.join(sorted(missing))}")
-            for abi in ('arm64-v8a', 'x86_64'):
+            for abi in sorted(required_abis):
                 if abi in abis:
                     require(abis[abi] == abis.get('arm64-v8a', set()), 'Las bibliotecas de la dependencia difieren entre ABIs.')
     require(not failures, "Soporte nativo incompleto; no se permite retirar ABIs para publicar. " + "; ".join(failures))
@@ -479,7 +493,7 @@ def verify_apk(config, path):
         for libraries in native_abis(native_dependency(entry)).values():
             expected.update(libraries)
     require(expected, 'No se identificaron bibliotecas nativas que verificar en el APK.')
-    for abi in ('arm64-v8a','x86_64'):
+    for abi in sorted(android_required_abis(config)):
         require(expected.issubset(packaged.get(abi, set())), f'El APK no contiene todas las bibliotecas de {abi}.')
 
 

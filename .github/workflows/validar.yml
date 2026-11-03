@@ -97,7 +97,7 @@ jobs:
       - name: Compilar la aplicación consumidora sin filtrar arquitecturas
         working-directory: ${{ env.ANDROID_CI_PROJECT }}
         run: ./gradlew --no-daemon --project-cache-dir "$RUNNER_TEMP/become-gradle-project" :app:assembleDebug :app:assembleRelease
-      - name: Verificar bibliotecas de dispositivo y emulador en ambos APK
+      - name: Verificar bibliotecas ARM de dispositivo en ambos APK
         run: |
           python3 .github/scripts/distribution.py verify-apk --output "$ANDROID_CI_PROJECT/app/build/outputs/apk/debug/app-debug.apk"
           python3 .github/scripts/distribution.py verify-apk --output "$ANDROID_CI_PROJECT/app/build/outputs/apk/release/app-release-unsigned.apk"

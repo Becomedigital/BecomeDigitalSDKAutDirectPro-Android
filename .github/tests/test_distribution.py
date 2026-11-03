@@ -93,6 +93,50 @@ class Artifacts(unittest.TestCase):
             with self.assertRaisesRegex(d.Invalid,'x86_64'):
                 d.audit_android({'artifacts':['capture.aar']},root)
 
+    def legacy_config(self):
+        return {'repository':'Becomedigital/BecomeDigitalSDKAutDirectPro-Android',
+                'required_abis':['armeabi-v7a','arm64-v8a'], 'artifacts':['capture.aar']}
+
+    def test_legacy_accepts_its_existing_arm32_and_arm64_dependency(self):
+        aar=d.zip_bytes({'classes.jar':d.zip_bytes({'Type.class':b'class'}),
+                         'jni/armeabi-v7a/libCapture.so':elf(40),'jni/arm64-v8a/libCapture.so':elf(183)})
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);(root/'capture.aar').write_bytes(aar)
+            self.assertIsNone(d.audit_android(self.legacy_config(),root))
+
+    def test_legacy_still_rejects_losing_either_arm_architecture(self):
+        for abi,machine in [('armeabi-v7a',40),('arm64-v8a',183)]:
+            with self.subTest(abi=abi), tempfile.TemporaryDirectory() as temporary:
+                root=Path(temporary)
+                (root/'capture.aar').write_bytes(d.zip_bytes({'classes.jar':d.zip_bytes({'Type.class':b'class'}),
+                                                             f'jni/{abi}/libCapture.so':elf(machine)}))
+                with self.assertRaises(d.Invalid):
+                    d.audit_android(self.legacy_config(),root)
+
+    def test_legacy_policy_cannot_be_applied_to_blinkid(self):
+        config=self.legacy_config();config['repository']='Becomedigital/BecomeDigitalSDKAutoCaptureOCR-Android'
+        with self.assertRaisesRegex(d.Invalid,'x86_64'):
+            d.android_required_abis(config)
+
+    def test_legacy_cannot_drop_armv7_from_required_architectures(self):
+        config=self.legacy_config();config['required_abis']=['arm64-v8a']
+        with self.assertRaisesRegex(d.Invalid,'ARMv7'):
+            d.android_required_abis(config)
+
+    def test_legacy_apk_accepts_arm_capture_and_preserves_other_abis(self):
+        capture=d.zip_bytes({'jni/armeabi-v7a/libCapture.so':elf(40),
+                             'jni/arm64-v8a/libCapture.so':elf(183)})
+        apk=d.zip_bytes({'lib/armeabi-v7a/libCapture.so':elf(40),'lib/arm64-v8a/libCapture.so':elf(183),
+                         'lib/x86_64/libOther.so':elf(62)})
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);(root/'capture.aar').write_bytes(capture)
+            path=root/'app.apk';path.write_bytes(apk)
+            with patch.object(d,'ROOT',root):d.verify_apk(self.legacy_config(),path)
+            self.assertEqual(path.read_bytes(),apk)
+            path.write_bytes(d.zip_bytes({'lib/arm64-v8a/libCapture.so':elf(183)}))
+            with patch.object(d,'ROOT',root),self.assertRaisesRegex(d.Invalid,'armeabi-v7a'):
+                d.verify_apk(self.legacy_config(),path)
+
     def test_transitive_maven_dependency_cannot_hide_missing_emulator_abi(self):
         data = d.zip_bytes({'classes.jar':d.zip_bytes({'Type.class':b'class'}),
                             'jni/arm64-v8a/libBlinkID.so':elf(183)})

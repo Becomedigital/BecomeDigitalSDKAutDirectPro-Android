@@ -116,7 +116,7 @@ def validate_artifacts(version: str) -> None:
             for name in core.namelist()
             if name.startswith("jni/") and name.endswith(".so")
         }
-        required_abis = {"arm64-v8a", "x86_64"}
+        required_abis = {"armeabi-v7a", "arm64-v8a"}
         if not required_abis.issubset(native_abis):
             missing = ", ".join(sorted(required_abis - native_abis))
             issues.append(f"Capture Core 1.4.1 carece de ABI requerida: {missing}")

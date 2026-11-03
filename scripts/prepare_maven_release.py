@@ -6,6 +6,8 @@ from __future__ import annotations
 import argparse
 from io import BytesIO
 import hashlib
+import importlib.util
+import json
 from pathlib import Path
 import re
 import shutil
@@ -20,7 +22,7 @@ CHECKSUMS = ROOT / "CHECKSUMS.sha256"
 SDK = ROOT / "becomedigitalsdk.aar"
 CAPTURE_CORE = ROOT / "libs/capture-core-1.4.1.aar"
 CAPTURE_UX = ROOT / "libs/capture-ux-1.4.1.aar"
-GROUP = "net.becomedigital"
+GROUP = "ai.becomedigital"
 ARTIFACT = "identity-verification-legacy"
 POM_NS = "http://maven.apache.org/POM/4.0.0"
 ET.register_namespace("", POM_NS)
@@ -106,7 +108,7 @@ def validate_artifacts(version: str) -> None:
                 raise ValueError("El AAR no corresponde al ambiente de producción")
         values = sdk.read("res/values/values.xml").decode("utf-8")
         match = re.search(r'<string name="sdk_version"[^>]*>(.*?)</string>', values)
-        if not match or version not in match.group(1):
+        if not match or match.group(1).strip().strip(chr(34)).strip(chr(39)) != version:
             issues.append("La versión interna del AAR no coincide con la versión Maven")
     with inspect_aar(CAPTURE_CORE) as core, inspect_aar(CAPTURE_UX):
         native_abis = {
@@ -120,6 +122,10 @@ def validate_artifacts(version: str) -> None:
             issues.append(f"Capture Core 1.4.1 carece de ABI requerida: {missing}")
     if issues:
         raise ValueError("; ".join(issues))
+    spec = importlib.util.spec_from_file_location("distribution_checks", ROOT / ".github/scripts/distribution.py")
+    checks = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(checks)
+    checks.audit_android(json.loads((ROOT / ".github/distribution.json").read_text()), ROOT)
 
 
 def add(parent: ET.Element, name: str, value: str | None = None) -> ET.Element:
@@ -151,6 +157,13 @@ def make_pom(version: str, license_name: str, license_url: str) -> bytes:
     add(scm, "url", url)
     add(scm, "connection", f"scm:git:{url}.git")
     add(scm, "developerConnection", f"scm:git:{url}.git")
+    managed = add(add(project, "dependencyManagement"), "dependencies")
+    bom = add(managed, "dependency")
+    add(bom, "groupId", "androidx.compose")
+    add(bom, "artifactId", "compose-bom")
+    add(bom, "version", "2026.06.00")
+    add(bom, "type", "pom")
+    add(bom, "scope", "import")
     dependencies = add(project, "dependencies")
     for group, artifact, dependency_version in DEPENDENCIES:
         dependency = add(dependencies, "dependency")

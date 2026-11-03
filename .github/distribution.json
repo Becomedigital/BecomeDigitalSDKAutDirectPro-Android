@@ -20,5 +20,12 @@
   ],
   "native_artifacts": [
     "libs/capture-core-1.4.1.aar"
+  ],
+  "android_demo": "examples/compose-demo",
+  "required_class_references": [
+    "com/microblink/capture"
+  ],
+  "forbidden_class_references": [
+    "com/microblink/blinkid"
   ]
 }

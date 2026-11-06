@@ -103,6 +103,7 @@ jobs:
           python3 .github/scripts/distribution.py verify-apk --output "$ANDROID_CI_PROJECT/app/build/outputs/apk/release/app-release-unsigned.apk"
           "$ANDROID_HOME/build-tools/36.0.0/zipalign" -c -P 16 -v 4 "$ANDROID_CI_PROJECT/app/build/outputs/apk/release/app-release-unsigned.apk"
           python3 .github/scripts/verify_android_16kb.py "$ANDROID_CI_PROJECT/app/build/outputs/apk/debug/app-debug.apk" "$ANDROID_CI_PROJECT/app/build/outputs/apk/release/app-release-unsigned.apk"
+          python3 .github/scripts/verify_android_dependencies.py "$ANDROID_CI_PROJECT/app/build/outputs/apk/debug/app-debug.apk" "$ANDROID_CI_PROJECT/app/build/outputs/apk/release/app-release-unsigned.apk"
 
   resultado:
     name: Distribución validada

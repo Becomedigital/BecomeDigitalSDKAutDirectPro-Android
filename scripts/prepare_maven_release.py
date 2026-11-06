@@ -52,6 +52,11 @@ DEPENDENCIES = (
     ('com.google.guava', 'guava', '33.3.1-android'),
     ('com.squareup.okhttp3', 'okhttp', '5.1.0'),
     ('org.jetbrains.kotlin', 'kotlin-stdlib', '2.2.10'),
+    ('androidx.compose.animation', 'animation', '1.11.3'),
+    ('androidx.compose.animation', 'animation-core', '1.11.3'),
+    ('androidx.compose.foundation', 'foundation', '1.11.3'),
+    ('androidx.compose.foundation', 'foundation-layout', '1.11.3'),
+    ('androidx.compose.material', 'material-ripple', '1.11.3'),
     ('androidx.compose.ui', 'ui', '1.11.3'),
     ('androidx.compose.runtime', 'runtime', '1.11.3'),
 )

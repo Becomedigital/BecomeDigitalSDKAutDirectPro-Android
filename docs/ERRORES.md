@@ -28,7 +28,7 @@ La SDK presenta las opciones de revisión y reintento disponibles para el usuari
 | Creación correcta y HTTP 403 al consultar | Comprueba `jwt` con permiso de creación y `verificationResultsJwt` con permiso de consulta. Cambiar solo el token principal a `verification:get` deja sin cubrir la creación. Revisa vigencia, ambiente y contrato; consulta la [guía de autenticación](AUTENTICACION.md#creación-correcta-y-consulta-con-http-403). |
 | No se abre la cámara | Dispositivo físico y permiso de cámara concedido. |
 | No se habilita la captura de documento | Archivo `app/src/main/assets/com.become.mb.key` y coincidencia del `applicationId` con la licencia. |
-| Falta una clase o recurso al integrar | Los tres archivos AAR y las dependencias indicadas en [Instalación](../INSTALACION.md#instalación). |
+| Falta una clase o recurso al integrar | La coordenada Maven, la resolución de dependencias y el desazucarado indicados en [Instalación](../INSTALACION.md#instalación). |
 | La conexión se interrumpe | Recuperar la conectividad y permitir que el usuario vuelva a intentarlo. |
 | Se agota la espera del resultado | Revisar `pollingTimeoutSeconds` y `pollingMaxAttempts` según el comportamiento que necesita tu aplicación. |
 | El problema aparece solo al publicar | Revisar la [configuración de R8](R8.md) y probar la versión de publicación en un dispositivo físico. |

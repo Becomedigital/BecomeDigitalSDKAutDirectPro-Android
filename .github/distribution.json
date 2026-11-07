@@ -1,0 +1,57 @@
+{
+  "platform": "android",
+  "repository": "Becomedigital/BecomeDigitalSDKAutDirectPro-Android",
+  "artifacts": [
+    "becomedigitalsdk.aar",
+    "libs/capture-core-1.4.1.aar",
+    "libs/capture-ux-1.4.1.aar"
+  ],
+  "public_api": [
+    "BDIVConfig",
+    "BDIdentityVerificationResponse",
+    "BecomeInterfaseCallback"
+  ],
+  "integration": [
+    "scripts/prepare_maven_release.py",
+    "examples/compose-demo/app/build.gradle",
+    ".github/scripts/distribution.py",
+    ".github/distribution.json",
+    "CHECKSUMS.sha256",
+    "VERSION",
+    "legal/LICENSE-3.5.1-rc.1.txt",
+    "scripts/compose-bom-versions.json"
+  ],
+  "native_artifacts": [
+    "libs/capture-core-1.4.1.aar"
+  ],
+  "android_demo": "examples/compose-demo",
+  "required_class_references": [
+    "com/microblink/capture"
+  ],
+  "forbidden_class_references": [
+    "com/microblink/blinkid"
+  ],
+  "required_abis": [
+    "armeabi-v7a",
+    "arm64-v8a"
+  ],
+  "version_file": "VERSION",
+  "native_dependencies": [
+    {
+      "coordinate": "com.microblink:capture-core:1.4.1",
+      "url": "https://repo.maven.apache.org/maven2/com/microblink/capture-core/1.4.1/capture-core-1.4.1.aar",
+      "sha256": "fd4d1f213f8dc88cb38a7156d547c3cd8c03a849cb85b724434037fd72940c0b",
+      "requires_native": true
+    },
+    {
+      "coordinate": "com.microblink:capture-ux:1.4.1",
+      "url": "https://repo.maven.apache.org/maven2/com/microblink/capture-ux/1.4.1/capture-ux-1.4.1.aar",
+      "sha256": "701f2181558ecec74c1391c1e9b8cd97f98a24bf7b2de2a60aaf788e10c1f08b",
+      "requires_native": false
+    }
+  ],
+  "source": {
+    "repository": "Becomedigital/Android_become_sdk_legacy",
+    "commit": "f23cfb9477ba8ef60e83105dfdf01835ce62e024"
+  }
+}

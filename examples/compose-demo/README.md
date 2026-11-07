@@ -2,6 +2,10 @@
 
 Este proyecto muestra cómo iniciar la SDK de Become desde una pantalla Compose: solicita el permiso de cámara, configura la verificación y presenta su resultado o cancelación.
 
+## Usar la candidata publicada
+
+El proyecto conserva la integración por archivos incluida en esta distribución. Para probar la entrega Maven, aplica la [guía de migración](../../MIGRACION.md) y selecciona `ai.becomedigital:identity-verification-legacy:3.5.1-rc.1`. El POM resuelve las dependencias; conserva el desazucarado y las dependencias que tu aplicación use directamente.
+
 ## Preparar la aplicación
 
 1. Sigue los requisitos y dependencias de la [guía de instalación](../../INSTALACION.md). Utiliza JDK 21 para esta configuración.

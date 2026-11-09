@@ -1,11 +1,10 @@
 # Instalación de la SDK de Become
 
-Esta entrega incluye Capture Core y Capture UX **1.4.1**, con soporte para páginas de memoria de **16 KB**. Reemplaza los dos archivos de Capture al actualizar la SDK. Comprueba también las demás dependencias de tu aplicación y realiza la prueba final en un dispositivo compatible con 16 KB.
-
 ## Requisitos
 
 | Requisito | Versión o condición |
 | --- | --- |
+| Versión de Become | `3.5.1-rc.1` |
 | Sistema operativo | Android 7.0, nivel de API 24, o posterior |
 | Arquitecturas de captura | ARMv7 (`armeabi-v7a`) y ARM64 (`arm64-v8a`) |
 | `compileSdk` y `targetSdk` de la integración de referencia | 36 |
@@ -14,43 +13,18 @@ Esta entrega incluye Capture Core y Capture UX **1.4.1**, con soporte para pági
 | Gradle | 9.2.1 |
 | Complemento de Android para Gradle | 9.0.1 |
 | Kotlin y complemento de Compose | 2.2.10 |
-| Capture Core y Capture UX incluidos | 1.4.1 |
 | Licencia de captura | Emitida para el `applicationId` de tu aplicación |
 
 Necesitas un JWT válido obtenido mediante tu backend y el identificador de contrato de tu integración. Esta entrega está preparada para producción; utiliza un token correspondiente a ese ambiente. Consulta la [guía de autenticación de la integración](docs/AUTENTICACION.md). Realiza las pruebas de cámara, documentos y rostro en un dispositivo físico.
 
 ## Instalación
 
-### Agregar los archivos
+La candidata `3.5.1-rc.1` está disponible en [Releases](https://github.com/Becomedigital/BecomeDigitalSDKAutDirectPro-Android/releases/tag/3.5.1-rc.1). Utiliza Maven Central y una versión exacta para integrar esta entrega.
 
-Copia los siguientes archivos a `app/libs`:
-
-- [`becomedigitalsdk.aar`](becomedigitalsdk.aar)
-- [`capture-core-1.4.1.aar`](libs/capture-core-1.4.1.aar)
-- [`capture-ux-1.4.1.aar`](libs/capture-ux-1.4.1.aar)
-
-Incluye también las dependencias de los ejemplos siguientes, aunque tu contrato no solicite captura facial. Si ya utilizas alguna en tu aplicación, mantén una única versión compatible con esta entrega.
-
-### Configuración del proyecto
-
-En el archivo `build.gradle` del proyecto:
+En los repositorios de dependencias de tu proyecto, conserva `google()` y `mavenCentral()`:
 
 ```groovy
-buildscript {
-    ext.kotlin_version = "2.2.10"
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath "com.android.tools.build:gradle:9.0.1"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlin:compose-compiler-gradle-plugin:$kotlin_version"
-    }
-}
-
-allprojects {
+dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
@@ -58,7 +32,33 @@ allprojects {
 }
 ```
 
-En `gradle.properties`, utiliza esta configuración para el ejemplo de integración:
+Habilita el desazucarado en el módulo de tu aplicación y agrega la versión exacta:
+
+```groovy
+android {
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions { jvmTarget = '11' }
+}
+
+dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
+    implementation 'ai.becomedigital:identity-verification-legacy:3.5.1-rc.1'
+}
+```
+
+El POM descarga automáticamente las dependencias requeridas. El desazucarado se habilita en la aplicación porque es una opción de compilación de Android.
+
+Consulta las versiones de las bibliotecas generales con las que se compiló esta entrega en [Dependencias y compatibilidad](DEPENDENCIAS.md). Conserva la configuración pública, los permisos y las credenciales de tu integración.
+
+Si actualizas una integración por archivo, sigue primero la [guía de migración](MIGRACION.md) para retirar las copias locales anteriores.
+
+## Configuración de referencia de Gradle
+
+Si utilizas Android Gradle Plugin 9.0.1 con los complementos externos de Kotlin 2.2.10 del ejemplo, conserva estas opciones en `gradle.properties`:
 
 ```properties
 android.useAndroidX=true
@@ -68,83 +68,7 @@ android.newDsl=false
 android.uniquePackageNames=false
 ```
 
-### Configuración de la aplicación
-
-En `app/build.gradle`, reemplaza `TU_APPLICATION_ID` por el identificador autorizado en tu licencia:
-
-```groovy
-plugins {
-    id "com.android.application"
-    id "org.jetbrains.kotlin.android"
-    id "org.jetbrains.kotlin.plugin.compose"
-}
-
-android {
-    namespace "com.ejemplo.verificacion"
-    compileSdk 36
-    defaultConfig {
-        applicationId "TU_APPLICATION_ID"
-        minSdk 24
-        targetSdk 36
-        versionCode 1
-        versionName "1.0"
-    }
-    compileOptions {
-        coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-    kotlinOptions { jvmTarget = "11" }
-    buildFeatures {
-        compose true
-        viewBinding true
-    }
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
-                'proguard-rules.pro'
-        }
-    }
-}
-
-dependencies {
-    implementation files("libs/becomedigitalsdk.aar")
-    implementation files("libs/capture-core-1.4.1.aar")
-    implementation files("libs/capture-ux-1.4.1.aar")
-    implementation platform("androidx.compose:compose-bom:2026.06.00")
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.5"
-
-    implementation "androidx.appcompat:appcompat:1.7.1"
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    implementation "androidx.core:core-ktx:1.15.0"
-    implementation "androidx.activity:activity-ktx:1.12.4"
-    implementation "androidx.activity:activity-compose:1.12.4"
-    implementation "androidx.fragment:fragment-ktx:1.6.2"
-    implementation "androidx.navigation:navigation-fragment:2.5.3"
-    implementation "androidx.navigation:navigation-ui:2.5.3"
-    implementation "androidx.compose.material3:material3"
-
-    implementation "androidx.camera:camera-core:1.5.3"
-    implementation "androidx.camera:camera-camera2:1.5.3"
-    implementation "androidx.camera:camera-view:1.5.3"
-    implementation "androidx.camera:camera-lifecycle:1.5.3"
-    implementation "com.google.guava:guava:33.3.1-android"
-
-    implementation "com.amplifyframework.ui:liveness:1.10.0"
-    implementation "com.amplifyframework:aws-auth-cognito:2.33.0"
-    implementation "com.google.code.gson:gson:2.10.1"
-    implementation "com.squareup.okhttp3:okhttp:4.9.3"
-    implementation "com.android.volley:volley:1.2.1"
-    implementation "com.github.bumptech.glide:glide:4.10.0"
-    implementation "androidx.room:room-runtime:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-livedata:2.8.7"
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.8.7"
-}
-```
-
-Selecciona JDK 21 en la configuración de Gradle de Android Studio. Mantén las opciones `compose`, `viewBinding` y las versiones indicadas al incorporar este paquete a tu aplicación. Consulta la [guía de publicación](docs/R8.md) si utilizas optimización de código y recursos.
+Selecciona JDK 21 para Gradle. Si tu aplicación utiliza Compose, conserva su complemento de compilación compatible con la versión de Kotlin. El [proyecto de ejemplo](examples/compose-demo/README.md) muestra la configuración completa de referencia.
 
 ## Licencia y permisos
 
@@ -159,3 +83,5 @@ Continúa con el [ejemplo de inicialización](README.md#iniciar-una-verificació
 La dependencia Capture Core 1.4.1 incluye el motor de captura para ARMv7 y ARM64; no incluye una biblioteca nativa `x86_64`. Consulta los [requisitos de arquitectura del proveedor](https://github.com/BlinkID/capture-android#processor-architecture). Una app puede compilar y contener otras bibliotecas para `x86_64` sin que esto habilite la captura documental en esa arquitectura.
 
 Para revisar la integración en un emulador, utiliza una arquitectura ARM compatible con las dependencias de captura. Las pruebas funcionales de cámara, documento y rostro se realizan en un dispositivo físico con la licencia correspondiente a la app.
+
+Si prefieres utilizar los binarios descargables, consulta la [integración manual](INSTALACION_MANUAL.md), que requiere configurar sus dependencias por separado.

@@ -28,6 +28,12 @@ Consulta el [proyecto de ejemplo con Compose](examples/compose-demo/README.md) p
 
 Necesitas una aplicación para Android 7.0 o posterior, un JWT válido obtenido mediante tu backend, el identificador del contrato y la licencia de captura correspondiente a tu aplicación. Sigue la [guía de instalación](INSTALACION.md) para agregar la SDK, sus dependencias y permisos.
 
+## Instalación con versión exacta
+
+Integra esta candidata mediante Maven Central con `ai.becomedigital:identity-verification-legacy:3.5.1-rc.1`. El gestor descarga automáticamente las dependencias del paquete. Completa los permisos y la licencia de tu aplicación siguiendo la [guía de instalación](INSTALACION.md).
+
+Si vienes de la distribución por archivo, consulta la [migración](MIGRACION.md). Esta es una versión de pruebas; valida cámara, documentos y rostro en un dispositivo físico antes de distribuir tu app.
+
 ## Firmas de inicialización
 
 ### Firma recomendada: JWT

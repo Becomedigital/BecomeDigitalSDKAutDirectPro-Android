@@ -9,8 +9,9 @@ import plistlib
 import struct
 import subprocess
 import tempfile
+from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 import urllib.error
 
 
@@ -294,6 +295,27 @@ class NotesAndPromotion(unittest.TestCase):
         with patch.object(d,'gh_json',return_value=release), patch.object(d,'run',return_value=json.dumps(receipt)):
             with self.assertRaisesRegex(d.Invalid,'paquete difiere'):
                 d.candidate({'repository':'o/r'},'3.5.1-rc.1','3.5.1',{'sdk':'abc'},['repacked'])
+
+    def test_renamed_maven_candidate_requires_additional_verification(self):
+        config = {'platform': 'android', 'repository': 'Becomedigital/BecomeDigitalSDKAutDirectPro-Android'}
+        release = {'prerelease': True, 'draft': False, 'assets': [{'name': 'artefactos.json', 'id': 42}]}
+        receipt = {'version': '3.5.1-rc.1', 'inputs': {'sdk': 'abc', 'integration_sha256': 'original'},
+                   'payload_sha256': ['same-zip']}
+        loader = Mock()
+        verifier = SimpleNamespace(verify=Mock())
+        with patch.object(d, 'gh_json', return_value=release), patch.object(d, 'run', return_value=json.dumps(receipt)), \
+                patch.object(d.importlib.util, 'spec_from_file_location', return_value=SimpleNamespace(loader=loader)), \
+                patch.object(d.importlib.util, 'module_from_spec', return_value=verifier):
+            d.candidate(config, '3.5.1-rc.1', '3.5.1', {'sdk': 'abc', 'integration_sha256': 'reviewed'}, ['same-zip'])
+            verifier.verify.assert_called_once()
+            verifier.verify.reset_mock()
+            for binary, package in [('changed', ['same-zip']), ('abc', ['changed-zip'])]:
+                with self.subTest(binary=binary, package=package), self.assertRaises(d.Invalid):
+                    d.candidate(config, '3.5.1-rc.1', '3.5.1', {'sdk': binary, 'integration_sha256': 'reviewed'}, package)
+                verifier.verify.assert_not_called()
+            verifier.verify.side_effect = ValueError('La RC Maven difiere de la revisada')
+            with self.assertRaisesRegex(d.Invalid, 'No se puede promover'):
+                d.candidate(config, '3.5.1-rc.1', '3.5.1', {'sdk': 'abc', 'integration_sha256': 'reviewed'}, ['same-zip'])
 
     def test_permission_failure_is_not_treated_as_missing_release(self):
         with patch.object(d.subprocess,'run',return_value=subprocess.CompletedProcess([],1,'','gh: forbidden (HTTP 403)')):

@@ -19,7 +19,10 @@
     "CHECKSUMS.sha256",
     "VERSION",
     "legal/LICENSE-AutDirectPro-3.5.1-rc.1.txt",
-    "scripts/compose-bom-versions.json"
+    "scripts/compose-bom-versions.json",
+    ".github/scripts/promoted_coordinate.py",
+    ".github/scripts/maven_coordinate.py",
+    ".github/maven-coordinate.json"
   ],
   "native_artifacts": [
     "libs/capture-core-1.4.1.aar"

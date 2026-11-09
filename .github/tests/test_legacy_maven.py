@@ -14,11 +14,11 @@ SPEC.loader.exec_module(maven)
 
 
 class LegacyMaven(unittest.TestCase):
-    def test_pom_keeps_legacy_coordinate_and_capture_dependencies(self):
+    def test_pom_uses_aut_direct_pro_coordinate_and_capture_dependencies(self):
         pom = ET.fromstring(maven.make_pom('3.5.1-rc.1', 'Términos de prueba', 'https://example.test/license'))
         ns = {'m': maven.POM_NS}
         self.assertEqual(pom.findtext('m:groupId', namespaces=ns), 'ai.becomedigital')
-        self.assertEqual(pom.findtext('m:artifactId', namespaces=ns), 'identity-verification-legacy')
+        self.assertEqual(pom.findtext('m:artifactId', namespaces=ns), 'identity-verification-aut-direct-pro')
         self.assertEqual(pom.findtext('m:version', namespaces=ns), '3.5.1-rc.1')
         deps = {d.findtext('m:artifactId', namespaces=ns): d.findtext('m:version', namespaces=ns)
                 for d in pom.findall('m:dependencies/m:dependency', ns)}

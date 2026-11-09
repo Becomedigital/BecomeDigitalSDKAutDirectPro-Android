@@ -1,0 +1,15 @@
+{
+  "group_id": "ai.becomedigital",
+  "artifact_id": "identity-verification-aut-direct-pro",
+  "version": "3.5.1-rc.1",
+  "source_tag": "3.5.1-rc.1",
+  "source_commit": "f2552772042a4965ed664bf0827d2dd41b4f5504",
+  "aar_sha256": "8f8a9060d4a1acd9d8b3cade9242ac7d498b00d136c0a99e7cea2c78d33cd701",
+  "dependencies_sha256": "c8bd004eda82c5425856b486e8b05f1788db662efb128e16f5b9caf0b6df15c4",
+  "license_name": "Acuerdo de licencia propietaria provisional de Become Digital (0.1)",
+  "license_file": "legal/LICENSE-AutDirectPro-3.5.1-rc.1.txt",
+  "license_commit": "9592a6852b8aa4f79d7b1f0b013588620220ca3b",
+  "license_url": "https://raw.githubusercontent.com/Becomedigital/BecomeDigitalSDKAutDirectPro-Android/9592a6852b8aa4f79d7b1f0b013588620220ca3b/legal/LICENSE-AutDirectPro-3.5.1-rc.1.txt",
+  "license_sha256": "e330bee1c2b992b73205c55de7df5c1d9345c2c090ab91dc7ff80807c195b5ef",
+  "pom_sha256": "a3ec7b093aa63f8e2ac9a9477d32c07d858a64dfc70ecd914a99a6af2305c3a9"
+}

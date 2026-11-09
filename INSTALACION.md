@@ -46,7 +46,7 @@ android {
 
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'ai.becomedigital:identity-verification-legacy:3.5.1-rc.1'
+    implementation 'ai.becomedigital:identity-verification-aut-direct-pro:3.5.1-rc.1'
 }
 ```
 

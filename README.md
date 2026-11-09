@@ -30,7 +30,7 @@ Necesitas una aplicación para Android 7.0 o posterior, un JWT válido obtenido 
 
 ## Instalación con versión exacta
 
-Integra esta candidata mediante Maven Central con `ai.becomedigital:identity-verification-legacy:3.5.1-rc.1`. El gestor descarga automáticamente las dependencias del paquete. Completa los permisos y la licencia de tu aplicación siguiendo la [guía de instalación](INSTALACION.md).
+Integra esta candidata mediante Maven Central con `ai.becomedigital:identity-verification-aut-direct-pro:3.5.1-rc.1`. El gestor descarga automáticamente las dependencias del paquete. Completa los permisos y la licencia de tu aplicación siguiendo la [guía de instalación](INSTALACION.md).
 
 Si vienes de la distribución por archivo, consulta la [migración](MIGRACION.md). Esta es una versión de pruebas; valida cámara, documentos y rostro en un dispositivo físico antes de distribuir tu app.
 

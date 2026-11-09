@@ -23,7 +23,7 @@ SDK = ROOT / "becomedigitalsdk.aar"
 CAPTURE_CORE = ROOT / "libs/capture-core-1.4.1.aar"
 CAPTURE_UX = ROOT / "libs/capture-ux-1.4.1.aar"
 GROUP = "ai.becomedigital"
-ARTIFACT = "identity-verification-legacy"
+ARTIFACT = "identity-verification-aut-direct-pro"
 POM_NS = "http://maven.apache.org/POM/4.0.0"
 ET.register_namespace("", POM_NS)
 
@@ -147,7 +147,7 @@ def make_pom(version: str, license_name: str, license_url: str) -> bytes:
     add(project, "artifactId", ARTIFACT)
     add(project, "version", version)
     add(project, "packaging", "aar")
-    add(project, "name", "Become Digital Identity Verification Legacy para Android")
+    add(project, "name", "Become Digital Identity Verification AutDirectPro para Android")
     add(project, "description", "Verificación de identidad para aplicaciones Android.")
     url = "https://github.com/Becomedigital/BecomeDigitalSDKAutDirectPro-Android"
     add(project, "url", url)
@@ -182,7 +182,7 @@ def make_pom(version: str, license_name: str, license_url: str) -> bytes:
 
 def make_reference_jar(path: Path, kind: str) -> None:
     note = (
-        f"{kind} de Become Digital Identity Verification Legacy.\n"
+        f"{kind} de Become Digital Identity Verification AutDirectPro.\n"
         "Este paquete se distribuye como binario. Consulte la guía pública de integración:\n"
         "https://github.com/Becomedigital/BecomeDigitalSDKAutDirectPro-Android\n"
     )

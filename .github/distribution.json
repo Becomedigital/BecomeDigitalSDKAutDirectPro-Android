@@ -18,7 +18,7 @@
     ".github/distribution.json",
     "CHECKSUMS.sha256",
     "VERSION",
-    "legal/LICENSE-3.5.1-rc.1.txt",
+    "legal/LICENSE-AutDirectPro-3.5.1-rc.1.txt",
     "scripts/compose-bom-versions.json"
   ],
   "native_artifacts": [

@@ -1,0 +1,66 @@
+name: Publicar coordenada Maven preparada
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: publicar-distribucion
+  cancel-in-progress: false
+
+jobs:
+  validar:
+    uses: ./.github/workflows/validar.yml
+
+  preflight:
+    name: Verificar coordenada y RC de origen
+    needs: validar
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - run: python3 .github/scripts/maven_coordinate.py preflight
+
+  publicar:
+    name: Publicar AutDirectPro en Maven Central
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    environment: maven-central
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verificar otra vez la RC antes de publicar
+        run: python3 .github/scripts/maven_coordinate.py preflight
+      - name: Preparar el POM y los binarios revisados
+        run: python3 .github/scripts/maven_coordinate.py assemble
+      - name: Firmar y publicar la nueva coordenada
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_FINGERPRINT: ${{ vars.SIGNING_FINGERPRINT }}
+        run: python3 .github/scripts/maven_coordinate.py publish
+      - name: Conservar la evidencia y el identificador de Sonatype
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: coordenada-maven-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/become-maven-coordinate/coordinate-publication.json
+            ${{ runner.temp }}/become-maven-coordinate/central-deployment.json
+          if-no-files-found: ignore
+          retention-days: 30

@@ -20,6 +20,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from types import SimpleNamespace
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -348,10 +349,25 @@ def candidate(config, value, target_version, source_inputs, package_hashes=None)
     require(len(assets) == 1, "La RC no contiene el registro verificable de artefactos.")
     record = json.loads(run("gh", "api", f"repos/{config['repository']}/releases/assets/{assets[0]['id']}",
                             "-H", "Accept: application/octet-stream"))
-    require(record["version"] == value and record["inputs"] == source_inputs,
-            "Los binarios cambiaron desde la RC. Publica y valida una RC nueva.")
+    require(record["version"] == value, "La RC no corresponde a la versión solicitada.")
     if package_hashes is not None:
         require(record.get('payload_sha256') == package_hashes, 'El paquete difiere del validado en la RC.')
+    if record["inputs"] != source_inputs:
+        same_binaries = {k: v for k, v in record['inputs'].items() if k != 'integration_sha256'} == {
+            k: v for k, v in source_inputs.items() if k != 'integration_sha256'}
+        require(same_binaries and config.get('platform') == 'android'
+                and config['repository'] == 'Becomedigital/BecomeDigitalSDKAutDirectPro-Android',
+                "Los binarios cambiaron desde la RC. Publica y valida una RC nueva.")
+        specification = importlib.util.spec_from_file_location(
+            'promoted_coordinate', ROOT / '.github/scripts/promoted_coordinate.py')
+        module = importlib.util.module_from_spec(specification)
+        specification.loader.exec_module(module)
+        try:
+            api = SimpleNamespace(gh_json=gh_json, release_inputs=release_inputs,
+                                  platform_module=platform_module, inputs=inputs)
+            module.verify(api, config, value, source_inputs, ROOT)
+        except (ValueError, OSError, KeyError) as error:
+            raise Invalid('No se puede promover la coordenada Maven: ' + str(error)) from error
 
 
 def platform_module(config, root=ROOT):

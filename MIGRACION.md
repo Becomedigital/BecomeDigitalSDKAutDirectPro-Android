@@ -1,8 +1,8 @@
 # Migrar la integración Legacy de Android a Maven Central
 
-La candidata `3.5.1-rc.1` permite agregar Become mediante una coordenada Maven exacta. Conserva los JWT, el contrato, la licencia de tu aplicación, los permisos y los recursos de localización.
+La versión oficial `3.5.1` permite agregar Become mediante una coordenada Maven exacta. Conserva los JWT, el contrato, la licencia de tu aplicación, los permisos y los recursos de localización.
 
-Si ya usabas esta misma candidata mediante Maven, reemplaza la declaración anterior por `ai.becomedigital:identity-verification-aut-direct-pro:3.5.1-rc.1`. Conserva una sola dependencia de Become en el módulo para evitar clases duplicadas.
+Si ya usabas esta misma candidata mediante Maven, reemplaza la declaración anterior por `ai.becomedigital:identity-verification-aut-direct-pro:3.5.1`. Conserva una sola dependencia de Become en el módulo para evitar clases duplicadas.
 
 ## Retirar las copias locales
 
@@ -17,7 +17,7 @@ Conserva `google()` y `mavenCentral()` en los repositorios de dependencias. En e
 ```groovy
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'ai.becomedigital:identity-verification-aut-direct-pro:3.5.1-rc.1'
+    implementation 'ai.becomedigital:identity-verification-aut-direct-pro:3.5.1'
 }
 ```
 

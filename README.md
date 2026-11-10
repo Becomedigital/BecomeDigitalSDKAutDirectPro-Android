@@ -1,6 +1,6 @@
-# SDK de Become para Android
+# Verificación de identidad de Become para Android
 
-Integra la verificación de identidad de Become en tu aplicación. La SDK presenta las pantallas de captura y devuelve el resultado mediante objetos que tu aplicación puede consultar.
+Integra la verificación de identidad de Become en tu aplicación. Presenta las pantallas de captura y consulta sus resultados desde tu aplicación.
 
 Puedes iniciar dos flujos:
 
@@ -30,9 +30,9 @@ Necesitas una aplicación para Android 7.0 o posterior, un JWT válido obtenido 
 
 ## Instalación con versión exacta
 
-Integra esta candidata mediante Maven Central con `ai.becomedigital:identity-verification-aut-direct-pro:3.5.1-rc.1`. El gestor descarga automáticamente las dependencias del paquete. Completa los permisos y la licencia de tu aplicación siguiendo la [guía de instalación](INSTALACION.md).
+Integra la versión oficial mediante Maven Central con `ai.becomedigital:identity-verification-aut-direct-pro:3.5.1`. El gestor descarga automáticamente las dependencias del paquete. Completa los permisos y la licencia de tu aplicación siguiendo la [guía de instalación](INSTALACION.md).
 
-Si vienes de la distribución por archivo, consulta la [migración](MIGRACION.md). Esta es una versión de pruebas; valida cámara, documentos y rostro en un dispositivo físico antes de distribuir tu app.
+Si vienes de la distribución por archivo, consulta la [migración](MIGRACION.md). Valida cámara, documentos y rostro en un dispositivo físico antes de distribuir tu app.
 
 ## Firmas de inicialización
 
@@ -204,6 +204,7 @@ Las indicaciones de captura y algunos mensajes de carga y conexión admiten trad
 
 ## Guías complementarias
 
+- [Términos de uso de esta versión](legal/LICENSE-3.5.1.txt)
 - [Instalación, dependencias, licencia y permisos](INSTALACION.md)
 - [JWT y compatibilidad con credenciales](docs/AUTENTICACION.md)
 - [Resultados, errores y cancelación](docs/ERRORES.md)

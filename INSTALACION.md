@@ -4,7 +4,7 @@
 
 | Requisito | Versión o condición |
 | --- | --- |
-| Versión de Become | `3.5.1-rc.1` |
+| Versión de Become | `3.5.1` |
 | Sistema operativo | Android 7.0, nivel de API 24, o posterior |
 | Arquitecturas de captura | ARMv7 (`armeabi-v7a`) y ARM64 (`arm64-v8a`) |
 | `compileSdk` y `targetSdk` de la integración de referencia | 36 |
@@ -19,7 +19,7 @@ Necesitas un JWT válido obtenido mediante tu backend y el identificador de cont
 
 ## Instalación
 
-La candidata `3.5.1-rc.1` está disponible en [Releases](https://github.com/Becomedigital/BecomeDigitalSDKAutDirectPro-Android/releases/tag/3.5.1-rc.1). Utiliza Maven Central y una versión exacta para integrar esta entrega.
+La versión oficial `3.5.1` está disponible en [Releases](https://github.com/Becomedigital/BecomeDigitalSDKAutDirectPro-Android/releases/tag/3.5.1). Utiliza Maven Central y una versión exacta para integrar esta entrega.
 
 En los repositorios de dependencias de tu proyecto, conserva `google()` y `mavenCentral()`:
 
@@ -46,7 +46,7 @@ android {
 
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'ai.becomedigital:identity-verification-aut-direct-pro:3.5.1-rc.1'
+    implementation 'ai.becomedigital:identity-verification-aut-direct-pro:3.5.1'
 }
 ```
 

@@ -1,16 +1,16 @@
 {
-  "version": "3.5.1",
-  "date": "2026-11-09",
-  "candidate": "3.5.1-rc.1",
-  "functional_validation": true,
+  "version": "3.5.2-rc.1",
+  "date": "2026-11-26",
+  "candidate": "",
+  "functional_validation": false,
   "inputs": {
-    "becomedigitalsdk.aar": "8f8a9060d4a1acd9d8b3cade9242ac7d498b00d136c0a99e7cea2c78d33cd701",
+    "becomedigitalsdk.aar": "5dbfa549b3b7bfdcda3161a01fe218127f1e4ed13eebfedd98c1504de95c03b4",
     "libs/capture-core-1.4.1.aar": "fd4d1f213f8dc88cb38a7156d547c3cd8c03a849cb85b724434037fd72940c0b",
     "libs/capture-ux-1.4.1.aar": "701f2181558ecec74c1391c1e9b8cd97f98a24bf7b2de2a60aaf788e10c1f08b",
-    "integration_sha256": "ead75eed2f5cf35fdfa3682986c839a30f57698c2f1b76306053f0069e13cadd"
+    "integration_sha256": "246b3185a9f6a0456210ac1166653ce230a32bd18da1c0282f7abfcabe3e809a"
   },
   "payload_sha256": [
-    "46e265a3d6bcce89a104f25afc3c1b777e614bcf036ba2e91eda0ebb9049d4dd"
+    "e19d00d4a913c9c50b9b83b352a0377af4ce84375ca51cbc2d2ff977dbb6a4c9"
   ],
-  "notes_sha256": "f508d1577743384b43dd81f7f3144847e56644450ed31ce4432f5801b5e7df20"
+  "notes_sha256": "52c7806bf33d545e7f381cb10ddba01edc8285be96c902754358e66c4340b64c"
 }

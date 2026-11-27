@@ -4,7 +4,7 @@
 
 | Requisito | Versión o condición |
 | --- | --- |
-| Versión de Become | `3.5.1` |
+| Versión de Become | Número exacto de la [última versión estable](https://github.com/Becomedigital/BecomeDigitalSDKAutDirectPro-Android/releases/latest) |
 | Sistema operativo | Android 7.0, nivel de API 24, o posterior |
 | Arquitecturas de captura | ARMv7 (`armeabi-v7a`) y ARM64 (`arm64-v8a`) |
 | `compileSdk` y `targetSdk` de la integración de referencia | 36 |
@@ -19,7 +19,9 @@ Necesitas un JWT válido obtenido mediante tu backend y el identificador de cont
 
 ## Instalación
 
-La versión oficial `3.5.1` está disponible en [Releases](https://github.com/Becomedigital/BecomeDigitalSDKAutDirectPro-Android/releases/tag/3.5.1). Utiliza Maven Central y una versión exacta para integrar esta entrega.
+Consulta la [última versión estable](https://github.com/Becomedigital/BecomeDigitalSDKAutDirectPro-Android/releases/latest) y reemplaza `<latest-version>` por el número exacto de esa publicación. Usa esa versión fija en Maven Central.
+
+Selecciona JDK 21 para Gradle en Android Studio al usar esta configuración. La compatibilidad con Java 11 se refiere al código de la aplicación.
 
 En los repositorios de dependencias de tu proyecto, conserva `google()` y `mavenCentral()`:
 
@@ -46,7 +48,7 @@ android {
 
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'ai.becomedigital:identity-verification-aut-direct-pro:3.5.1'
+    implementation "ai.becomedigital:identity-verification-aut-direct-pro:<latest-version>"
 }
 ```
 

@@ -4,7 +4,7 @@ Este proyecto muestra cómo iniciar una verificación de identidad de Become des
 
 ## Usar la versión oficial
 
-El proyecto conserva la integración por archivos incluida en esta distribución. Para probar la entrega Maven, aplica la [guía de migración](../../MIGRACION.md) y selecciona `ai.becomedigital:identity-verification-aut-direct-pro:3.5.1`. El POM resuelve las dependencias; conserva el desazucarado y las dependencias que tu aplicación use directamente.
+El proyecto conserva la integración por archivos incluida en esta distribución. Para probar la entrega Maven, aplica la [guía de migración](../../MIGRACION.md) y usa `ai.becomedigital:identity-verification-aut-direct-pro:<latest-version>` y reemplaza `<latest-version>` por el número exacto de la [última versión estable](https://github.com/Becomedigital/BecomeDigitalSDKAutDirectPro-Android/releases/latest). El POM resuelve las dependencias; conserva el desazucarado y las dependencias que tu aplicación use directamente.
 
 ## Preparar la aplicación
 
